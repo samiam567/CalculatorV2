@@ -210,10 +210,14 @@ public class Equation extends One_subNode_node {
 				out.println("Output: " + toString());
 			}catch(Exception e) {
 				e.printStackTrace();
+				
+				Equation.warn("Exception occured whilst parsing:\n" + e);
+				/*
 				out.println("terminating because of an exception");
 				calculatorAnchor.dispose();
 				out.println("exited");
 				System.exit(1);
+				*/
 			}
 			
 			lastInput = input;

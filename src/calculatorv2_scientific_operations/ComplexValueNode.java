@@ -3,6 +3,7 @@ package calculatorv2_scientific_operations;
 import calculatorv2_core.AdvancedValueNode;
 
 public class ComplexValueNode extends AdvancedValueNode {
+	private double realComponent;
 	private double imaginaryComponent;
 	
 	public ComplexValueNode() {
@@ -31,15 +32,16 @@ public class ComplexValueNode extends AdvancedValueNode {
 		return imaginaryComponent;
 	}
 
-	/*
+	
+	// returns the magnitude of this number
 	@Override
-	public ComplexValueNode copy() {
-		ComplexValueNode cV = new ComplexValueNode(value,imaginaryComponent);
-		cV.setUnsetVal(unsetVal(),'k');
-		cV.setName(getName());
-		System.out.println(cV.unsetVal());
-		return cV;
-	}*/
+	public double getValue() {
+		if (! isCalculated()) {
+			value = Math.sqrt(Math.pow(getReal(),2) + Math.pow(getImaginaryComponent(),2)); 
+		}
+		
+		return value;
+	}
 	
 	
 	public void setImaginaryComponent(double imaginary) {
@@ -51,15 +53,7 @@ public class ComplexValueNode extends AdvancedValueNode {
 		setImaginaryComponent(imaginary);
 	}
 	
-	/*
-	@Override
-	public ComplexValueNode copy() {
-		ComplexValueNode cV = new ComplexValueNode(value,imaginaryComponent);
-		cV.setUnsetVal(unsetVal(),'k');
-		cV.setName(getName());
-		System.out.println(cV.unsetVal());
-		return cV;
-	}*/
+	
 	
 	
 	@Override
@@ -68,7 +62,7 @@ public class ComplexValueNode extends AdvancedValueNode {
 	}
 
 	public double getReal() {
-		return value;
+		return realComponent;
 	}
 	
 

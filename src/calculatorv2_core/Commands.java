@@ -190,7 +190,7 @@ public class Commands {
 			}
 		}catch(ConcurrentModificationException c) {
 			// this error may be thrown when assigning a variable using an equation that includes that variable
-			c.printStackTrace();
+			System.out.println(c);
 		}
 	}
 	
