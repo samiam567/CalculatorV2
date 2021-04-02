@@ -12,8 +12,10 @@ public class ComplexValueNode extends AdvancedValueNode {
 	}
 	
 	public ComplexValueNode(double real, double imaginary) { 
-		super(real,'k');
+		super(0,'k');
+		setRealComponent(real);
 		imaginaryComponent = imaginary;
+	
 	}
 	
 	public void congjugate() {
@@ -21,7 +23,11 @@ public class ComplexValueNode extends AdvancedValueNode {
 	}
 	
 	public ComplexValueNode getConjugate() {
-		return new ComplexValueNode(value,-imaginaryComponent);
+		return new ComplexValueNode(realComponent,-imaginaryComponent);
+	}
+	
+	public double getRealComponent() {
+		return realComponent;
 	}
 	
 	public double getImaginaryComponent() {
@@ -49,16 +55,20 @@ public class ComplexValueNode extends AdvancedValueNode {
 	}
 
 	public void setValues(double real, double imaginary) {
-		setValue(real);
+		setRealComponent(real);
 		setImaginaryComponent(imaginary);
 	}
 	
 	
 	
 	
+	public void setRealComponent(double real) {
+		realComponent = real;
+	}
+
 	@Override
 	public String toString() {
-		return "" + value + " + " + imaginaryComponent + "i";
+		return "" + realComponent + " + " + imaginaryComponent + "i";
 	}
 
 	public double getReal() {

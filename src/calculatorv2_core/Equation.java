@@ -26,6 +26,9 @@ import calculatorv2_basic_operations.Sine;
 import calculatorv2_basic_operations.SquareRoot;
 import calculatorv2_basic_operations.Subtraction;
 import calculatorv2_basic_operations.Tangent;
+import calculatorv2_circuit_math.ParallelImpedanceAdd;
+import calculatorv2_circuit_math.RCCircuit;
+import calculatorv2_circuit_math.RLCircuit;
 import calculatorv2_matrix_core.Bra;
 import calculatorv2_matrix_core.Ket;
 import calculatorv2_matrix_core.MatrixCombine;
@@ -39,7 +42,6 @@ import calculatorv2_scientific_operations.EquationSolver;
 import calculatorv2_scientific_operations.IsEqualTo;
 import calculatorv2_scientific_operations.IsPrime;
 import calculatorv2_scientific_operations.Modulo;
-import calculatorv2_scientific_operations.ParallelImpedanceAdd;
 import calculatorv2_scientific_operations.PercentError;
 import calculatorv2_scientific_operations.Rand;
 import calculatorv2_scientific_operations.Comparation.ComparationValues;
@@ -53,7 +55,7 @@ import calculatorv2_scientific_operations.Comparation.ComparationValues;
  */
 public class Equation extends One_subNode_node {
 	
-	public static final String[] operations = {"_","isPrime","percenterror","rand","abs","sin", "cos", "tan", "asin", "acos", "atan", "^", "rt", "sqrt", "*", "/", "Modulo" , "+", "-","matcomb","compareTo","isequalTo","round","timesTenToThe","Solveequation","log","ln","parallImpedanceAdd","exp"};
+	public static final String[] operations = {"_","isPrime","percenterror","rand","abs","sin", "cos", "tan", "asin", "acos", "atan", "^", "rt", "sqrt", "*", "/", "Modulo" , "+", "-","matcomb","compareTo","isequalTo","round","timesTenToThe","Solveequation","log","ln","parallImpedanceAdd","exp","RCCircuit","RLCircuit"};
 	public static final String[][] aliases = { {"==", "isEqualTo"," isequalTo "}, {"<=>", "compareto", " compareTo "}, {"<+>",","," matcomb "}, {"%Error","%error","%err"," percenterror "}, {"%","mod"," Modulo "}, {"toInt(","toInt( ", " round("}, {"graphEquation","graph", "solveEquation", " Solveequation"}, {"E"," timesTenToThe "} , {"parallel"," parallImpedanceAdd "}, {"�?�"," _"}, {"×"," * "}, {"÷"," / "}, {"π"," pi "}, {"e^","exp"}}; //parser will replace all of the instances of the first strings with the last string
 	
 	private static String[] letters = {"a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"};
@@ -212,6 +214,7 @@ public class Equation extends One_subNode_node {
 				e.printStackTrace();
 				
 				Equation.warn("Exception occured whilst parsing:\n" + e);
+				System.out.println("StackTrace of source exception: \n" + e.getStackTrace().toString());
 				/*
 				out.println("terminating because of an exception");
 				calculatorAnchor.dispose();
@@ -672,6 +675,12 @@ public class Equation extends One_subNode_node {
 		case("exp"):
 			node = new Exp();
 			break;
+		case("RCCircuit"):
+			node = new RCCircuit();
+			break;
+		case("RLCircuit"):
+			node = new RLCircuit();
+			break;
 		default:
 			
 			
@@ -888,7 +897,9 @@ public class Equation extends One_subNode_node {
 		testEquation("solveEquation(x,10)",10);
 		testEquation("solveEquation(x+1,10)",9);
 		testEquation("solveEquation(18,x+20)",-2);
-		testEquation("i+1","1.0 + 1.0i",1);
+		testEquation("i+1","1.0 + 1.0i",Math.sqrt(2));
+		testEquation("(3 + 2*i)*(1 + 7*i)","-11.0 + 23.0i",Math.sqrt(650));
+		testEquation("(7 + 2.1*i)/(1.5 -4*i)","0.11506849315068492 + 1.7068493150684931i",1.7107236312349676);
 		
 			
 	

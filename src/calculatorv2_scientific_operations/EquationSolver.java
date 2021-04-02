@@ -143,7 +143,7 @@ public class EquationSolver extends FunctionNode {
 		ValueNode[] guesses = {new ValueNode(0)};
 		
 		
-		double precision = 0.0000001;
+		double precision = 0.00001;
 		
 		int maxGuesses = (int) (10/precision);
 		

@@ -1,15 +1,20 @@
-package calculatorv2_scientific_operations;
+package calculatorv2_circuit_math;
 
 import calculatorv2_basic_operations.Addition;
 import calculatorv2_basic_operations.Division;
+import calculatorv2_core.Equation;
 import calculatorv2_core.EquationNode;
 import calculatorv2_core.ValueNode;
+import calculatorv2_scientific_operations.FunctionNode;
 
 public class ParallelImpedanceAdd extends FunctionNode {
-	private static Addition add = new Addition();
+
 	@Override
 	public ValueNode function(EquationNode[] params, ValueNode outputNode) {
 		
+		if (params.length < 2) {
+			Equation.warn(getParameterInputs());
+		}
 		// add up 1 / each impedance
 		
 		ValueNode divisionResult = new ValueNode(0);
@@ -28,5 +33,9 @@ public class ParallelImpedanceAdd extends FunctionNode {
 		
 		return outputNode;
 		
+	}
+	
+	public String getParameterInputs() {
+		return "parallel(impd1,impd2,...)";
 	}
 }

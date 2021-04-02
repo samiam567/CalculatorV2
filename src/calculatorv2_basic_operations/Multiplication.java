@@ -107,7 +107,36 @@ public class Multiplication extends Two_subNode_node {
 					((Ket)outputNode).setValue(i,operation(N2.getValue(i),n1,((Ket)outputNode).getValue(i)));
 				}
 				
-			}else if (n1 instanceof ComplexValueNode && n2 instanceof ComplexValueNode) { 
+			}else if (n1 instanceof ComplexValueNode || n2 instanceof ComplexValueNode) {
+				// (a + bi) * (c + di)
+				double a,b,c,d;
+				
+				if (n1 instanceof ComplexValueNode) {
+					ComplexValueNode N1 = (ComplexValueNode) n1;
+					a = N1.getReal();
+					b = N1.getComplex();
+				}else {
+					a = n1.getValue();
+					b = 0;
+				}
+				
+				if (n2 instanceof ComplexValueNode) {
+					ComplexValueNode N2 = (ComplexValueNode) n2;
+					c = N2.getReal();
+					d = N2.getComplex();
+				}else {
+					c = n2.getValue();
+					d = 0;
+				}
+				
+				if (! (outputNode instanceof ComplexValueNode)) outputNode = new ComplexValueNode();
+				
+				((ComplexValueNode) outputNode).setValues( (a*c - b*d), (a*d + b*c));
+				
+			}
+			
+				
+			/*else if (n1 instanceof ComplexValueNode && n2 instanceof ComplexValueNode) { 
 				// both complex numbers
 				if (! (outputNode instanceof ComplexValueNode) ) outputNode = new ComplexValueNode();
 				((ComplexValueNode) outputNode).setValues(((ComplexValueNode) n1).getReal()*((ComplexValueNode) n2).getReal()-((ComplexValueNode) n1).getComplex()*((ComplexValueNode) n2).getComplex(), ((ComplexValueNode) n1).getReal()*((ComplexValueNode) n2).getComplex()+((ComplexValueNode) n1).getComplex()*((ComplexValueNode) n2).getReal());
@@ -119,7 +148,9 @@ public class Multiplication extends Two_subNode_node {
 				// only n2 complex number
 				if (! (outputNode instanceof ComplexValueNode) ) outputNode = new ComplexValueNode();
 				((ComplexValueNode) outputNode).setValues(((ComplexValueNode) n2).getReal()*(n1).getValue(), ((ComplexValueNode) n2).getComplex()*(n1).getValue());
-			}else {
+			}*/
+			
+			else {
 				Equation.warn("class " + getClass() + " has no implementation for AdvancedValueNodes of class " + n1.getClass() + " and " + n2.getClass());
 				outputNode.setValue(operation(n1.getValue(),n2.getValue()));
 			}

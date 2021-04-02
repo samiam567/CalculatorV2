@@ -20,7 +20,9 @@ public class FunctionNode extends One_subNode_node {
 	}
 	
 	protected double operation(double a) {
-		return function(getParams(), new ValueNode(0)).getValue();
+		EquationNode[] params = getParams();
+	
+		return function(params, new ValueNode(0)).getValue();
 	}
 	
 	
@@ -29,6 +31,9 @@ public class FunctionNode extends One_subNode_node {
 		return null;
 	}
 	
+	public String getParameterInputs() {
+		return "not defined";
+	}
 	
 	/**
 	 * 
@@ -37,6 +42,11 @@ public class FunctionNode extends One_subNode_node {
 	 * @return
 	 */
 	protected ValueNode operation(ValueNode nodeA, ValueNode outputNode) {
-		return function(getParams(),outputNode);
+		EquationNode[] params = getParams();
+		
+		if (params.length == 0) {
+			Equation.warn(getParameterInputs());
+		}
+		return function(params,outputNode);
 	}
 }
