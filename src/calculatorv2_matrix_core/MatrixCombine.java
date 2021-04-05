@@ -118,8 +118,16 @@ public class MatrixCombine extends Two_subNode_node {
 				
 			} else {
 				Equation.warn("class " + getClass() + " has no implementation for AdvancedValueNodes of class " + n1.getClass() + " and " + n2.getClass());
-				outputNode.setValue(addition.operation(n1.getValue(),n2.getValue()));
-				return (MatrixNode) outputNode;
+
+				if (outputNode instanceof MatrixNode) {
+					((MatrixNode) outputNode).setMatrix(new ValueNode[][] {{n1}, {n2}});
+				}else {
+					if (! (outputNode instanceof Matrixable) ) outputNode = new Bra();
+					
+					((Matrixable) outputNode).setValues(new ValueNode[] {n1,n2});
+				}
+				
+				return outputNode;
 			}
 			
 			if (! (outputNode instanceof MatrixNode)) outputNode = new MatrixNode();

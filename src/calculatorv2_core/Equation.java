@@ -900,6 +900,7 @@ public class Equation extends One_subNode_node {
 		testEquation("i+1","1.0 + 1.0i",Math.sqrt(2));
 		testEquation("(3 + 2*i)*(1 + 7*i)","-11.0 + 23.0i",Math.sqrt(650));
 		testEquation("(7 + 2.1*i)/(1.5 -4*i)","0.11506849315068492 + 1.7068493150684931i",1.7107236312349676);
+		testEquation("1/(1+i)","0.5 + -0.5i",Math.sqrt(0.5));
 		
 			
 	
