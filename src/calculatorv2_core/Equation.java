@@ -204,7 +204,7 @@ public class Equation extends One_subNode_node {
 			while (input.length() == 0) {
 				input = (String) JOptionPane.showInputDialog(calculatorAnchor,"Type in what you want to solve","Calculator V2",1, null,null, eqSuggestion);
 				
-				if (input == null || input.isBlank() || input.contains("exit") || input.contains("quit")) {
+				if (input == null || input.length() == 0 || input.contains("exit") || input.contains("quit")) {
 					out.println("terminating");
 					calculatorAnchor.dispose();
 					System.exit(1);
