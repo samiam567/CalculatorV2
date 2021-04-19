@@ -2,6 +2,7 @@ package calculatorv2_scientific_operations;
 
 import calculatorv2_core.AdvancedValueNode;
 import calculatorv2_core.Equation;
+import calculatorv2_core.EquationNode;
 import calculatorv2_core.Two_subNode_node;
 import calculatorv2_core.ValueNode;
 
@@ -45,5 +46,18 @@ public class CompareTo extends Two_subNode_node {
 		
 		
 		return outputNode;
+	}
+	
+	
+	public String getOperationKeyword() {
+		return "compareTo";
+	}
+	
+	public void test() { 
+		Equation.warn(getClass() + " is not tested and should not be used");
+	}
+	
+	public EquationNode createNewInstanceOfOperation(Equation eq) {
+		return new CompareTo();
 	}
 }

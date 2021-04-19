@@ -1,13 +1,21 @@
 package calculatorv2_basic_operations;
 
 import calculatorv2_core.AdvancedValueNode;
+import calculatorv2_core.Commands;
 import calculatorv2_core.Equation;
+import calculatorv2_core.EquationNode;
 import calculatorv2_core.One_subNode_node;
 import calculatorv2_core.ValueNode;
 import calculatorv2_scientific_operations.ComplexValueNode;
 
 public class Exp extends One_subNode_node {
-
+	
+	Equation eq; 
+	
+	public Exp(Equation eq) {
+		this.eq = eq;
+	}
+	
 	protected double operation(double a) {
 		return Math.exp(a);
 	}
@@ -30,8 +38,9 @@ public class Exp extends One_subNode_node {
 				// both complex numbers
 				if (! (outputNode instanceof ComplexValueNode) ) outputNode = new ComplexValueNode();
 				
+				double degRadMult = eq.useRadiansNotDegrees ? 1 : Math.PI/180;
 				
-				ComplexValueNode eulerExpans = new ComplexValueNode(Math.cos(N1.getComplex()),Math.sin(N1.getComplex()));
+				ComplexValueNode eulerExpans = new ComplexValueNode(Math.cos(N1.getComplex() * degRadMult),Math.sin(N1.getComplex() * degRadMult));
 				
 				
 				
@@ -50,5 +59,38 @@ public class Exp extends One_subNode_node {
 		return outputNode;
 		
 	}	
+	
+	public String getOperationKeyword() {
+		return "exp";
+	}
+	
+	public void test() { 
+		Equation testEq = new Equation();
+		testEq.importAll();
+		
+		testEq.useRadiansNotDegrees = false;
+		
+		boolean prevOutputEnable = Commands.enableJFrameOutput;
+		Commands.enableJFrameOutput = false;
+		
+		
+
+		
+		
+		Equation.testEquation(testEq,"3*exp(90*i)","0.0 + 3.0i",3);
+		Equation.testEquation(testEq,"(3×exp(30×i))×(2×exp(_60×i))","5.196152423 + -3.0i",6);
+		
+		Commands.parseCommand("/V = exp(i×53.1)",testEq);
+		Commands.parseCommand("/I = 1",testEq);
+		Equation.testEquation(testEq,"Round(getValue(V-0.8×i×I),1)",0.6);
+		
+		Commands.enableJFrameOutput = prevOutputEnable;
+		
+	
+	}
+	
+	public EquationNode createNewInstanceOfOperation(Equation eq) {
+		return new Exp(eq);
+	}
 	
 }

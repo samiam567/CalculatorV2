@@ -9,6 +9,19 @@ public class Logarithm extends FunctionNode {
 	
 	private static Natural_logarithm logCalc = new Natural_logarithm();
 	private static Division divCalc = new Division();
+	
+	public String getOperationKeyword() {
+		return "log";
+	}
+	
+	public void test() { 
+		Equation.warn(getClass() + " is not tested and should not be used");
+	}
+	
+	public EquationNode createNewInstanceOfOperation(Equation eq) {
+		return new Logarithm();
+	}
+	
 	@Override
 	public ValueNode function(EquationNode[] values, ValueNode outputNode) {
 		Equation.Assert(values.length == 2, "log takes two parameters, base and value ");
@@ -20,4 +33,6 @@ public class Logarithm extends FunctionNode {
 	public String toString() {
 		return "log";
 	}
+	
+	
 }

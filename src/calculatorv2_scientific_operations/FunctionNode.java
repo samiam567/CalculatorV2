@@ -6,7 +6,7 @@ import calculatorv2_core.One_subNode_node;
 import calculatorv2_core.ValueNode;
 import calculatorv2_matrix_core.Matrixable;
 
-public class FunctionNode extends One_subNode_node {
+public abstract class FunctionNode extends One_subNode_node {
 	
 
 	private EquationNode[] getParams() {
@@ -26,10 +26,7 @@ public class FunctionNode extends One_subNode_node {
 	}
 	
 	
-	public ValueNode function(EquationNode[] params, ValueNode outputNode) {
-		Equation.warn("Function method was not overriden for child of FunctionNode " + getClass() );
-		return null;
-	}
+	public abstract ValueNode function(EquationNode[] params, ValueNode outputNode);
 	
 	public String getParameterInputs() {
 		return "not defined";

@@ -5,6 +5,7 @@ import calculatorv2_core.AdvancedValueNode;
 public class ComplexValueNode extends AdvancedValueNode {
 	private double realComponent;
 	private double imaginaryComponent;
+
 	
 	public ComplexValueNode() {
 		super('k');
@@ -68,7 +69,7 @@ public class ComplexValueNode extends AdvancedValueNode {
 
 	@Override
 	public String toString() {
-		return "" + realComponent + " + " + imaginaryComponent + "i";
+		return "" + Math.round(realComponent*1000000000)/1000000000D + " + " + Math.round(imaginaryComponent*1000000000)/1000000000D + "i";
 	}
 
 	public double getReal() {

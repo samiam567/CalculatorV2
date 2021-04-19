@@ -2,7 +2,9 @@ package calculatorv2_core;
 
 import java.util.ArrayList;
 
-public class Sandwich_operatorNode extends EquationNode {
+
+@Deprecated
+public abstract class Sandwich_operatorNode extends EquationNode {
 
 	
 	protected EquationNode[] subNodes;

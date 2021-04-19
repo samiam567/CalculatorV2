@@ -2,10 +2,14 @@ package calculatorv2_basic_operations;
 
 import calculatorv2_core.AdvancedValueNode;
 import calculatorv2_core.Equation;
+import calculatorv2_core.EquationNode;
 import calculatorv2_core.One_subNode_node;
 import calculatorv2_core.ValueNode;
 
 public class Natural_logarithm extends One_subNode_node {
+	
+	
+	
 	protected double operation(double a) {
 		if (Equation.printInProgress) System.out.println(toString() + a);
 
@@ -33,4 +37,17 @@ public class Natural_logarithm extends One_subNode_node {
 	public String toString() {
 		return "ln";
 	}
+	
+	public String getOperationKeyword() {
+		return "ln";
+	}
+	
+	public void test() { 
+		Equation.warn(getClass() + " is not tested and should not be used");
+	}
+	
+	public EquationNode createNewInstanceOfOperation(Equation eq) {
+		return new Natural_logarithm();
+	}
+	
 }

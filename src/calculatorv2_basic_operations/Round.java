@@ -27,6 +27,7 @@ public class Round extends FunctionNode {
 		return outputNode;
 	}
 	
+	@Override
 	public ValueNode function(EquationNode[] params, ValueNode outputNode) {
 		Equation.Assert(params.length <= 2, "Round can take a max of two parameters. Throwing away extra params");
 		if (! Equation.Assert(params.length != 0, "Round must have at least one parameter")) return outputNode;
@@ -39,4 +40,17 @@ public class Round extends FunctionNode {
 		}
 				return outputNode;
 	}
+	
+	public String getOperationKeyword() {
+		return "round";
+	}
+	
+	public void test() { 
+		Equation.warn(getClass() + " is not tested and should not be used");
+	}
+	
+	public EquationNode createNewInstanceOfOperation(Equation eq) {
+		return new Round();
+	}
+	
 }

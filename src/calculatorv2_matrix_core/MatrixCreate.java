@@ -4,7 +4,8 @@ import calculatorv2_core.Equation;
 import calculatorv2_core.Sandwich_operatorNode;
 import calculatorv2_core.ValueNode;
 
-public class MatrixCreate extends Sandwich_operatorNode {
+@Deprecated
+public abstract class MatrixCreate extends Sandwich_operatorNode {
 	Equation equation;
 	
 	public MatrixCreate(Equation equation, String data, int parenthesisLevel, Matrixable outputMatrix) {
@@ -14,7 +15,7 @@ public class MatrixCreate extends Sandwich_operatorNode {
 		super.setValueData((ValueNode) outputMatrix);
 	
 		setParenthesisLevel(parenthesisLevel);
-		orderOfOpsLevel = Equation.operations.length+1;
+		orderOfOpsLevel = equation.operations.size()+1;
 	}
 	
 	

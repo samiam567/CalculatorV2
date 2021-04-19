@@ -2,6 +2,7 @@ package calculatorv2_basic_operations;
 
 import calculatorv2_core.AdvancedValueNode;
 import calculatorv2_core.Equation;
+import calculatorv2_core.EquationNode;
 import calculatorv2_core.Two_subNode_node;
 import calculatorv2_core.ValueNode;
 import calculatorv2_scientific_operations.ComplexValueNode;
@@ -52,6 +53,18 @@ public class Subtraction extends Two_subNode_node {
 			}
 			
 			return outputNode;
+		}
+		
+		public String getOperationKeyword() {
+			return "-";
+		}
+		
+		public void test() { 
+			Equation.warn(getClass() + " is not tested and should not be used");
+		}
+		
+		public EquationNode createNewInstanceOfOperation(Equation eq) {
+			return new Subtraction();
 		}
 		
 }

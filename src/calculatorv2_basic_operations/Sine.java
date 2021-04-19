@@ -1,6 +1,7 @@
 package calculatorv2_basic_operations;
 
 import calculatorv2_core.Equation;
+import calculatorv2_core.EquationNode;
 import calculatorv2_core.One_subNode_node;
 
 public class Sine extends One_subNode_node {
@@ -22,5 +23,17 @@ public class Sine extends One_subNode_node {
 	
 	public String toString() {
 		return "sin";
+	}
+	
+	public String getOperationKeyword() {
+		return "sin";
+	}
+	
+	public void test() { 
+		Equation.warn(getClass() + " is not tested and should not be used");
+	}
+	
+	public EquationNode createNewInstanceOfOperation(Equation eq) {
+		return new Sine(eq);
 	}
 }

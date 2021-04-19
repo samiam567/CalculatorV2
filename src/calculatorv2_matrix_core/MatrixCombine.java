@@ -1,8 +1,8 @@
 package calculatorv2_matrix_core;
 
-import calculatorv2_basic_operations.Addition;
 import calculatorv2_core.AdvancedValueNode;
 import calculatorv2_core.Equation;
+import calculatorv2_core.EquationNode;
 import calculatorv2_core.Two_subNode_node;
 import calculatorv2_core.ValueNode;
 
@@ -12,8 +12,6 @@ import calculatorv2_core.ValueNode;
  *
  */
 public class MatrixCombine extends Two_subNode_node {
-	
-	private Addition addition = new Addition();
 	
 	
 	public MatrixCombine() {
@@ -150,6 +148,16 @@ public class MatrixCombine extends Two_subNode_node {
 		return outputNode;
 	}
 		
-		
+	public String getOperationKeyword() {
+		return "matcomb";
+	}
+	
+	public void test() { 
+		Equation.warn(getClass() + " is not tested and should not be used");
+	}
+	
+	public EquationNode createNewInstanceOfOperation(Equation eq) {
+		return new MatrixCombine();
+	}
 
 }

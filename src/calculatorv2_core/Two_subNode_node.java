@@ -53,10 +53,7 @@ public abstract class Two_subNode_node extends EquationNode {
 		return valueData.getValue();
 	}
 	
-	protected double operation(double a, double b) {
-		Equation.warn("Operation method was not overriden for child of Two_subNode_node");
-		return 0;
-	}
+	protected abstract double operation(double a, double b);
 	
 	/*
 	private double operation(EquationNode nodeA, EquationNode nodeB, char paramPlaceholder) {

@@ -38,4 +38,19 @@ public class ParallelImpedanceAdd extends FunctionNode {
 	public String getParameterInputs() {
 		return "parallel(impd1,impd2,...)";
 	}
+	
+	@Override
+	public String getOperationKeyword() {
+		return "parallImpedanceAdd";
+	}
+	
+	@Override
+	public void test() { 
+		Equation.warn(getClass() + " is not tested and should not be used");
+	}
+	
+	@Override
+	public EquationNode createNewInstanceOfOperation(Equation eq) {
+		return new ParallelImpedanceAdd();
+	}
 }

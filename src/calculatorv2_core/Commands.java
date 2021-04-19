@@ -15,7 +15,7 @@ public class Commands {
 	
 	private static final String commands = "/help, /operations, /last, /exit, /move, /degRadMode, /setOutputFormat, /[insert 1-character variable name here] = [insert equation here]";
 	
-	static boolean enableJFrameOutput = true;
+	public static boolean enableJFrameOutput = true;
 	
 	static ArrayList<Variable> variables = new ArrayList<Variable>(); // variables that the user has declared
 	
@@ -47,7 +47,7 @@ public class Commands {
 		}else if (cIn.contains("=")) {
 			addVariable(commandInput,eq);
 		}else if (cIn.contains("operations")) {
-			output(Equation.operations,eq);
+			output(eq.operationKeywords,eq);
 		}else if (cIn.contains("setoutputformat"))  {
 			try {
 				outputFormat = Integer.parseInt(JOptionPane.showInputDialog(mostRecentCalculatorAnchor,"What is the new outputformat?"));
@@ -62,10 +62,19 @@ public class Commands {
 
 	static void output(String message, Equation eq) {
 		if (enableJFrameOutput) JOptionPane.showMessageDialog(eq.calculatorAnchor,message);
-		eq.out.println(message);
+		if (Equation.printAnything) eq.out.println(message);
 	}
 	
 	static void output(String[] message, Equation eq) {
+		String totalMessage = "";
+		for (String m : message) {
+			totalMessage += m + ", ";
+		}
+		
+		output(totalMessage.substring(0,totalMessage.length()-2),eq);
+	}
+	
+	static void output(ArrayList<String> message, Equation eq) {
 		String totalMessage = "";
 		for (String m : message) {
 			totalMessage += m + ", ";
@@ -139,6 +148,7 @@ public class Commands {
 			}
 			
 			Equation varEq = new Equation();
+			varEq.importAll();
 			varEq.prevAns = eq.prevAns; // make sure we can use prevAns
 			varEq.createTree(commandInput.substring(i+1,commandInput.length()));
 			applyVariables(varEq); // make sure we have all our variables and constants
@@ -190,7 +200,7 @@ public class Commands {
 			}
 		}catch(ConcurrentModificationException c) {
 			// this error may be thrown when assigning a variable using an equation that includes that variable
-			System.out.println(c);
+			if (Equation.printAnything) System.out.println(c);
 		}
 	}
 	

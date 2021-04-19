@@ -18,19 +18,35 @@ public class ValueNode extends EquationNode {
 		return value;
 	}
 	
-	@Override
+	
 	public long getLevel() {
 		return Long.MAX_VALUE;
 	}
 	
 	@Override
 	public String toString() {
-		return "" + getValue();
+		return "" + Math.round(getValue()*1000000000)/1000000000D;
 	}
 	public void setValue(double value) {
 		notCalculated();
 		calculated();
 		this.value = value;	
+	}
+	
+	@Override
+	public String getOperationKeyword() {
+		return null;
+	}
+	
+	@Override
+	public void test() { 
+		Equation.error("generic EquationNode.test should always be overriden. Offender: " + getClass());
+	}
+	
+	@Override
+	public EquationNode createNewInstanceOfOperation(Equation eq) {
+		Equation.error("createNewInstanceOfOperation MUST be overriden by every operation Offender: " + getClass());
+		return null;
 	}
 
 }

@@ -1,6 +1,6 @@
 package calculatorv2_core;
 
-public class One_subNode_node extends EquationNode {
+public abstract class One_subNode_node extends EquationNode {
 
 	private EquationNode subNode;
 
@@ -29,12 +29,7 @@ public class One_subNode_node extends EquationNode {
 		return valueData.getValue();
 	}
 
-	protected double operation(double a) {
-		Equation.warn("Operation method was not overriden for child of One_subNode_node " + getClass());
-		return 0;
-	}
-
-
+	protected abstract double operation(double a);
 	
 	/**
 	 * 

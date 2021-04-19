@@ -1,6 +1,7 @@
 package calculatorv2_scientific_operations;
 
 import calculatorv2_basic_operations.Round;
+import calculatorv2_core.Commands;
 import calculatorv2_core.Equation;
 import calculatorv2_core.EquationNode;
 import calculatorv2_core.ValueNode;
@@ -54,7 +55,7 @@ public class EquationSolver extends FunctionNode {
 				}else {
 					directionMulti = -1; // this variable is in equation 2
 				}
-				
+		
 				variableValues[variable_indx].setValue(variableValues[variable_indx].getValue());
 				parentEquation.setVariableValue(variable_indx,variableValues[variable_indx].getValue());
 				paramsBra.getValue();
@@ -178,5 +179,17 @@ public class EquationSolver extends FunctionNode {
 		
 		calculated();
 		return outputNode;
+	}
+	
+	public String getOperationKeyword() {
+		return "Solveequation";
+	}
+	
+	public void test() { 
+		Equation.warn(getClass() + " is not tested and should not be used");
+	}
+	
+	public EquationNode createNewInstanceOfOperation(Equation eq) {
+		return new EquationSolver(eq);
 	}
 }

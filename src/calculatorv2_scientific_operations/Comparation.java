@@ -2,6 +2,7 @@ package calculatorv2_scientific_operations;
 
 import calculatorv2_core.AdvancedValueNode;
 import calculatorv2_core.Equation;
+import calculatorv2_core.EquationNode;
 
 public class Comparation extends AdvancedValueNode {
 	public enum ComparationValues {greater, less, equal, True, False, unassigned};
@@ -74,6 +75,6 @@ public class Comparation extends AdvancedValueNode {
 		}
 	}
 
-	
+
 	
 }

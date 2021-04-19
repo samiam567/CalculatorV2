@@ -20,4 +20,16 @@ public class PercentError extends FunctionNode {
 	public String toString() {
 		return "percentError";
 	}
+	
+	public String getOperationKeyword() {
+		return "percenterror";
+	}
+	
+	public void test() { 
+		Equation.warn(getClass() + " is not tested and should not be used");
+	}
+	
+	public EquationNode createNewInstanceOfOperation(Equation eq) {
+		return new PercentError();
+	}
 }

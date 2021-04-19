@@ -1,7 +1,5 @@
 package calculatorv2_matrix_core;
 
-import java.util.Arrays;
-
 import calculatorv2_core.Equation;
 import calculatorv2_core.NodeWrapper;
 import calculatorv2_core.ValueNode;

@@ -27,4 +27,20 @@ public class RLCircuit extends FunctionNode {
 	public String getEquation() {
 		return "Ii*e^(-Rt/L) + If*(1-e^(-Rt/L))";
 	}
+	
+	@Override
+	public String getOperationKeyword() {
+		return "RLCircuit";
+	}
+	
+	@Override
+	public void test() { 
+		Equation.warn(getClass() + " is not tested and should not be used");
+	}
+	
+	@Override
+	public EquationNode createNewInstanceOfOperation(Equation eq) {
+		return new RLCircuit();
+	}
+
 }

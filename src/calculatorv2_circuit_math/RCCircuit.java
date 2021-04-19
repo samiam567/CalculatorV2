@@ -28,4 +28,20 @@ public class RCCircuit extends FunctionNode {
 	public String getEquation() {
 		return "Vc(t) = Vf + [Vi-Vf]*exp[-t/RC]";
 	}
+	
+	@Override
+	public String getOperationKeyword() {
+		return "RCCircuit";
+	}
+	
+	@Override
+	public void test() { 
+		Equation.warn(getClass() + " is not tested and should not be used");
+	}
+	
+	@Override
+	public EquationNode createNewInstanceOfOperation(Equation eq) {
+		return new RCCircuit();
+	}
+
 }

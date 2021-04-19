@@ -12,33 +12,33 @@ public class VariableNode extends ValueNode {
 
 	protected boolean unsetVal = false;
 	
-	public VariableNode(String name) {
+	public VariableNode(Equation eq, String name) {
 		super('k');
 		unsetVal = true;
 		this.name = name;
-		orderOfOpsLevel = Equation.operations.length;
+		orderOfOpsLevel = eq.operations.size();
 		
 	}
 	
-	public VariableNode(String name, int parenthesisLevel) {
+	public VariableNode(Equation eq,String name, int parenthesisLevel) {
 		super('k');
 		unsetVal = true;
 		this.name = name;
 		setParenthesisLevel(parenthesisLevel);
-		orderOfOpsLevel = Equation.operations.length;
+		orderOfOpsLevel = eq.operations.size();
 	}
 	
-	public VariableNode(double v) {
+	public VariableNode(Equation eq,double v) {
 		super('k');
 		setValue(v);
-		orderOfOpsLevel = Equation.operations.length;
+		orderOfOpsLevel = eq.operations.size();
 	}
 	
-	public VariableNode(double v, int parenthesisLevel) {
+	public VariableNode(Equation eq,double v, int parenthesisLevel) {
 		super('k');
 		setValue(v);
 		setParenthesisLevel(parenthesisLevel);
-		orderOfOpsLevel = Equation.operations.length;
+		orderOfOpsLevel = eq.operations.size();
 	}
 
 	

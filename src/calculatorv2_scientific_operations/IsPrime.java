@@ -2,6 +2,7 @@ package calculatorv2_scientific_operations;
 
 import calculatorv2_core.AdvancedValueNode;
 import calculatorv2_core.Equation;
+import calculatorv2_core.EquationNode;
 import calculatorv2_core.One_subNode_node;
 import calculatorv2_core.ValueNode;
 
@@ -57,5 +58,17 @@ public class IsPrime extends One_subNode_node {
 	
 	public String toString() {
 		return "isPrime";
+	}
+	
+	public String getOperationKeyword() {
+		return "isPrime";
+	}
+	
+	public void test() { 
+		Equation.warn(getClass() + " is not tested and should not be used");
+	}
+	
+	public EquationNode createNewInstanceOfOperation(Equation eq) {
+		return new IsPrime();
 	}
 }
