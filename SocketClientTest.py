@@ -1,12 +1,13 @@
 import jpysocket
 import socket
 import math
+import os
 
 s=socket.socket() #Create Socket
 
-def connectToCalculator():
+def connectToCalculator(port=45623):
     host='localhost' #Host Name
-    port=12334    #Port Number
+        #Port Number
     s.connect((host,port)) #Connect to socket
     print("Socket Is Connected....")
 
@@ -23,17 +24,21 @@ def disconnectFromCalculator():
     print("Connection Closed.")
 
 
-connectToCalculator();
+if __name__ == '__main__':
 
-try:
-  
-    while True:
-        inp = input("what do you wanna calculate?")
-        print(calculate(inp))
-        
-        if (inp == "quit" or input == "exit" or input == "q"):
-            break;
-except KeyboardInterrupt:
-    pass;
+    out = subprocess.run('java -jar CalculatorV2 --verbose-output --socket-server 45623', shell=True)
 
-disconnectFromCalculator()
+    connectToCalculator(45623);
+
+    try:
+    
+        while True:
+            inp = input("what do you wanna calculate?")
+            print(calculate(inp))
+            
+            if (inp == "quit" or input == "exit" or input == "q"):
+                break;
+    except KeyboardInterrupt:
+        pass;
+
+    disconnectFromCalculator()

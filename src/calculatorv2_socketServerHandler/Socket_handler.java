@@ -9,6 +9,7 @@ import calculatorv2_core.Equation;
 public class Socket_handler extends Thread {
 	ServerSocket serverSocket;
 	
+	boolean running = true;
 	Equation eq;
 	public Socket_handler(int port, Equation eq) {
 		this.eq = eq;
@@ -25,7 +26,7 @@ public class Socket_handler extends Thread {
 		DataOutputStream dout = null;
 		DataInputStream in = null;
 		Socket soc = null;
-		while(true) {
+		while(running) {
 			try{	
 				soc = serverSocket.accept();
 				
@@ -40,7 +41,15 @@ public class Socket_handler extends Thread {
 					
 					if (Calculator.verboseOutput) System.out.println("Input: " + msg);
 					
-					String output = handleInput(msg);
+					String output = "";
+					
+					if (msg.startsWith("q") && (msg.equals("q") || msg.equals("quit"))) {
+						running = false;
+						output = "quitting...";
+					}else {		
+						output = handleInput(msg);
+					}
+					
 					if (Calculator.verboseOutput) System.out.println("Output: " + output);
 					
 					dout.writeUTF(output);
