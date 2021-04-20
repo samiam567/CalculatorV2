@@ -737,6 +737,8 @@ public class Equation extends One_subNode_node {
 	}
 	
 	
+	
+
 	/**
 	 * {@summary calculates the entire tree and returns the top level node}
 	 * @return
@@ -746,6 +748,23 @@ public class Equation extends One_subNode_node {
 		return getSubNode();
 	}
 	
+	/**
+	 * {@summary calculates the inputted equation and returns string output}
+	 * @param input
+	 * @return
+	 */
+	public String calculate(String input) {
+		
+		if (input.substring(0,1).equals("/")) {
+			return Commands.parseCommand(input, this);	
+		}else {
+			createTree(input);
+			Commands.applyVariables(this);
+			return evaluate().getValueData().toString();
+		}
+		
+		
+	}
 	
 	@Override
 	public double operation(double a) {

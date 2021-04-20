@@ -21,6 +21,8 @@ public class Commands {
 	
 	
 	public static int outputFormat = 1; 
+	
+	private static String output = "";
 	/**
 	 * {@summary a user declared variable, used to replace variables in user-entered equations with their values}
 	 * @author apun1
@@ -33,7 +35,8 @@ public class Commands {
 			this.value = value2;
 		}
 	}
-	public static void parseCommand(String commandInput, Equation eq) {
+	public static String parseCommand(String commandInput, Equation eq) {
+		output = "";
 		mostRecentCalculatorAnchor = eq.calculatorAnchor;
 		String cIn = commandInput.toLowerCase();
 		if (cIn.contains("move")) {
@@ -56,11 +59,13 @@ public class Commands {
 			output("Command unrecognized",eq);
 		}
 		
+		return output;
 	}
 
 	static void output(String message, Equation eq) {
 		if (Calculator.enableJFrameOutput) JOptionPane.showMessageDialog(eq.calculatorAnchor,message);
 		if (Calculator.verboseOutput) eq.out.println(message);
+		output += message + "\n";
 	}
 	
 	static void output(String[] message, Equation eq) {
@@ -169,7 +174,7 @@ public class Commands {
 			}
 			output("Variable " + name + " is now set to " + value.getDataStr(), eq);
 		}else {
-			(new Exception("bad command format")).printStackTrace();
+			output("bad command format",eq);
 		}
 			
 	}

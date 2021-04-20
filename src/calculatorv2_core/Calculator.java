@@ -2,13 +2,15 @@ package calculatorv2_core;
 
 import javax.swing.JOptionPane;
 
+import calculatorv2_socketServerHandler.Socket_handler;
+
 
 public class Calculator {
 	
 	public static boolean verboseOutput = true;
 	public static boolean enableJFrameOutput = true;
 	
-	static final String[] run_flags = {"--verbose-output","--socket_server"};
+	static final String[] run_flags = {"--verbose-output","--socket-server"};
 	
 	private static class EquationError extends Exception {
 		private static final long serialVersionUID = -5372388435013231712L;
@@ -54,7 +56,22 @@ public class Calculator {
 						if (args[i].equals(run_flags[0]) ) { //verbose_output
 							verboseOutput = true;
 						}else if (args[i].equals(run_flags[1])) { //start socket server
-							Assert(args.length-i >= 2 );
+							
+							if (args.length-i <= 1 ) {
+								System.out.println("ERROR: too few arguments after " + run_flags[1] + " flag.");
+							}else {
+								try { 
+									int port = Integer.parseInt(args[i+1]);
+									i++;
+									Socket_handler server = new Socket_handler(port,calc);
+									server.start();
+							        
+								}catch(NumberFormatException n ) {
+									System.out.println(n);
+								}
+							}
+							
+							
 						}else {
 							System.out.println("invalid/unrecognized command line argument: " + args[i]);
 							System.out.print("possible options: ");
@@ -64,19 +81,14 @@ public class Calculator {
 							System.out.println();
 						}
 					}else {
-						if (args[i].substring(0,1).equals("/")) {
-							Commands.parseCommand(args[i],calc);
-						}else {
-							calc.createTree(args[i]);
-							Commands.applyVariables(calc);
-							System.out.println(calc.evaluate().getValueData().toString());
-						}
+						calc.calculate(args[i]);
 					}
 				}catch(Exception e) {
 					e.printStackTrace(System.err);
 				}
 			}
 			
+	
 			
 		}else {
 			enableJFrameOutput = true;
