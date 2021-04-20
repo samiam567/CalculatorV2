@@ -1,7 +1,8 @@
 import jpysocket
 import socket
 import math
-import os
+import subprocess
+import threading
 
 s=socket.socket() #Create Socket
 
@@ -23,10 +24,13 @@ def disconnectFromCalculator():
     s.close() #Close connection
     print("Connection Closed.")
 
+def launch_calculator():
+    subprocess.run('java -jar CalculatorV2 --verbose-output --socket-server 45623', shell=True)
 
 if __name__ == '__main__':
 
-    out = subprocess.run('java -jar CalculatorV2 --verbose-output --socket-server 45623', shell=True)
+    a = threading.Thread(target=disconnectFromCalculator, args=())
+    a.start()
 
     connectToCalculator(45623);
 
@@ -41,4 +45,6 @@ if __name__ == '__main__':
     except KeyboardInterrupt:
         pass;
 
+    calculate("quit")
     disconnectFromCalculator()
+    a.join()
