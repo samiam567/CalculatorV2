@@ -38,107 +38,23 @@ public class Equation extends One_subNode_node {
 	
 	public PrintStream out = System.out;
 	
-	//calculator settings 
-	public static boolean JOptionPane_error_messages = true;
+	//calculator settings
 	public static boolean printInProgress = false;
 	public boolean useRadiansNotDegrees = false;
-	public static boolean printAnything = true;
 	
 	//used by the runUserCalculator method
 	JFrame calculatorAnchor;
 	EquationNode prevAns = new ValueNode(0);
 
 	public String cMode = "unknown"; // for Negative operation
-	
-	
-	/**
-	 * {@summary testing method}
-	 * @param equation
-	 */
-	public static void main(String[] args) { 
-		
-		if (args.length > 0) {
-			JOptionPane_error_messages = false;
-			printInProgress = false;
-			printAnything = false;
-			Commands.enableJFrameOutput = false;
-			
-			Equation calc = new Equation();
-			calc.out = System.err;
-			calc.importAll();
-			calc.importStandardConstants();
-			
-			calc.useRadiansNotDegrees = true;
-			
-			for (int i = 0; i < args.length; i++) {
-				try {
-					if (args[i].substring(0,2).equals("--")) { //this is a command
-						//TODO process args[i] as a command
-					}else {
-						if (args[i].substring(0,1).equals("/")) {
-							Commands.parseCommand(args[i],calc);
-						}else {
-							calc.createTree(args[i]);
-							Commands.applyVariables(calc);
-							System.out.println(calc.evaluate().getValueData().toString());
-						}
-					}
-				}catch(Exception e) {
-					e.printStackTrace(System.err);
-				}
-			}
-			
-			
-		}else {
-			JOptionPane_error_messages = true;
-			(new Equation()).runUserCalculator();
-		}
-	}
-	
-	
-	private static class EquationError extends Exception {
-		private static final long serialVersionUID = -5372388435013231712L;
-		public EquationError(String err) {
-			super(err);
-		}
-	}
-	
-	public static void error(String errorMessage) {
-		EquationError err = new EquationError(errorMessage);
-		
-		String stStr = "";
-		for (StackTraceElement s : err.getStackTrace()) {
-			stStr += s.toString() + "\n";
-		}
-		
-		//show to JopPane
-		JOptionPane.showMessageDialog(null, err.toString() + "\nAt:\n" + stStr,"ERROR", JOptionPane.ERROR_MESSAGE);
-		
-		err.printStackTrace();
-	}
-	
-	
-	public static void warn(String warning) {
-		StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
-		
-		
-		// Print the warning with its stacktrace
-		String stStr = "";
-		for (StackTraceElement s : stackTrace) {
-			stStr += s.toString() + "\n";
-		}
-		println("WARNING: " + warning + " at: \n" + stStr + " \n --" );
-		
-		//show to JopPane
-		if (JOptionPane_error_messages) JOptionPane.showMessageDialog(null, warning,"WARNING", JOptionPane.ERROR_MESSAGE);
-	}
+
 	
 	public void importStandardConstants() {
 		// put some constants into the variables as a default
-		boolean prevEnJFO = Commands.enableJFrameOutput;
-		boolean prevJOPEM = JOptionPane_error_messages;
-		Commands.enableJFrameOutput = false; //be quiet about it
-		JOptionPane_error_messages = false;
+		boolean prevEnJFO = Calculator.enableJFrameOutput;
+	
+		Calculator.enableJFrameOutput = false; //be quiet about it
+	
 		Commands.addVariable("/pi=3.14159265358979323846264",this); // pi
 		Commands.addVariable("/c=2.99792458*10^8",this); // speed of light 
 		Commands.addVariable("/e=2.7182818284590452353602874713527",this); // e
@@ -166,8 +82,8 @@ public class Equation extends One_subNode_node {
 		Commands.addVariable("/femto = 1E_15",this);
 							
 	
-		Commands.enableJFrameOutput = prevEnJFO;	
-		JOptionPane_error_messages = prevJOPEM;
+		Calculator.enableJFrameOutput = prevEnJFO;	
+	
 	}
 	
 	public void runUserCalculator() {
@@ -179,10 +95,10 @@ public class Equation extends One_subNode_node {
 		
 		importAll();
 	
-		Commands.enableJFrameOutput = false;
-		JOptionPane_error_messages = false;
-		out.println("Test took " + testCalculator() + " nanos to evaluate equations");
-		JOptionPane_error_messages = true;
+		Calculator.enableJFrameOutput = false;
+	
+		out.println("Test took " + Calculator.testCalculator() + " nanos to evaluate equations");
+
 		
 		calculatorAnchor = new JFrame();
 	
@@ -191,15 +107,15 @@ public class Equation extends One_subNode_node {
 		calculatorAnchor.setTitle("Calculator Parser/Solver - Programmed by Alec Pannunzio");
 		
 		//warn the user about known issues
-		knownIssues();
+		Calculator.knownIssues();
 		
 		String input = "";
 		String lastInput = "";
 		String eqSuggestion = "";
 		while (true) { //if the user presses cancel the program will automatically terminate
-			Commands.enableJFrameOutput = false;
+			Calculator.enableJFrameOutput = false;
 			Commands.addVariable("ans", prevAns.getValueData(), this);
-			Commands.enableJFrameOutput = true;
+			Calculator.enableJFrameOutput = true;
 			
 			while (input.length() == 0) {
 				input = (String) JOptionPane.showInputDialog(calculatorAnchor,"Type in what you want to solve","Calculator V2",1, null,null, eqSuggestion);
@@ -256,7 +172,7 @@ public class Equation extends One_subNode_node {
 			}catch(Exception e) {
 				e.printStackTrace();
 				
-				Equation.warn("Exception occured whilst parsing:\n" + e);
+				Calculator.warn("Exception occured whilst parsing:\n" + e);
 				System.out.println("StackTrace of source exception: \n" + e.getStackTrace().toString());
 				/*
 				out.println("terminating because of an exception");
@@ -319,12 +235,12 @@ public class Equation extends One_subNode_node {
 	
 	public void importOperation(EquationNode opType) {
 		if (opType.getOperationKeyword() == null || opType.getOperationKeyword().length() == 0) {
-			Equation.error("Operation " + opType.getClass() + " does not have a valid operation keyword. Check importation methods and fields");
+			Calculator.error("Operation " + opType.getClass() + " does not have a valid operation keyword. Check importation methods and fields");
 		}else if (indexOf(opType.getOperationKeyword(),operationKeywords) == -1) {
 			operations.add(opType);
 			operationKeywords.add(opType.getOperationKeyword());
 		}else {
-			Equation.error("Tried to import operation with keyword " + opType.getOperationKeyword() + " More than once!");
+			Calculator.error("Tried to import operation with keyword " + opType.getOperationKeyword() + " More than once!");
 		}
 	}
 	
@@ -602,11 +518,11 @@ public class Equation extends One_subNode_node {
 		if (parenthesisLevel > 0) {
 			Exception e = new Exception("ParenthesisError: missing close-parenthesis");
 			e.printStackTrace(out);
-			if (JOptionPane_error_messages) JOptionPane.showMessageDialog(calculatorAnchor, e.toString() + "\n" + e.getStackTrace().toString());
+			if (Calculator.enableJFrameOutput) JOptionPane.showMessageDialog(calculatorAnchor, e.toString() + "\n" + e.getStackTrace().toString());
 		}else if (parenthesisLevel < 0) {
 			Exception e = new Exception("ParenthesisError: missing open-parenthesis");
 			e.printStackTrace(out);
-			if (JOptionPane_error_messages) JOptionPane.showMessageDialog(calculatorAnchor, e.toString() + "\n" + e.getStackTrace().toString());
+			if (Calculator.enableJFrameOutput) JOptionPane.showMessageDialog(calculatorAnchor, e.toString() + "\n" + e.getStackTrace().toString());
 		}
 		
 		
@@ -671,7 +587,7 @@ public class Equation extends One_subNode_node {
 				if (lowestIndx != 0) {
 					Exception e = new Exception("there should be nothing to the left of a lowest-priority single-node operation");
 					e.printStackTrace(out);
-					if (JOptionPane_error_messages) JOptionPane.showMessageDialog(calculatorAnchor, e.toString() + "\n" + "Node: " + node.toString() + "\nOpsLvl: " + node.orderOfOpsLevel);
+					if (Calculator.enableJFrameOutput) JOptionPane.showMessageDialog(calculatorAnchor, e.toString() + "\n" + "Node: " + node.toString() + "\nOpsLvl: " + node.orderOfOpsLevel);
 				}
 				
 				node.setSubNode(getTree(resizeNodesArray(arr,lowestIndx+1,arr.length-1)));
@@ -696,7 +612,7 @@ public class Equation extends One_subNode_node {
 		if (node == null) {
 			Exception e = new Exception("operation not found in createOperation: " + op);
 			e.printStackTrace(out);
-			if (JOptionPane_error_messages) JOptionPane.showMessageDialog(calculatorAnchor, e.toString() + "\n" + e.getStackTrace().toString());
+			if (Calculator.enableJFrameOutput) JOptionPane.showMessageDialog(calculatorAnchor, e.toString() + "\n" + e.getStackTrace().toString());
 		}
 		/*
 		switch (op) {
@@ -893,7 +809,7 @@ public class Equation extends One_subNode_node {
 		}catch(IndexOutOfBoundsException i) {
 			Exception e = new Exception("Variable index not found. That Variable dosen't exist. Indx: " + varIndx);
 			e.printStackTrace(out);
-			if (JOptionPane_error_messages) JOptionPane.showMessageDialog(calculatorAnchor, e.toString() + "\n" + e.getStackTrace().toString());
+			if (Calculator.enableJFrameOutput) JOptionPane.showMessageDialog(calculatorAnchor, e.toString() + "\n" + e.getStackTrace().toString());
 			return false;
 		}
 	}
@@ -924,141 +840,15 @@ public class Equation extends One_subNode_node {
 		}catch(IndexOutOfBoundsException i) {
 			Exception e = new Exception("Variable index not found. That Varaible dosen't exist. Indx: " + varIndx);
 			e.printStackTrace(out);
-			if (JOptionPane_error_messages) JOptionPane.showMessageDialog(calculatorAnchor, e.toString() + "\n" + e.getStackTrace().toString());
+			if (Calculator.enableJFrameOutput) JOptionPane.showMessageDialog(calculatorAnchor, e.toString() + "\n" + e.getStackTrace().toString());
 			return null;
 		}
 	}
 	
 	
-	private static int testNum = 0;
-	private static boolean allTestsPassed = true;
-	public static boolean testEquation(Equation testEq, String eq, double answer) {
-		testEq.createTree(eq);
-		
-		Commands.applyVariables(testEq);
 	
-		testEq.prevAns = testEq.evaluate();
-		
-		String outStr = "Equation " + testNum + " ";
-		testNum++;
-		if (testEq.solve() == answer) {
-			outStr += "passed";
-			println(outStr);
-			return true;
-		}else {
-			outStr += "failed!";
-			outStr += "\nCalculated Answer: " + testEq.solve() + "   Actual Answer:  " + answer + "      ValueData: " + testEq.getValueData();
-			outStr += "\nEquation to solve: " + eq;
-			println(outStr);
-			JOptionPane.showMessageDialog(Commands.mostRecentCalculatorAnchor,outStr);
-			allTestsPassed = false;
-			return false;		
-		}	
-	}
-	public static boolean testEquation(Equation testEq,String eq, String answerStr, double ans) {
-		testEq.createTree(eq);
-		Commands.applyVariables(testEq);
-		testEq.prevAns = testEq.evaluate();
-		
-		String outStr = "Equation " + testNum + " ";;
-		testNum++;
-		if ( (testEq.getValueData().toString()).equals(answerStr) && testEq.solve() == ans) {
-			outStr += "passed";
-			println(outStr);
-			return true;
-		}else {
-			outStr += "failed!\n";
-			outStr += "Calculated ValueData " + testEq.getValueData().toString() + "       Target ValueData: " + answerStr + "\nCalculated Answer: " +testEq.solve() + "   Actual Answer: " + ans;
-			outStr += "\nEquation to solve: " + eq;
-			println(outStr);
-			JOptionPane.showMessageDialog(Commands.mostRecentCalculatorAnchor,outStr);
-			
-			allTestsPassed = false;
-			return false;	
-		}	
-	}
-	@SuppressWarnings("unused")
-	private static long testCalculator() {
-		println("Testing calculator to ensure accuracy...");
-		
-		println("Building equations...");		
-
-		long start = System.nanoTime();
-		
-		Equation testEq = new Equation();
-		
-		//import the operations
-		testEq.importAll();
-		
-		testEq.useRadiansNotDegrees = true;
-		
-		testEquation(testEq,"1 + 2 * 6^2",1 + 2 * Math.pow(6,2)); //get a little more complicated, test negative exponents
-		testEquation(testEq,"((4^2*3-45)^(1+1*4) / 3) * 2",(Math.pow((Math.pow(4,2)*3-45),(1+1*4)) / 3) * 2 ); //REALLY complicated
-		testEquation(testEq,"45/2 + sin(10-5)/3",45D/2 + Math.sin(10-5) / 3 ); //testing Sine
-		testEquation(testEq,"4rt(tan(atan(0.12))) + 13-sqrt4",Math.pow( (Math.tan(Math.atan(0.12))),1.0/4 ) + 13-Math.sqrt(4) ); //test sin, asin,sqrt,rt
-		testEquation(testEq,"sqrt(3^2 + 4^2) * ( (abs(3)/3 * abs(4)/4) * (_abs(3)/3 + _abs(4)/4) - 1)",Math.sqrt(3*3 + 4*4) * ( (Math.abs(3)/3 * Math.abs(4)/4) * (-Math.abs(3)/3 + -Math.abs(4)/4) - 1)); //test abs and negatives
-		testEquation(testEq,"1/2*3/2",1D/2*3/2); //test left to right execution
-		testEquation(testEq,"atan(_(2rt(3)))",Math.atan(-Math.sqrt(3))); //testing arctan
-		testEquation(testEq,"4*10^_31*sin24",4*Math.pow(10, -31)*Math.sin(24)); //testing negative exponents
-		testEquation(testEq,"sin8+cos9+tan11*asin0.1+acos0.2+atan0.453",Math.sin(8)+Math.cos(9)+Math.tan(11)*Math.asin(0.1) + Math.acos(0.2) + Math.atan(0.453)); //test all trig functions
-		testEquation(testEq,"isPrime(342)",0); //test isPrime
-		testEquation(testEq,"%err(1,2)",-50); //test percent error and aliases
-		testEquation(testEq,"4rt(tan(atan(0.12))) + 13-sqrt4 isEqualTo 4rt(tan(atan(0.12))) + 13-sqrt4",1);
-		testEquation(testEq,"324*tan(34)*26/2 == 1*324*tan(34)*26/2+1-1",1);
-		testEquation(testEq,"1 <=> 2",-1);
-		testEquation(testEq,"2 <=> 1", 1);
-		testEquation(testEq,"34+ 12 *23124 <=> sin23",1);
-		testEquation(testEq,"324*tan(34)*26/2 compareTo 1*324*tan(34)*26/2+1-1",0);
-		testEquation(testEq,"round(1.2123) == 1",1);
-		testEquation(testEq,"round(1.2123,1)",1.2);
-		testEquation(testEq,"5E10",5*Math.pow(10,10));
-		testEquation(testEq,"sin2E_5",Math.sin(2*Math.pow(10,-5)));
-		testEquation(testEq,"0.3^3E_6",Math.pow(0.3,3*Math.pow(10,-6)));		
-		testEquation(testEq,"%err(e,pi)",-13.474402056773494);
-		testEquation(testEq,"solveEquation(x,10)",10);
-		testEquation(testEq,"solveEquation(x+1,10)",9);
-		testEquation(testEq,"solveEquation(18,x+20)",-2);
-		testEquation(testEq,"i+1","1.0 + 1.0i",Math.sqrt(2));
-		testEquation(testEq,"(3 + 2*i)*(1 + 7*i)","-11.0 + 23.0i",Math.sqrt(650));
-		testEquation(testEq,"(7 + 2.1*i)/(1.5 -4*i)","0.115068493 + 1.706849315i",1.7107236312349676);
-		testEquation(testEq,"1/(1+i)","0.5 + -0.5i",Math.sqrt(0.5));
-		
-			
 	
-		
-		testEq.createTree("((4^2*3-45)^(1+1*4) / 3) * 2"); //test equation reusability
-		if (testEq.solve() == ((Math.pow((Math.pow(4,2)*3-45),(1+1*4)) / 3) * 2 )) { 
-			testEquation(testEq,"1",1); //pass
-		}else {
-			testEquation(testEq,"0",1); //pass
-		}
-		
-		//test all operations
-		EquationNode opType;
-		for (int i = 0; i < testEq.operations.size(); i++) {
-			opType = testEq.operations.get(i);
-			opType.test();	
-		}
-		
 	
-		
-		long end = System.nanoTime();
-		
-		if (allTestsPassed) {
-			println("test complete. All systems functional");
-		}else {
-			println("test FAILED. One or more equations gave an incorrect answer.");
-			JOptionPane.showMessageDialog(null, "Calculator Test failed. One or more equations did not yield a correct answer");
-		}
-					
-		return end-start;
-	}
-	
-	public static void println(String s) {
-		if (printAnything) {
-			System.out.println(s);
-		}
-	}
 	
 
 	public void setPrintStream(PrintStream outputStream) {
@@ -1070,47 +860,17 @@ public class Equation extends One_subNode_node {
 		return evaluate().getDataStr();
 	}
 
-	
-	public static boolean Assert(boolean b) {
-		return Assert(b,"Assertion failed");
-	}
-	
-	public static boolean Assert(boolean b, String failurePhrase) {
-		if (! b) Equation.warn(failurePhrase);
-		return b;
-	}
-	
-	
-	/*
-	 * A list of all the known issues with the calculator
-	 */
-	public static void knownIssues() {
-		String knownIssues = "Known Issues:\n";	
-
-		//add knownIssues here
-		
-		
-		
-		
-		//--------------------
-		
-		if (knownIssues != "Known Issues:\n") {
-			warn(knownIssues);
-		}
-	}
-
-
 	@Override
 	public String getOperationKeyword() {
 		return null;
 	}
 	@Override
 	public void test() { 
-		Equation.warn(getClass() + " is not tested and should not be used");
+		Calculator.warn(getClass() + " is not tested and should not be used");
 	}
 	@Override
 	public EquationNode createNewInstanceOfOperation(Equation eq) {
-		Equation.error("createNewInstanceOfOperation MUST be overriden by every operation Offender: " + getClass());
+		Calculator.error("createNewInstanceOfOperation MUST be overriden by every operation Offender: " + getClass());
 		return null;
 	}
 	

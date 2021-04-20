@@ -1,5 +1,6 @@
 package calculatorv2_basic_operations;
 
+import calculatorv2_core.Calculator;
 import calculatorv2_core.Commands;
 import calculatorv2_core.Equation;
 import calculatorv2_core.EquationNode;
@@ -33,18 +34,18 @@ public class GetValue extends One_subNode_node {
 		Equation testEq = new Equation();
 		testEq.importAll();
 		
-		boolean prevOutputEnable = Commands.enableJFrameOutput;
-		Commands.enableJFrameOutput = false;
+		boolean prevOutputEnable = Calculator.enableJFrameOutput;
+		Calculator.enableJFrameOutput = false;
 		
-		Equation.testEquation(testEq,"getValue(5*i)",5);
-		Equation.testEquation(testEq,"getValue(7)",7);
+		Calculator.testEquation(testEq,"getValue(5*i)",5);
+		Calculator.testEquation(testEq,"getValue(7)",7);
 		Commands.parseCommand("/n = 3+4×i",testEq);
-		Equation.testEquation(testEq,"getValue(n×n×n)",125);
+		Calculator.testEquation(testEq,"getValue(n×n×n)",125);
 
 		
 		
 		
-		Commands.enableJFrameOutput = prevOutputEnable;
+		Calculator.enableJFrameOutput = prevOutputEnable;
 		
 	}
 	

@@ -1,5 +1,6 @@
 package calculatorv2_matrix_core;
 
+import calculatorv2_core.Calculator;
 import calculatorv2_core.Equation;
 import calculatorv2_core.NodeWrapper;
 import calculatorv2_core.ValueNode;
@@ -22,7 +23,7 @@ public class MatrixKet extends Ket {
 	public void setValues(ValueNode val) {
 		if (! val.equals(this)) {
 			if (val instanceof Bra_ket) {
-				if ( ! (val instanceof Bra) ) Equation.warn("WARNING: tried to set a ket's values to a bra. ");
+				if ( ! (val instanceof Bra) ) Calculator.warn("WARNING: tried to set a ket's values to a bra. ");
 				
 				setValues(((Bra_ket) val).getValues());
 			}
@@ -34,7 +35,7 @@ public class MatrixKet extends Ket {
 	public void setValues(ValueNode[] vals) {
 					
 			if (vals.length != size()) {
-				Equation.warn("MatrixKet's length should never change");
+				Calculator.warn("MatrixKet's length should never change");
 				
 				if ( vals.length > size()) return;
 			}

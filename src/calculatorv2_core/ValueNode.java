@@ -40,12 +40,12 @@ public class ValueNode extends EquationNode {
 	
 	@Override
 	public void test() { 
-		Equation.error("generic EquationNode.test should always be overriden. Offender: " + getClass());
+		Calculator.error("generic EquationNode.test should always be overriden. Offender: " + getClass());
 	}
 	
 	@Override
 	public EquationNode createNewInstanceOfOperation(Equation eq) {
-		Equation.error("createNewInstanceOfOperation MUST be overriden by every operation Offender: " + getClass());
+		Calculator.error("createNewInstanceOfOperation MUST be overriden by every operation Offender: " + getClass());
 		return null;
 	}
 

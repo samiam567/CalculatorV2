@@ -1,6 +1,7 @@
 package calculatorv2_basic_operations;
 
 import calculatorv2_core.AdvancedValueNode;
+import calculatorv2_core.Calculator;
 import calculatorv2_core.Equation;
 import calculatorv2_core.EquationNode;
 import calculatorv2_core.One_subNode_node;
@@ -33,7 +34,7 @@ public class Absolute_Value extends One_subNode_node {
 				if (! (outputNode instanceof ComplexValueNode) ) outputNode = new ComplexValueNode();
 				((ComplexValueNode) outputNode).setValues(operation(((ComplexValueNode) n1).getReal()), operation(((ComplexValueNode) n1).getComplex()));
 			}else {
-				Equation.warn("WARNING: class " + getClass() + " has no implementation for AdvancedValueNodes of class " + n1.getClass());
+				Calculator.warn("WARNING: class " + getClass() + " has no implementation for AdvancedValueNodes of class " + n1.getClass());
 				outputNode.setValue(operation(n1.getValue()));
 			}
 		}else {
@@ -50,7 +51,7 @@ public class Absolute_Value extends One_subNode_node {
 	}
 	
 	public void test() { 
-		Equation.warn(getClass() + " is not tested and should not be used");
+		Calculator.warn(getClass() + " is not tested and should not be used");
 	}
 	
 	public EquationNode createNewInstanceOfOperation(Equation eq) {

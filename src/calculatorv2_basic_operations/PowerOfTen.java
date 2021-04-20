@@ -1,5 +1,6 @@
 package calculatorv2_basic_operations;
 
+import calculatorv2_core.Calculator;
 import calculatorv2_core.Commands;
 import calculatorv2_core.Equation;
 import calculatorv2_core.EquationNode;
@@ -37,13 +38,13 @@ public class PowerOfTen extends Two_subNode_node {
 		
 		testEq.useRadiansNotDegrees = false;
 		
-		boolean prevOutputEnable = Commands.enableJFrameOutput;
-		Commands.enableJFrameOutput = false;
+		boolean prevOutputEnable = Calculator.enableJFrameOutput;
+		Calculator.enableJFrameOutput = false;
 	
 		
-		Equation.testEquation(testEq,"1E-3",0.001);
-		Equation.testEquation(testEq,"1E3",1000);
+		Calculator.testEquation(testEq,"1E-3",0.001);
+		Calculator.testEquation(testEq,"1E3",1000);
 		
-		Commands.enableJFrameOutput = prevOutputEnable;
+		Calculator.enableJFrameOutput = prevOutputEnable;
 	}
 }

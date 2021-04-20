@@ -1,6 +1,7 @@
 package calculatorv2_scientific_operations;
 
 import calculatorv2_core.AdvancedValueNode;
+import calculatorv2_core.Calculator;
 import calculatorv2_core.Commands;
 import calculatorv2_core.Equation;
 import calculatorv2_core.EquationNode;
@@ -26,7 +27,7 @@ public class ComplexNumber_Phase extends One_subNode_node {
 			if (nodeA instanceof ComplexValueNode) {
 				outputNode.setValue( Math.atan2(((ComplexValueNode) nodeA).getComplex(),((ComplexValueNode) nodeA).getReal())  *  (eq.useRadiansNotDegrees ? 1 : 180/Math.PI)  );
 			}else {
-				Equation.warn(getClass() + " has no implementation for generic ValueNode");
+				Calculator.warn(getClass() + " has no implementation for generic ValueNode");
 				outputNode.setValue(operation(nodeA.getValue())); // do operation normally and assign value to our ValueNode
 			}
 		}else {
@@ -49,23 +50,23 @@ public class ComplexNumber_Phase extends One_subNode_node {
 
 		testEq.useRadiansNotDegrees = false;
 		
-		boolean prevOutputEnable = Commands.enableJFrameOutput;
-		Commands.enableJFrameOutput = false;
+		boolean prevOutputEnable = Calculator.enableJFrameOutput;
+		Calculator.enableJFrameOutput = false;
 		
-		Equation.testEquation(testEq,"cPhase(1+i)",45);
-		Equation.testEquation(testEq,"cPhase(2+2*i)",45);
-		Equation.testEquation(testEq,"cPhase(1-i)",-45);
-		Equation.testEquation(testEq,"cPhase(3+3*i)",45);
+		Calculator.testEquation(testEq,"cPhase(1+i)",45);
+		Calculator.testEquation(testEq,"cPhase(2+2*i)",45);
+		Calculator.testEquation(testEq,"cPhase(1-i)",-45);
+		Calculator.testEquation(testEq,"cPhase(3+3*i)",45);
 		
 
 		
 		Commands.parseCommand("/n = 3+4×i",testEq);
-		Equation.testEquation(testEq,"cPhase(n×n×n)",159.39030706246794);
+		Calculator.testEquation(testEq,"cPhase(n×n×n)",159.39030706246794);
 		
 		testEq.useRadiansNotDegrees = true;
 		
-		Equation.testEquation(testEq,"cPhase(1+i)",Math.PI/4);
-		Equation.testEquation(testEq,"cPhase(_1-i)",-3*Math.PI/4);
+		Calculator.testEquation(testEq,"cPhase(1+i)",Math.PI/4);
+		Calculator.testEquation(testEq,"cPhase(_1-i)",-3*Math.PI/4);
 		
 		
 		
@@ -73,7 +74,7 @@ public class ComplexNumber_Phase extends One_subNode_node {
 		
 		
 		
-		Commands.enableJFrameOutput = prevOutputEnable;
+		Calculator.enableJFrameOutput = prevOutputEnable;
 	}
 
 	@Override

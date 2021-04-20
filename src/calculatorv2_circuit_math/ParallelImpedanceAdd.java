@@ -2,6 +2,7 @@ package calculatorv2_circuit_math;
 
 import calculatorv2_basic_operations.Addition;
 import calculatorv2_basic_operations.Division;
+import calculatorv2_core.Calculator;
 import calculatorv2_core.Equation;
 import calculatorv2_core.EquationNode;
 import calculatorv2_core.ValueNode;
@@ -13,7 +14,7 @@ public class ParallelImpedanceAdd extends FunctionNode {
 	public ValueNode function(EquationNode[] params, ValueNode outputNode) {
 		
 		if (params.length < 2) {
-			Equation.warn(getParameterInputs());
+			Calculator.warn(getParameterInputs());
 		}
 		// add up 1 / each impedance
 		
@@ -46,7 +47,7 @@ public class ParallelImpedanceAdd extends FunctionNode {
 	
 	@Override
 	public void test() { 
-		Equation.warn(getClass() + " is not tested and should not be used");
+		Calculator.warn(getClass() + " is not tested and should not be used");
 	}
 	
 	@Override

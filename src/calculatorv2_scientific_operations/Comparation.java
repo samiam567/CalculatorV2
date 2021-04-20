@@ -1,6 +1,7 @@
 package calculatorv2_scientific_operations;
 
 import calculatorv2_core.AdvancedValueNode;
+import calculatorv2_core.Calculator;
 import calculatorv2_core.Equation;
 import calculatorv2_core.EquationNode;
 
@@ -48,7 +49,7 @@ public class Comparation extends AdvancedValueNode {
 					value = 0;
 					break;
 				default:
-					Equation.warn("Comparation compareValue was never set");
+					Calculator.warn("Comparation compareValue was never set");
 					value = 0;
 					break;			
 			};

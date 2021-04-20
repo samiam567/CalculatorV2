@@ -1,5 +1,6 @@
 package calculatorv2_scientific_operations;
 
+import calculatorv2_core.Calculator;
 import calculatorv2_core.Equation;
 import calculatorv2_core.EquationNode;
 import calculatorv2_core.One_subNode_node;
@@ -42,7 +43,7 @@ public abstract class FunctionNode extends One_subNode_node {
 		EquationNode[] params = getParams();
 		
 		if (params.length == 0) {
-			Equation.warn(getParameterInputs());
+			Calculator.warn(getParameterInputs());
 		}
 		return function(params,outputNode);
 	}

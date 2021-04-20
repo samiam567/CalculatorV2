@@ -1,5 +1,6 @@
 package calculatorv2_basic_operations;
 
+import calculatorv2_core.Calculator;
 import calculatorv2_core.Equation;
 import calculatorv2_core.EquationNode;
 import calculatorv2_core.ValueNode;
@@ -15,7 +16,7 @@ public class Logarithm extends FunctionNode {
 	}
 	
 	public void test() { 
-		Equation.warn(getClass() + " is not tested and should not be used");
+		Calculator.warn(getClass() + " is not tested and should not be used");
 	}
 	
 	public EquationNode createNewInstanceOfOperation(Equation eq) {
@@ -24,7 +25,7 @@ public class Logarithm extends FunctionNode {
 	
 	@Override
 	public ValueNode function(EquationNode[] values, ValueNode outputNode) {
-		Equation.Assert(values.length == 2, "log takes two parameters, base and value ");
+		Calculator.Assert(values.length == 2, "log takes two parameters, base and value ");
 		
 		outputNode = divCalc.operation(logCalc.operation(values[1].getValueData(),new ValueNode(1)) , logCalc.operation(values[0].getValueData(),new ValueNode(1)), outputNode);
 		return outputNode;

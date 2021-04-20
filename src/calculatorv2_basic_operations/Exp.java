@@ -1,6 +1,7 @@
 package calculatorv2_basic_operations;
 
 import calculatorv2_core.AdvancedValueNode;
+import calculatorv2_core.Calculator;
 import calculatorv2_core.Commands;
 import calculatorv2_core.Equation;
 import calculatorv2_core.EquationNode;
@@ -49,7 +50,7 @@ public class Exp extends One_subNode_node {
 				outputNode = multi.operation(new ValueNode(Math.exp(N1.getReal())),eulerExpans,outputNode);			
 			
 			}else {
-				Equation.warn("WARNING: class " + getClass() + " has no implementation for AdvancedValueNodes of class " + n1.getClass());
+				Calculator.warn("WARNING: class " + getClass() + " has no implementation for AdvancedValueNodes of class " + n1.getClass());
 				outputNode.setValue(operation(n1.getValue()));
 			}
 		}else {
@@ -70,21 +71,21 @@ public class Exp extends One_subNode_node {
 		
 		testEq.useRadiansNotDegrees = false;
 		
-		boolean prevOutputEnable = Commands.enableJFrameOutput;
-		Commands.enableJFrameOutput = false;
+		boolean prevOutputEnable = Calculator.enableJFrameOutput;
+		Calculator.enableJFrameOutput = false;
 		
 		
 
 		
 		
-		Equation.testEquation(testEq,"3*exp(90*i)","0.0 + 3.0i",3);
-		Equation.testEquation(testEq,"(3×exp(30×i))×(2×exp(_60×i))","5.196152423 + -3.0i",6);
+		Calculator.testEquation(testEq,"3*exp(90*i)","0.0 + 3.0i",3);
+		Calculator.testEquation(testEq,"(3×exp(30×i))×(2×exp(_60×i))","5.196152423 + -3.0i",6);
 		
 		Commands.parseCommand("/V = exp(i×53.1)",testEq);
 		Commands.parseCommand("/I = 1",testEq);
-		Equation.testEquation(testEq,"Round(getValue(V-0.8×i×I),1)",0.6);
+		Calculator.testEquation(testEq,"Round(getValue(V-0.8×i×I),1)",0.6);
 		
-		Commands.enableJFrameOutput = prevOutputEnable;
+		Calculator.enableJFrameOutput = prevOutputEnable;
 		
 	
 	}

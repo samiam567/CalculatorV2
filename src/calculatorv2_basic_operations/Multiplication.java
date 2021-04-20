@@ -1,6 +1,7 @@
 package calculatorv2_basic_operations;
 
 import calculatorv2_core.AdvancedValueNode;
+import calculatorv2_core.Calculator;
 import calculatorv2_core.Equation;
 import calculatorv2_core.EquationNode;
 import calculatorv2_core.Two_subNode_node;
@@ -152,7 +153,7 @@ public class Multiplication extends Two_subNode_node {
 			}*/
 			
 			else {
-				Equation.warn("class " + getClass() + " has no implementation for AdvancedValueNodes of class " + n1.getClass() + " and " + n2.getClass());
+				Calculator.warn("class " + getClass() + " has no implementation for AdvancedValueNodes of class " + n1.getClass() + " and " + n2.getClass());
 				outputNode.setValue(operation(n1.getValue(),n2.getValue()));
 			}
 			
@@ -169,7 +170,7 @@ public class Multiplication extends Two_subNode_node {
 	}
 	
 	public void test() { 
-		Equation.warn(getClass() + " is not tested and should not be used");
+		Calculator.warn(getClass() + " is not tested and should not be used");
 	}
 	
 	public EquationNode createNewInstanceOfOperation(Equation eq) {

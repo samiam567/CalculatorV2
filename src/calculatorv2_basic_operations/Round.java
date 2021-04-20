@@ -1,5 +1,6 @@
 package calculatorv2_basic_operations;
 
+import calculatorv2_core.Calculator;
 import calculatorv2_core.Equation;
 import calculatorv2_core.EquationNode;
 import calculatorv2_core.ValueNode;
@@ -29,8 +30,8 @@ public class Round extends FunctionNode {
 	
 	@Override
 	public ValueNode function(EquationNode[] params, ValueNode outputNode) {
-		Equation.Assert(params.length <= 2, "Round can take a max of two parameters. Throwing away extra params");
-		if (! Equation.Assert(params.length != 0, "Round must have at least one parameter")) return outputNode;
+		Calculator.Assert(params.length <= 2, "Round can take a max of two parameters. Throwing away extra params");
+		if (! Calculator.Assert(params.length != 0, "Round must have at least one parameter")) return outputNode;
 		
 		
 		if (params.length == 2) {
@@ -46,7 +47,7 @@ public class Round extends FunctionNode {
 	}
 	
 	public void test() { 
-		Equation.warn(getClass() + " is not tested and should not be used");
+		Calculator.warn(getClass() + " is not tested and should not be used");
 	}
 	
 	public EquationNode createNewInstanceOfOperation(Equation eq) {

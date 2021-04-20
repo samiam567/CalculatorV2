@@ -1,5 +1,6 @@
 package calculatorv2_scientific_operations;
 
+import calculatorv2_core.Calculator;
 import calculatorv2_core.Equation;
 import calculatorv2_core.EquationNode;
 import calculatorv2_core.ValueNode;
@@ -8,7 +9,7 @@ import calculatorv2_core.ValueNode;
 public class PercentError extends FunctionNode {
 	
 	public ValueNode function(EquationNode[] params, ValueNode outputNode) {
-		if (! Equation.Assert(params.length == 2, "Must have 2 and only 2 parameters for percent error.")) return new ValueNode(-1);	
+		if (! Calculator.Assert(params.length == 2, "Must have 2 and only 2 parameters for percent error.")) return new ValueNode(-1);	
 		double experimental = params[0].getValue();
 		double actual = params[1].getValue();
 		
@@ -26,7 +27,7 @@ public class PercentError extends FunctionNode {
 	}
 	
 	public void test() { 
-		Equation.warn(getClass() + " is not tested and should not be used");
+		Calculator.warn(getClass() + " is not tested and should not be used");
 	}
 	
 	public EquationNode createNewInstanceOfOperation(Equation eq) {

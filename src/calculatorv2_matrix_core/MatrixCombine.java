@@ -1,6 +1,7 @@
 package calculatorv2_matrix_core;
 
 import calculatorv2_core.AdvancedValueNode;
+import calculatorv2_core.Calculator;
 import calculatorv2_core.Equation;
 import calculatorv2_core.EquationNode;
 import calculatorv2_core.Two_subNode_node;
@@ -115,7 +116,7 @@ public class MatrixCombine extends Two_subNode_node {
 				return outputNode;
 				
 			} else {
-				Equation.warn("class " + getClass() + " has no implementation for AdvancedValueNodes of class " + n1.getClass() + " and " + n2.getClass());
+				Calculator.warn("class " + getClass() + " has no implementation for AdvancedValueNodes of class " + n1.getClass() + " and " + n2.getClass());
 
 				if (outputNode instanceof MatrixNode) {
 					((MatrixNode) outputNode).setMatrix(new ValueNode[][] {{n1}, {n2}});
@@ -153,7 +154,7 @@ public class MatrixCombine extends Two_subNode_node {
 	}
 	
 	public void test() { 
-		Equation.warn(getClass() + " is not tested and should not be used");
+		Calculator.warn(getClass() + " is not tested and should not be used");
 	}
 	
 	public EquationNode createNewInstanceOfOperation(Equation eq) {

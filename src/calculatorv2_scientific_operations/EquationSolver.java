@@ -1,6 +1,7 @@
 package calculatorv2_scientific_operations;
 
 import calculatorv2_basic_operations.Round;
+import calculatorv2_core.Calculator;
 import calculatorv2_core.Commands;
 import calculatorv2_core.Equation;
 import calculatorv2_core.EquationNode;
@@ -122,7 +123,7 @@ public class EquationSolver extends FunctionNode {
 	    }
 	    
 	    if (numGuesses >= maxGuesses) {
-	    	Equation.warn("max guesses used");
+	    	Calculator.warn("max guesses used");
 	    }
 		
 		if (! (outputNode instanceof Bra) ) outputNode = new Bra();
@@ -132,7 +133,7 @@ public class EquationSolver extends FunctionNode {
 	}
 	
 	public ValueNode function(EquationNode[] params, ValueNode outputNode) {
-		if (! Equation.Assert(params.length != 0, "EquationSolve must have at least one parameter")) return outputNode;
+		if (! Calculator.Assert(params.length != 0, "EquationSolve must have at least one parameter")) return outputNode;
 		
 		
 		// get parameters
@@ -186,7 +187,7 @@ public class EquationSolver extends FunctionNode {
 	}
 	
 	public void test() { 
-		Equation.warn(getClass() + " is not tested and should not be used");
+		Calculator.warn(getClass() + " is not tested and should not be used");
 	}
 	
 	public EquationNode createNewInstanceOfOperation(Equation eq) {

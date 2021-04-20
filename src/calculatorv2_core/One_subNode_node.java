@@ -38,7 +38,7 @@ public abstract class One_subNode_node extends EquationNode {
 	 * @return
 	 */
 	protected ValueNode operation(ValueNode nodeA, ValueNode outputNode) {
-		if (nodeA instanceof AdvancedValueNode) Equation.warn(getClass() + " has no implementation for generic ValueNode");
+		if (nodeA instanceof AdvancedValueNode) Calculator.warn(getClass() + " has no implementation for generic ValueNode");
 		outputNode.setValue(operation(nodeA.getValue())); // do operation normally and assign value to our ValueNode
 		return outputNode;
 	}

@@ -15,8 +15,6 @@ public class Commands {
 	
 	private static final String commands = "/help, /operations, /last, /exit, /move, /degRadMode, /setOutputFormat, /[insert 1-character variable name here] = [insert equation here]";
 	
-	public static boolean enableJFrameOutput = true;
-	
 	static ArrayList<Variable> variables = new ArrayList<Variable>(); // variables that the user has declared
 	
 	public static JFrame mostRecentCalculatorAnchor = null;
@@ -61,8 +59,8 @@ public class Commands {
 	}
 
 	static void output(String message, Equation eq) {
-		if (enableJFrameOutput) JOptionPane.showMessageDialog(eq.calculatorAnchor,message);
-		if (Equation.printAnything) eq.out.println(message);
+		if (Calculator.enableJFrameOutput) JOptionPane.showMessageDialog(eq.calculatorAnchor,message);
+		if (Calculator.verboseOutput) eq.out.println(message);
 	}
 	
 	static void output(String[] message, Equation eq) {
@@ -200,7 +198,7 @@ public class Commands {
 			}
 		}catch(ConcurrentModificationException c) {
 			// this error may be thrown when assigning a variable using an equation that includes that variable
-			if (Equation.printAnything) System.out.println(c);
+			if (Calculator.verboseOutput) System.out.println(c);
 		}
 	}
 	

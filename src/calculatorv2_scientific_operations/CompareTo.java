@@ -1,6 +1,7 @@
 package calculatorv2_scientific_operations;
 
 import calculatorv2_core.AdvancedValueNode;
+import calculatorv2_core.Calculator;
 import calculatorv2_core.Equation;
 import calculatorv2_core.EquationNode;
 import calculatorv2_core.Two_subNode_node;
@@ -27,7 +28,7 @@ public class CompareTo extends Two_subNode_node {
 		if (! (outputNode instanceof Comparation)) outputNode = new Comparation();
 		
 		if ( (n1 instanceof AdvancedValueNode && ( (AdvancedValueNode) n1).needsSpecialOperationConditions) || (n2 instanceof AdvancedValueNode && ( (AdvancedValueNode) n2).needsSpecialOperationConditions) ) {
-			Equation.warn("class " + CompareTo.class + " has no implementation for AdvancedValueNodes of class " + n1.getClass() + " and " + n2.getClass());
+			Calculator.warn("class " + CompareTo.class + " has no implementation for AdvancedValueNodes of class " + n1.getClass() + " and " + n2.getClass());
 
 			if (operation(n1.getValue(),n2.getValue()) == 1) {
 				((Comparation) outputNode).setValue(Comparation.ComparationValues.True);
@@ -54,7 +55,7 @@ public class CompareTo extends Two_subNode_node {
 	}
 	
 	public void test() { 
-		Equation.warn(getClass() + " is not tested and should not be used");
+		Calculator.warn(getClass() + " is not tested and should not be used");
 	}
 	
 	public EquationNode createNewInstanceOfOperation(Equation eq) {

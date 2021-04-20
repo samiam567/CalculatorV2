@@ -1,6 +1,7 @@
 package calculatorv2_matrix_core;
 
 import calculatorv2_core.AdvancedValueNode;
+import calculatorv2_core.Calculator;
 import calculatorv2_core.Equation;
 import calculatorv2_core.NodeWrapper;
 import calculatorv2_core.ValueNode;
@@ -124,11 +125,10 @@ public class MatrixNode extends AdvancedValueNode implements Matrixable {
 	@Override
 	public double getValue() {
 		//TODO rewrite to return determinant
-		
-		
+
 		
 		if (! isCalculated()) {
-			Equation.warn("WARNING: MatrixNode has no implementation for getValue()");
+			Calculator.warn("WARNING: MatrixNode has no implementation for getValue()");
 			
 			calculated();
 		}

@@ -95,7 +95,7 @@ public abstract class Sandwich_operatorNode extends EquationNode {
 		}
 		
 		if (level != 0) {
-			Equation.warn("Bad sandwich!! Missing a close character - input: " + input);
+			Calculator.warn("Bad sandwich!! Missing a close character - input: " + input);
 		}
 		
 		if (Equation.printInProgress) System.out.println("sandwich got: " + input.substring(0,i));
@@ -103,7 +103,7 @@ public abstract class Sandwich_operatorNode extends EquationNode {
 	}
 	@Override
 	public double getValue() {
-		Equation.warn("getValue() not overriden for class " + getClass());
+		Calculator.warn("getValue() not overriden for class " + getClass());
 		return 1;
 	}
 

@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import calculatorv2_basic_operations.Multiplication;
 import calculatorv2_core.AdvancedValueNode;
+import calculatorv2_core.Calculator;
 import calculatorv2_core.Equation;
 import calculatorv2_core.Two_subNode_node;
 import calculatorv2_core.ValueNode;
@@ -53,7 +54,7 @@ public abstract class Bra_ket extends AdvancedValueNode implements Matrixable {
 	
 	public void setValues(ValueNode val) {
 		if (val instanceof Bra_ket) {
-			if ( ! ((Bra_ket)val).bra == bra) Equation.warn("WARNING: tried to set values to a Bra_ket with mismatched bool bra. ");
+			if ( ! ((Bra_ket)val).bra == bra) Calculator.warn("WARNING: tried to set values to a Bra_ket with mismatched bool bra. ");
 			
 			for (int i = 0; i < ((Bra_ket) val).getValues().length; i++) {
 				getValues()[i] = (((Bra_ket) val).getValues())[i];

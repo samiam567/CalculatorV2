@@ -1,5 +1,6 @@
 package calculatorv2_matrix_core;
 
+import calculatorv2_core.Calculator;
 import calculatorv2_core.Equation;
 import calculatorv2_core.Sandwich_operatorNode;
 import calculatorv2_core.ValueNode;
@@ -35,7 +36,7 @@ public abstract class MatrixCreate extends Sandwich_operatorNode {
 	
 	@Override
 	public void setValueData(ValueNode v) {
-		Equation.warn("You should never set the valueData for a MatrixCreate node");
+		Calculator.warn("You should never set the valueData for a MatrixCreate node");
 
 	}
 		

@@ -1,5 +1,6 @@
 package calculatorv2_circuit_math;
 
+import calculatorv2_core.Calculator;
 import calculatorv2_core.Equation;
 import calculatorv2_core.EquationNode;
 import calculatorv2_core.ValueNode;
@@ -9,7 +10,7 @@ public class RLCircuit extends FunctionNode {
 	public ValueNode function(EquationNode[] params, ValueNode outputNode) {
 		
 		if (params.length < 5) {
-			Equation.warn(getParameterInputs());
+			Calculator.warn(getParameterInputs());
 		}
 		double R = params[0].getValue();
 		double L = params[1].getValue();
@@ -35,7 +36,7 @@ public class RLCircuit extends FunctionNode {
 	
 	@Override
 	public void test() { 
-		Equation.warn(getClass() + " is not tested and should not be used");
+		Calculator.warn(getClass() + " is not tested and should not be used");
 	}
 	
 	@Override

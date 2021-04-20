@@ -46,7 +46,7 @@ public class VariableNode extends ValueNode {
 	public double getValue() {
 		if (! isCalculated()) {
 			if (unsetVal) { //make sure this node's value was set
-				Equation.warn("Variable-node " + name + " never had its value set");
+				Calculator.warn("Variable-node " + name + " never had its value set");
 			}
 			calculated();
 		}
