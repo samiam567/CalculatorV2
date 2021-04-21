@@ -46,8 +46,12 @@ public class Socket_handler extends Thread {
 					if (msg.startsWith("q") && (msg.equals("q") || msg.equals("quit"))) {
 						running = false;
 						output = "quitting...";
-					}else {		
-						output = handleInput(msg);
+					}else {
+						try {
+							output = handleInput(msg);
+						}catch(Exception e) {
+							output = e.toString();
+						}
 					}
 					
 					if (Calculator.verboseOutput) System.out.println("Output: " + output);
