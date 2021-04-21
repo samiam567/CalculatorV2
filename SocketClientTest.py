@@ -29,14 +29,28 @@ def launch_calculator():
     subprocess.run('java -jar CalculatorV2.jar --socket-server 45623', shell=True)
 
 if __name__ == '__main__':
+    port = 45623;
+
     print("launching calculator");
-    a = threading.Thread(target=launch_calculator, args=())
+    a = threading.Thread(target=launch_calculator, args=(port))
     a.start()
-
-    sleep(3);
-
+    
     print("attempting to connect");
-    connectToCalculator(45623);
+    
+    try:
+        connectToCalculator(port);
+    except  ConnectionRefusedError:
+        a.start()
+
+    for i in range(0,10):
+        try:
+            sleep(1);
+            connectToCalculator(45623);
+        except ConnectionRefusedError: # calculator has not yet established the serverv
+
+    
+
+    
 
     try:
     
