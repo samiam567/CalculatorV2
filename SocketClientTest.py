@@ -3,6 +3,7 @@ import socket
 import math
 import subprocess
 import threading
+from time import sleep
 
 s=socket.socket() #Create Socket
 
@@ -25,13 +26,16 @@ def disconnectFromCalculator():
     print("Connection Closed.")
 
 def launch_calculator():
-    subprocess.run('java -jar CalculatorV2 --verbose-output --socket-server 45623', shell=True)
+    subprocess.run('java -jar CalculatorV2.jar --socket-server 45623', shell=True)
 
 if __name__ == '__main__':
-
-    a = threading.Thread(target=disconnectFromCalculator, args=())
+    print("launching calculator");
+    a = threading.Thread(target=launch_calculator, args=())
     a.start()
 
+    sleep(3);
+
+    print("attempting to connect");
     connectToCalculator(45623);
 
     try:
