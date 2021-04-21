@@ -34,9 +34,9 @@ if __name__ == '__main__':
 
     port = 12334;
 
-    print("launching calculator");
-    
 
+    
+    a = threading.Thread(target=launch_calculator, args=([port]))
     
     print("attempting to connect");
     
@@ -44,8 +44,7 @@ if __name__ == '__main__':
         connectToCalculator(port);
         succesfulconnection = True;
     except  (ConnectionRefusedError, OSError) as e:
-        print("connection failed. retrying...")
-        a = threading.Thread(target=launch_calculator, args=([port]))
+        print("connection failed. launching calculator and retrying...")
         a.start()
 
     if not succesfulconnection:
@@ -75,5 +74,5 @@ if __name__ == '__main__':
         disconnectFromCalculator()
     else:
         print("connection timed out")
-        
+
     a.join()

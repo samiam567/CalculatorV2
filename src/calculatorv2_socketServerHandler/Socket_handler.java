@@ -36,7 +36,7 @@ public class Socket_handler extends Thread {
 				dout=new DataOutputStream(soc.getOutputStream());  
 				in = new DataInputStream(soc.getInputStream());
 				
-				while (true) {
+				while (running) {
 					String msg=(String)in.readUTF();
 					
 					if (Calculator.verboseOutput) System.out.println("Input: " + msg);
@@ -74,6 +74,17 @@ public class Socket_handler extends Thread {
 				e.printStackTrace(); 
 			}
 		}
+		
+		if (Calculator.verboseOutput) System.out.println("Exiting...");
+		
+		try {
+			dout.flush();
+			dout.close();
+			soc.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 		
 	}
 	
