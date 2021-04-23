@@ -26,13 +26,13 @@ def disconnectFromCalculator():
     print("Connection Closed.")
 
 def launch_calculator(port):
-    subprocess.run(f"java -jar CalculatorV2.jar --socket-server {port}", shell=True)
+    subprocess.run(f"java -jar CalculatorV2.jar --socket-server {port} python", shell=True)
 
 if __name__ == '__main__':
 
     succesfulconnection = False;
 
-    port = 12334;
+    port = 45623;
 
 
     

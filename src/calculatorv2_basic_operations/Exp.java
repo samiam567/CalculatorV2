@@ -67,6 +67,7 @@ public class Exp extends One_subNode_node {
 	
 	public void test() { 
 		Equation testEq = new Equation();
+		
 		testEq.importAll();
 		
 		testEq.useRadiansNotDegrees = false;

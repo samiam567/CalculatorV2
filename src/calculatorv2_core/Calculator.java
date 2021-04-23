@@ -52,18 +52,19 @@ public class Calculator {
 			for (int i = 0; i < args.length; i++) {
 				try {
 					if (args[i].substring(0,2).equals("--")) { //this is a command
-						//TODO process args[i] as a command
+						
 						if (args[i].equals(run_flags[0]) ) { //verbose_output
 							verboseOutput = true;
 						}else if (args[i].equals(run_flags[1])) { //start socket server
-							
-							if (args.length-i <= 1 ) {
+						
+							if (args.length-i <= 2 ) {
 								System.out.println("ERROR: too few arguments after " + run_flags[1] + " flag.");
 							}else {
 								try { 
 									int port = Integer.parseInt(args[i+1]);
-									i++;
-									Socket_handler server = new Socket_handler(port,calc);
+									String mode = args[i+2];
+									i+=2;
+									Socket_handler server = new Socket_handler(mode,port,calc);
 									server.start();
 							        
 								}catch(NumberFormatException n ) {
@@ -81,7 +82,8 @@ public class Calculator {
 							System.out.println();
 						}
 					}else {
-						calc.calculate(args[i]);
+						String ans = calc.calculate(args[i]);
+						if (ans.length() > 0) System.out.println(ans);
 					}
 				}catch(Exception e) {
 					e.printStackTrace(System.err);
@@ -245,6 +247,9 @@ public class Calculator {
 		}	
 	}
 	public static boolean testEquation(Equation testEq,String eq, String answerStr, double ans) {
+		testEq.importStandardConstants();
+		
+	
 		testEq.createTree(eq);
 		Commands.applyVariables(testEq);
 		testEq.prevAns = testEq.evaluate();

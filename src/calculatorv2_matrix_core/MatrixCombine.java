@@ -6,6 +6,7 @@ import calculatorv2_core.Equation;
 import calculatorv2_core.EquationNode;
 import calculatorv2_core.Two_subNode_node;
 import calculatorv2_core.ValueNode;
+import calculatorv2_scientific_operations.ComplexValueNode;
 
 /**
  * {@summary combines two matrixes together}
@@ -46,7 +47,44 @@ public class MatrixCombine extends Two_subNode_node {
 			
 			if (Equation.printInProgress) System.out.println(n1.toString() + toString() + n2.toString());
 			
-			if (n1 instanceof MatrixNode && n2 instanceof Bra) {
+			if ( (! (n1 instanceof Matrixable)) && !(n2 instanceof MatrixNode) ) {
+	
+				
+				ValueNode[] newValues = null;
+				Bra_ket N2 = null;
+				
+				if (n2 instanceof Bra_ket ) {
+					
+					N2 = (Bra_ket) n2;		
+					if (N2.size() > 1) {
+						newValues = new ValueNode[N2.size()+1];
+						newValues[0] = n1;
+						for (int i = 0; i < N2.size(); i++) {
+							newValues[i+1] = N2.getValue(i);
+						}
+						if (n2 instanceof Bra) {
+							outputNode = new Bra(newValues);
+						}else { // n2 instanceof Ket
+							outputNode = new Ket(newValues);
+						}
+						return outputNode;
+					}else {
+						newValues = new ValueNode[2];
+						newValues[0] = n1;
+						newValues[1] = N2.getValue(0);
+					}
+				}else {
+					newValues = new ValueNode[2];
+					newValues[0] = n1;
+					newValues[1] = n2;
+				}
+		
+				outputNode = new Bra(newValues);
+				
+				return outputNode;
+			}else if (n1 instanceof MatrixNode && n2 instanceof Bra) {
+				
+			
 				// matrix <+> Bra
 				MatrixNode N1 = (MatrixNode) n1;
 				Bra N2 = (Bra) n2;

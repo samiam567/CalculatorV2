@@ -1,6 +1,7 @@
 package calculatorv2_scientific_operations;
 
 import calculatorv2_core.AdvancedValueNode;
+import calculatorv2_core.ValueNode;
 
 public class ComplexValueNode extends AdvancedValueNode {
 	private double realComponent;
@@ -37,6 +38,18 @@ public class ComplexValueNode extends AdvancedValueNode {
 	
 	public double getComplex() {
 		return imaginaryComponent;
+	}
+	
+	public void setValue(ValueNode v) {
+		if (v instanceof ComplexValueNode) {
+			setRealComponent(((ComplexValueNode) v ).getRealComponent());
+			setImaginaryComponent( ((ComplexValueNode) v ).getImaginaryComponent());
+		}else {
+			setRealComponent(v.getValue());
+			setImaginaryComponent(0);
+		}
+		
+	
 	}
 
 	

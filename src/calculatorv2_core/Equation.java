@@ -205,7 +205,7 @@ public class Equation extends One_subNode_node {
 	}
 	
 	
-	public void importAll() {
+	public void importAll() {		
 		importOperations(BasicOpsList.getOps());
 		importAliases(BasicOpsList.getAliases());
 		
@@ -240,7 +240,7 @@ public class Equation extends One_subNode_node {
 			operations.add(opType);
 			operationKeywords.add(opType.getOperationKeyword());
 		}else {
-			Calculator.error("Tried to import operation with keyword " + opType.getOperationKeyword() + " More than once!");
+			Calculator.warn("Tried to import operation with keyword " + opType.getOperationKeyword() + " More than once!");
 		}
 	}
 	
@@ -361,11 +361,11 @@ public class Equation extends One_subNode_node {
 		String mode = "unknown";
 		String prevMode = "unknown";
 		String inputBuffer = "";
-		
+		String strAcqBuffer = "";
 		int parenthesisLevel = 0;
 		
 		boolean space = false;
-		
+	
 		String cChar = "";
 		for (int i = 0; i < equation.length()+1; i++) {	
 	
@@ -375,13 +375,30 @@ public class Equation extends One_subNode_node {
 				if (printInProgress) out.println("Parsing character: " + cChar + "   Index: " + i + "  in equation: " + equation);
 				
 				
+				if (mode.equals("stringAcquisition")) {
+					if (cChar.equals("\"")) {
+						VariableNode newVariable = new VariableNode(this, new StringValueNode(strAcqBuffer),parenthesisLevel);
+						variables.add(newVariable);
+						nodes = addToNodesArray(newVariable,nodes); //add a new VariableNode with the variable name
+						inputBuffer = ""; //clear the inputBuffer
+						prevMode="unknown";
+						mode = "unknown";
+						continue;
+					}else {
+						strAcqBuffer += cChar;
+						continue;
+					}
+					
+				}
 				
 					
 					
 				if (cChar.equals(" ")) {
 					space = true;
 					continue;
-				} else if ( cChar.equals("(") ) { //it is an open-parenthesis, and the parenthesis level goes up
+				} else if (cChar.equals("\""))  { 
+					mode = "stringAcquisition";
+				}else if ( cChar.equals("(") ) { //it is an open-parenthesis, and the parenthesis level goes up
 					mode = "openParent";
 					if (printInProgress) out.println("openParent");
 				}else if ( cChar.equals(")") ) { //it is an end-parenthesis, and the parenthesis level goes down
@@ -423,42 +440,7 @@ public class Equation extends One_subNode_node {
 			}
 			
 			
-			/*
-			//sandwich operation
-			if (cChar.equals("[") && (! mode.equals("end"))) {
-				if (printInProgress) System.out.println("Openbracket");
-				mode = "matrixAquisition";
-				int sand_end_indx = Sandwich_operatorNode.getSandwichSubString(equation.substring(i,equation.length()),"[","]");
-				nodes = addToNodesArray(new MatrixCreate(this,equation.substring(i+1,i+sand_end_indx),parenthesisLevel, (Matrixable) new MatrixNode()),nodes);
-				inputBuffer = "";
-				i += sand_end_indx;
-				continue;
-			}else if (cChar.equals("{") && (! mode.equals("end"))) {
-				if (printInProgress) System.out.println("OpenCurlybracket");
-				mode = "matrixAquisition";
-				int sand_end_indx = Sandwich_operatorNode.getSandwichSubString(equation.substring(i,equation.length()),"{","}");
-				nodes = addToNodesArray(new MatrixCreate(this,equation.substring(i+1,i+sand_end_indx),parenthesisLevel, (Matrixable) new MatrixNode()),nodes);
-				inputBuffer = "";
-				i += sand_end_indx;
-				continue;
-			}else if (cChar.equals("<") && (! mode.equals("end"))) {
-				if (printInProgress) System.out.println("OpenAnglebracket");
-				mode = "braAquisition";
-				int sand_end_indx = Sandwich_operatorNode.getSandwichSubString(equation.substring(i,equation.length()),"<","|");
-				nodes = addToNodesArray(new MatrixCreate(this,equation.substring(i+1,i+sand_end_indx),parenthesisLevel,(Matrixable) new Bra()),nodes);
-				inputBuffer = "";
-				i += sand_end_indx;
-				continue;
-			}else if (cChar.equals("|") && (! mode.equals("end"))) {
-				if (printInProgress) System.out.println("Openket");
-				
-				mode = "ketAquisition";
-				int sand_end_indx = Sandwich_operatorNode.getSandwichSubString(equation.substring(i,equation.length()),"|",">");
-				nodes = addToNodesArray(new MatrixCreate(this,equation.substring(i+1,i+sand_end_indx),parenthesisLevel,(Matrixable) new Ket()),nodes);
-				inputBuffer = "";
-				i += sand_end_indx;
-				continue;
-			}else */
+			
 			if ( (! prevMode.equals("unknown")) && ( (! prevMode.equals(mode)) || space )  ) {
 				if (printInProgress) out.println("modeChange:" + inputBuffer);
 				
@@ -515,6 +497,11 @@ public class Equation extends One_subNode_node {
 		
 		if (printInProgress) printNodeArray(nodes);
 		
+		if (mode.equals("stringAcquisition")) {
+			Exception e = new Exception("StringError: missing closing \"");
+			e.printStackTrace(out);
+			if (Calculator.enableJFrameOutput) JOptionPane.showMessageDialog(calculatorAnchor, e.toString() + "\n" + e.getStackTrace().toString());	
+		}
 		if (parenthesisLevel > 0) {
 			Exception e = new Exception("ParenthesisError: missing close-parenthesis");
 			e.printStackTrace(out);
@@ -756,7 +743,8 @@ public class Equation extends One_subNode_node {
 	public String calculate(String input) {
 		
 		if (input.substring(0,1).equals("/")) {
-			return Commands.parseCommand(input, this);	
+			String commandOutput = Commands.parseCommand(input, this);
+			return Calculator.verboseOutput ? commandOutput : "";	
 		}else {
 			createTree(input);
 			Commands.applyVariables(this);

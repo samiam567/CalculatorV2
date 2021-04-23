@@ -24,8 +24,7 @@ public class Rand extends One_subNode_node {
 	
 	@Override
 	protected double operation(double a) {
-		if (Equation.printInProgress) System.out.println("rand" + a);
-		//rand.setSeed((long) a);
+
 		return rand.nextDouble();
 		
 	}
@@ -39,10 +38,13 @@ public class Rand extends One_subNode_node {
 			notCalculated(); 
 			//but this node is calculated so that we don't re-set the seed
 			calculated();
-			return getValueData().getValue();
-		}else {
 			
-			return rand.nextDouble();
+		
+			return valueData.getValue();
+		}else {
+			notCalculated();
+			
+			return valueData.getValue();
 		}
 	}
 	
