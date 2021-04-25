@@ -42,9 +42,9 @@ public class Equation extends One_subNode_node {
 	public static boolean printInProgress = false;
 	public boolean useRadiansNotDegrees = false;
 	
-	//used by the runUserCalculator method
-	JFrame calculatorAnchor;
+	
 	EquationNode prevAns = new ValueNode(0);
+	
 
 	public String cMode = "unknown"; // for Negative operation
 
@@ -86,107 +86,7 @@ public class Equation extends One_subNode_node {
 	
 	}
 	
-	public void runUserCalculator() {
-		
-		
-		importStandardConstants();
-		
-		//import operations
-		
-		importAll();
 	
-		Calculator.enableJFrameOutput = false;
-	
-		out.println("Test took " + Calculator.testCalculator() + " nanos to evaluate equations");
-
-		
-		calculatorAnchor = new JFrame();
-	
-		calculatorAnchor.setVisible(true);
-		calculatorAnchor.setSize(300,10);
-		calculatorAnchor.setTitle("Calculator Parser/Solver - Programmed by Alec Pannunzio");
-		
-		//warn the user about known issues
-		Calculator.knownIssues();
-		
-		String input = "";
-		String lastInput = "";
-		String eqSuggestion = "";
-		while (true) { //if the user presses cancel the program will automatically terminate
-			Calculator.enableJFrameOutput = false;
-			Commands.addVariable("ans", prevAns.getValueData(), this);
-			Calculator.enableJFrameOutput = true;
-			
-			while (input.length() == 0) {
-				input = (String) JOptionPane.showInputDialog(calculatorAnchor,"Type in what you want to solve","Calculator V2",1, null,null, eqSuggestion);
-				
-				if (input == null || input.length() == 0 || input.contains("exit") || input.contains("quit")) {
-					out.println("terminating");
-					calculatorAnchor.dispose();
-					System.exit(1);
-					out.println("exited");
-				}else if (input.contains("/last"))  { 
-					eqSuggestion = lastInput;
-					input = "";
-				} else if (input.substring(0,1).equals("/")) {
-					Commands.parseCommand(input,this);
-					input = "";
-				}
-				
-			}
-			
-			
-			eqSuggestion = ""; // reset the equation suggestion
-		
-			out.println("Input: " + input);
-			
-			
-			
-			try {
-				createTree(input);
-				Commands.applyVariables(this);
-				prevAns = evaluate();
-				
-				
-				
-				// format the answer to look pretty
-				if (Commands.outputFormat == 0) {
-					JOptionPane.showMessageDialog(calculatorAnchor, toString(),input, 1);
-				}else if (Commands.outputFormat == 1) {
-					String ansStr = input + " =\n";
-					for (int i = 0; i < toString().length(); i++) ansStr += " ";
-					
-					int numSpaces = ansStr.length() - toString().length();
-				
-					for (int i = 0; i < numSpaces; i++) ansStr += " ";
-					ansStr += toString();
-					
-					JOptionPane.showMessageDialog(calculatorAnchor, ansStr,"Answer:", 1);
-				}else {
-					JOptionPane.showMessageDialog(calculatorAnchor,toString());
-				}
-				
-				
-				
-				out.println("Output: " + toString());
-			}catch(Exception e) {
-				e.printStackTrace();
-				
-				Calculator.warn("Exception occured whilst parsing:\n" + e);
-				System.out.println("StackTrace of source exception: \n" + e.getStackTrace().toString());
-				/*
-				out.println("terminating because of an exception");
-				calculatorAnchor.dispose();
-				out.println("exited");
-				System.exit(1);
-				*/
-			}
-			
-			lastInput = input;
-			input = "";
-		}
-		
-	}	
 	
 	
 	/**
@@ -471,7 +371,7 @@ public class Equation extends One_subNode_node {
 						/* this old code treated multi-char strings that aren't operations as an error
 						Exception e = new Exception("operation not found in operations array: " + inputBuffer);
 						e.printStackTrace(out);
-						if (JOptionPane_error_messages) JOptionPane.showMessageDialog(calculatorAnchor, e.toString() + "\n" + e.getStackTrace().toString());
+						if (JOptionPane_error_messages) calculatorAnchor.showMessageDialog(calculatorAnchor, e.toString() + "\n" + e.getStackTrace().toString());
 						*/
 					}
 					inputBuffer = ""; //clear the inputBuffer
@@ -500,16 +400,16 @@ public class Equation extends One_subNode_node {
 		if (mode.equals("stringAcquisition")) {
 			Exception e = new Exception("StringError: missing closing \"");
 			e.printStackTrace(out);
-			if (Calculator.enableJFrameOutput) JOptionPane.showMessageDialog(calculatorAnchor, e.toString() + "\n" + e.getStackTrace().toString());	
+			if (Calculator.enableJFrameOutput) Calculator.calculatorAnchor.showMessageDialog( e.toString() + "\n" + e.getStackTrace().toString());	
 		}
 		if (parenthesisLevel > 0) {
 			Exception e = new Exception("ParenthesisError: missing close-parenthesis");
 			e.printStackTrace(out);
-			if (Calculator.enableJFrameOutput) JOptionPane.showMessageDialog(calculatorAnchor, e.toString() + "\n" + e.getStackTrace().toString());
+			if (Calculator.enableJFrameOutput) Calculator.calculatorAnchor.showMessageDialog( e.toString() + "\n" + e.getStackTrace().toString());
 		}else if (parenthesisLevel < 0) {
 			Exception e = new Exception("ParenthesisError: missing open-parenthesis");
 			e.printStackTrace(out);
-			if (Calculator.enableJFrameOutput) JOptionPane.showMessageDialog(calculatorAnchor, e.toString() + "\n" + e.getStackTrace().toString());
+			if (Calculator.enableJFrameOutput) Calculator.calculatorAnchor.showMessageDialog( e.toString() + "\n" + e.getStackTrace().toString());
 		}
 		
 		
@@ -574,7 +474,7 @@ public class Equation extends One_subNode_node {
 				if (lowestIndx != 0) {
 					Exception e = new Exception("there should be nothing to the left of a lowest-priority single-node operation");
 					e.printStackTrace(out);
-					if (Calculator.enableJFrameOutput) JOptionPane.showMessageDialog(calculatorAnchor, e.toString() + "\n" + "Node: " + node.toString() + "\nOpsLvl: " + node.orderOfOpsLevel);
+					if (Calculator.enableJFrameOutput) Calculator.calculatorAnchor.showMessageDialog( e.toString() + "\n" + "Node: " + node.toString() + "\nOpsLvl: " + node.orderOfOpsLevel);
 				}
 				
 				node.setSubNode(getTree(resizeNodesArray(arr,lowestIndx+1,arr.length-1)));
@@ -599,7 +499,7 @@ public class Equation extends One_subNode_node {
 		if (node == null) {
 			Exception e = new Exception("operation not found in createOperation: " + op);
 			e.printStackTrace(out);
-			if (Calculator.enableJFrameOutput) JOptionPane.showMessageDialog(calculatorAnchor, e.toString() + "\n" + e.getStackTrace().toString());
+			if (Calculator.enableJFrameOutput) Calculator.calculatorAnchor.showMessageDialog( e.toString() + "\n" + e.getStackTrace().toString());
 		}
 		/*
 		switch (op) {
@@ -701,7 +601,7 @@ public class Equation extends One_subNode_node {
 			
 			Exception e = new Exception("operation not found in createOperation: " + op);
 			e.printStackTrace(out);
-			if (JOptionPane_error_messages) JOptionPane.showMessageDialog(calculatorAnchor, e.toString() + "\n" + e.getStackTrace().toString());
+			if (JOptionPane_error_messages) calculatorAnchor.showMessageDialog(calculatorAnchor, e.toString() + "\n" + e.getStackTrace().toString());
 			break;
 			
 		}
@@ -710,6 +610,18 @@ public class Equation extends One_subNode_node {
 		node.setParenthesisLevel(parenthesisLevel);
 		
 		return node;
+	}
+	
+	
+	@Override
+	public double getValue() {
+		if (! isCalculated()) {
+			super.getValue();
+			prevAns = valueData;
+			return prevAns.getValue();
+		}else {
+			return valueData.value;
+		}
 	}
 	
 	/**
@@ -816,7 +728,7 @@ public class Equation extends One_subNode_node {
 		}catch(IndexOutOfBoundsException i) {
 			Exception e = new Exception("Variable index not found. That Variable dosen't exist. Indx: " + varIndx);
 			e.printStackTrace(out);
-			if (Calculator.enableJFrameOutput) JOptionPane.showMessageDialog(calculatorAnchor, e.toString() + "\n" + e.getStackTrace().toString());
+			if (Calculator.enableJFrameOutput) Calculator.calculatorAnchor.showMessageDialog( e.toString() + "\n" + e.getStackTrace().toString());
 			return false;
 		}
 	}
@@ -847,7 +759,7 @@ public class Equation extends One_subNode_node {
 		}catch(IndexOutOfBoundsException i) {
 			Exception e = new Exception("Variable index not found. That Varaible dosen't exist. Indx: " + varIndx);
 			e.printStackTrace(out);
-			if (Calculator.enableJFrameOutput) JOptionPane.showMessageDialog(calculatorAnchor, e.toString() + "\n" + e.getStackTrace().toString());
+			if (Calculator.enableJFrameOutput) Calculator.calculatorAnchor.showMessageDialog( e.toString() + "\n" + e.getStackTrace().toString());
 			return null;
 		}
 	}

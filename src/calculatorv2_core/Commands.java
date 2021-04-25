@@ -16,10 +16,7 @@ public class Commands {
 	private static final String commands = "/help, /operations, /last, /exit, /move, /degRadMode, /setOutputFormat, /[insert 1-character variable name here] = [insert equation here]";
 	
 	static ArrayList<Variable> variables = new ArrayList<Variable>(); // variables that the user has declared
-	
-	public static JFrame mostRecentCalculatorAnchor = null;
-	
-	
+
 	public static int outputFormat = 1; 
 	
 	private static String output = "";
@@ -37,7 +34,7 @@ public class Commands {
 	}
 	public static String parseCommand(String commandInput, Equation eq) {
 		output = "";
-		mostRecentCalculatorAnchor = eq.calculatorAnchor;
+
 		String cIn = commandInput.toLowerCase();
 		if (cIn.contains("move")) {
 			move(eq);
@@ -51,7 +48,7 @@ public class Commands {
 			output(eq.operationKeywords,eq);
 		}else if (cIn.contains("setoutputformat"))  {
 			try {
-				outputFormat = Integer.parseInt(JOptionPane.showInputDialog(mostRecentCalculatorAnchor,"What is the new outputformat?"));
+				outputFormat = Integer.parseInt(Calculator.calculatorAnchor.showInputDialog("What is the new outputformat?"));
 			}catch(NumberFormatException n ) {
 				output("Invalid outputFormat. Must be a positive integer",eq);
 			}
@@ -63,7 +60,7 @@ public class Commands {
 	}
 
 	static void output(String message, Equation eq) {
-		if (Calculator.enableJFrameOutput) JOptionPane.showMessageDialog(eq.calculatorAnchor,message);
+		if (Calculator.enableJFrameOutput) 	Calculator.calculatorAnchor.showMessageDialog(message);
 		if (Calculator.verboseOutput) eq.out.println(message);
 		output += message + "\n";
 	}
@@ -87,7 +84,7 @@ public class Commands {
 	}
 	
 	private static void move(Equation eq) {
-		JOptionPane.showMessageDialog(eq.calculatorAnchor, "Press ok to be able to move the calculator for a limited amount of time");
+		Calculator.calculatorAnchor.showMessageDialog("Press ok to be able to move the calculator for a limited amount of time");
 		
 		try {
 			Thread.sleep(3500); //wait for the user to move the window before continuing execution

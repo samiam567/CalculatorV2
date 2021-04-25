@@ -12,6 +12,11 @@ public class Calculator {
 	
 	static final String[] run_flags = {"--verbose-output","--socket-server"};
 	
+	//used by the runUserCalculator method
+	static UserCalculatorInputFrame calculatorAnchor;
+	private static String userInputEqSuggestion = "";
+	
+		
 	private static class EquationError extends Exception {
 		private static final long serialVersionUID = -5372388435013231712L;
 		public EquationError(String err) {
@@ -94,7 +99,7 @@ public class Calculator {
 			
 		}else {
 			enableJFrameOutput = true;
-			(new Equation()).runUserCalculator();
+			runUserCalculator(new Equation());
 		}
 	}
 	
@@ -144,6 +149,105 @@ public class Calculator {
 		
 		//show to JopPane
 		if (enableJFrameOutput) JOptionPane.showMessageDialog(null, warning,"WARNING", JOptionPane.ERROR_MESSAGE);
+	}
+	public static void runUserCalculator(Equation eq) {
+		
+		
+		eq.importStandardConstants();
+		
+		//import operations
+		
+		eq.importAll();
+	
+		Calculator.enableJFrameOutput = false;
+	
+		eq.out.println("Test took " + Calculator.testCalculator() + " nanos to evaluate equations");
+	
+		
+		calculatorAnchor = new UserCalculatorInputFrame(eq);
+	
+		
+		
+		//warn the user about known issues
+		Calculator.knownIssues();
+		
+		String input = "";
+		String lastInput = "";
+		String eqSuggestion = "";
+		while (true) { //if the user presses cancel the program will automatically terminate
+			Calculator.enableJFrameOutput = false;
+			Commands.addVariable("ans", eq.prevAns.getValueData(), eq);
+			Calculator.enableJFrameOutput = true;
+			
+			while (input.length() == 0) {
+				input = (String) calculatorAnchor.showInputDialog("Type in what you want to solve","Calculator V2",1, null,null, eqSuggestion);
+				
+				if (input == null || input.length() == 0 || input.contains("exit") || input.contains("quit")) {
+					eq.out.println("terminating");
+					calculatorAnchor.dispose();
+					System.exit(1);
+					eq.out.println("exited");
+				}else if (input.contains("/last"))  { 
+					eqSuggestion = lastInput;
+					input = "";
+				} else if (input.substring(0,1).equals("/")) {
+					Commands.parseCommand(input,eq);
+					input = "";
+				}
+				
+			}
+			
+			
+			eqSuggestion = ""; // reset the equation suggestion
+		
+			eq.out.println("Input: " + input);
+			
+			
+			
+			try {
+				eq.createTree(input);
+				Commands.applyVariables(eq);
+				eq.prevAns = eq.evaluate();
+				
+				
+				
+				// format the answer to look pretty
+				if (Commands.outputFormat == 0) {
+					calculatorAnchor.showMessageDialog(eq.toString(),input, 1);
+				}else if (Commands.outputFormat == 1) {
+					String ansStr = input + " =\n";
+					for (int i = 0; i < eq.toString().length(); i++) ansStr += " ";
+					
+					int numSpaces = ansStr.length() - eq.toString().length();
+				
+					for (int i = 0; i < numSpaces; i++) ansStr += " ";
+					ansStr += eq.toString();
+					
+					calculatorAnchor.showMessageDialog( ansStr,"Answer:", 1);
+				}else {
+					calculatorAnchor.showMessageDialog(eq.toString());
+				}
+				
+				
+				
+				eq.out.println("Output: " + eq.toString());
+			}catch(Exception e) {
+				e.printStackTrace();
+				
+				Calculator.warn("Exception occured whilst parsing:\n" + e);
+				System.out.println("StackTrace of source exception: \n" + e.getStackTrace().toString());
+				/*
+				out.println("terminating because of an exception");
+				calculatorAnchor.dispose();
+				out.println("exited");
+				System.exit(1);
+				*/
+			}
+			
+			lastInput = input;
+			input = "";
+		}
+		
 	}
 	private static boolean allTestsPassed = true;
 	private static int testNum = 0;
@@ -228,7 +332,7 @@ public class Calculator {
 		
 		Commands.applyVariables(testEq);
 	
-		testEq.prevAns = testEq.evaluate();
+		
 		
 		String outStr = "Equation " + testNum + " ";
 		testNum++;
@@ -241,7 +345,7 @@ public class Calculator {
 			outStr += "\nCalculated Answer: " + testEq.solve() + "   Actual Answer:  " + answer + "      ValueData: " + testEq.getValueData();
 			outStr += "\nEquation to solve: " + eq;
 			println(outStr);
-			JOptionPane.showMessageDialog(Commands.mostRecentCalculatorAnchor,outStr);
+			calculatorAnchor.showMessageDialog(outStr);
 			allTestsPassed = false;
 			return false;		
 		}	
@@ -252,7 +356,7 @@ public class Calculator {
 	
 		testEq.createTree(eq);
 		Commands.applyVariables(testEq);
-		testEq.prevAns = testEq.evaluate();
+	
 		
 		String outStr = "Equation " + testNum + " ";;
 		testNum++;
@@ -265,7 +369,7 @@ public class Calculator {
 			outStr += "Calculated ValueData " + testEq.getValueData().toString() + "       Target ValueData: " + answerStr + "\nCalculated Answer: " +testEq.solve() + "   Actual Answer: " + ans;
 			outStr += "\nEquation to solve: " + eq;
 			println(outStr);
-			JOptionPane.showMessageDialog(Commands.mostRecentCalculatorAnchor,outStr);
+			calculatorAnchor.showMessageDialog(outStr);
 			
 			allTestsPassed = false;
 			return false;	
