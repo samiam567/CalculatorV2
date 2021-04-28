@@ -6,9 +6,9 @@ import calculatorv2_core.Calculator;
 import calculatorv2_core.Commands;
 import calculatorv2_core.Equation;
 import calculatorv2_core.EquationNode;
+import calculatorv2_core.FunctionNode;
 import calculatorv2_core.ValueNode;
 import calculatorv2_scientific_operations.ComplexValueNode;
-import calculatorv2_scientific_operations.FunctionNode;
 
 public class ParallelImpedanceAdd extends FunctionNode {
 
@@ -57,7 +57,7 @@ public class ParallelImpedanceAdd extends FunctionNode {
 		
 		boolean prevOutputEnable = Calculator.enableJFrameOutput;
 		Calculator.enableJFrameOutput = false;	
-		Calculator.testEquation(testEq,"parallel(1,2,3,4,5",0.43795620437956206);
+		Calculator.testEquation(testEq,"parallel(1,2,3,4,5)",0.43795620437956206);
 		Calculator.testEquation(testEq,"parallel(_8.8*i,8)","4.380090498 + -3.981900452i",5.91952058716755);
 		
 		

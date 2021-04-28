@@ -72,7 +72,7 @@ public class Addition extends Two_subNode_node {
 	}
 	
 	public void test() { 
-		Calculator.warn(getClass() + " is not tested and should not be used");
+	
 		
 		Equation testEq = new Equation();
 		testEq.importOperations(BasicOpsList.getOps());

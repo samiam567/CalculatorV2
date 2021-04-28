@@ -40,7 +40,7 @@ public class Equation extends One_subNode_node {
 	
 	//calculator settings
 	public static boolean printInProgress = false;
-	public boolean useRadiansNotDegrees = false;
+	public boolean useRadiansNotDegrees = true;
 	
 	
 	EquationNode prevAns = new ValueNode(0);
@@ -52,8 +52,9 @@ public class Equation extends One_subNode_node {
 	public void importStandardConstants() {
 		// put some constants into the variables as a default
 		boolean prevEnJFO = Calculator.enableJFrameOutput;
-	
+		boolean prevVout = Calculator.verboseOutput;
 		Calculator.enableJFrameOutput = false; //be quiet about it
+		Calculator.verboseOutput = false;
 	
 		Commands.addVariable("/pi=3.14159265358979323846264",this); // pi
 		Commands.addVariable("/c=2.99792458*10^8",this); // speed of light 
@@ -83,6 +84,7 @@ public class Equation extends One_subNode_node {
 							
 	
 		Calculator.enableJFrameOutput = prevEnJFO;	
+		Calculator.verboseOutput = prevVout;
 	
 	}
 	
@@ -105,7 +107,8 @@ public class Equation extends One_subNode_node {
 	}
 	
 	
-	public void importAll() {		
+	public void importAll() {
+		
 		importOperations(BasicOpsList.getOps());
 		importAliases(BasicOpsList.getAliases());
 		
@@ -118,7 +121,7 @@ public class Equation extends One_subNode_node {
 		importOperations(CircuitMathOperationsList.getOps());
 		importAliases(CircuitMathOperationsList.getAliases());
 		
-		
+		useRadiansNotDegrees = Commands.mostRecentUseRadiansNotDegrees;
 	}
 	public void importOperations(EquationNode[] ops) {
 		for (EquationNode opType : ops) {
@@ -281,6 +284,7 @@ public class Equation extends One_subNode_node {
 						variables.add(newVariable);
 						nodes = addToNodesArray(newVariable,nodes); //add a new VariableNode with the variable name
 						inputBuffer = ""; //clear the inputBuffer
+						strAcqBuffer = "";//clear the stringbuffer
 						prevMode="unknown";
 						mode = "unknown";
 						continue;
@@ -681,15 +685,15 @@ public class Equation extends One_subNode_node {
 	 * @param varName the name of the variables to replace
 	 * @param value the AdvancedValueNode to replace the variables with 
 	 */
-	public boolean setAdvancedVariableValue(String varName, AdvancedValueNode value) {
+	public boolean setAdvancedVariableValue(String varName, ValueNode value) {
 		boolean varFound = false;
 		
 		for (VariableNode n : variables) {
 			if (n.getName().equals(varName)) {
 				n.setValueData(value);
 				n.setValue(value.getValue());
-			
 				n.setName(varName);
+				n.notCalculated();
 				
 				varFound = true;
 			}
@@ -792,5 +796,7 @@ public class Equation extends One_subNode_node {
 		Calculator.error("createNewInstanceOfOperation MUST be overriden by every operation Offender: " + getClass());
 		return null;
 	}
+	
+	
 	
 }

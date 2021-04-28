@@ -39,8 +39,56 @@ public abstract class EquationNode extends EquationObject implements Operation {
 		return orderOfOpsLevel;
 	}
 	
-	
-	
+	private static class PrintEquationBuilder {
+		private String equation = "";
+		private int parenthesisLevel = 0;
+		
+		public PrintEquationBuilder(EquationNode node) {
+			build(node);
+		}
+		
+		private void addNodeString(EquationNode node) {
+			if (node.getParenthesisLevel() != parenthesisLevel) {
+				if (node.getParenthesisLevel() > parenthesisLevel) { 
+					while (parenthesisLevel < node.getParenthesisLevel()) {
+						equation += "(";
+						parenthesisLevel++;
+					}
+				}else {		
+					while (parenthesisLevel > node.getParenthesisLevel()) {
+						equation += ")";
+						parenthesisLevel--;
+					}
+				}
+			}		
+			if (node instanceof VariableNode) {
+				equation += ((VariableNode)node).toString();
+			
+			}else {
+				equation += node.getOperationKeyword();
+			}		
+		}
+		
+		private void build(EquationNode node) {
+			if (node instanceof One_subNode_node) {
+				if (!(node instanceof Equation)) addNodeString(node);
+				build(((One_subNode_node) node).getSubNode());
+			}else if (node instanceof Two_subNode_node) {
+				build(((Two_subNode_node) node).getLeftSubNode());
+				addNodeString(node);
+				build(((Two_subNode_node) node).getRightSubNode());
+			}else {
+				addNodeString(node);
+			}
+		}
+		public String getEquationString() {
+			return equation;
+		}
+	}
+
+	public String convertEquationToString() {
+		return (new PrintEquationBuilder(this)).getEquationString();
+	}
 	
 	
 	public static boolean hasChildInTree(EquationNode nodeToCheck, EquationNode nodeToLookFor) {

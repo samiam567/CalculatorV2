@@ -3,6 +3,7 @@ package calculatorv2_core;
 import java.awt.Component;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.LinkedList;
 
 import javax.swing.Icon;
 import javax.swing.JFrame;
@@ -14,14 +15,12 @@ public class UserCalculatorInputFrame extends JFrame implements KeyListener {
 	 * 
 	 */
 	private static final long serialVersionUID = 8091811344185541027L;
-	
-	
-	
-	
+
 	public UserCalculatorInputFrame(Equation eq) {
 		setVisible(true);
 		setSize(300,10);
 		setTitle("Calculator Parser/Solver - Programmed by Alec Pannunzio");
+		// addKeyListener(this);  add this when we phase out JOptionPane inputs
 	}
 	
 	@Override
@@ -32,9 +31,10 @@ public class UserCalculatorInputFrame extends JFrame implements KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
+		System.out.println("recieved keyevent");
 		switch( e.getKeyCode() ) { 
         case KeyEvent.VK_UP:
-            // handle up 
+            Calculator.userInputEqSuggestion = Calculator.lastEquations.pop();
             break;
         case KeyEvent.VK_DOWN:
             // handle down 
@@ -53,6 +53,8 @@ public class UserCalculatorInputFrame extends JFrame implements KeyListener {
 		// TODO Auto-generated method stub
 		
 	}
+	
+
 
 	public String showInputDialog( Object string, String string2, int i,
 			Icon icon, Object[] object2, String eqSuggestion) {

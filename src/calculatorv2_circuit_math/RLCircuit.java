@@ -3,8 +3,8 @@ package calculatorv2_circuit_math;
 import calculatorv2_core.Calculator;
 import calculatorv2_core.Equation;
 import calculatorv2_core.EquationNode;
+import calculatorv2_core.FunctionNode;
 import calculatorv2_core.ValueNode;
-import calculatorv2_scientific_operations.FunctionNode;
 
 public class RLCircuit extends FunctionNode {
 	public ValueNode function(EquationNode[] params, ValueNode outputNode) {

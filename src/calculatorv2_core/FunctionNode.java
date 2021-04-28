@@ -1,10 +1,5 @@
-package calculatorv2_scientific_operations;
+package calculatorv2_core;
 
-import calculatorv2_core.Calculator;
-import calculatorv2_core.Equation;
-import calculatorv2_core.EquationNode;
-import calculatorv2_core.One_subNode_node;
-import calculatorv2_core.ValueNode;
 import calculatorv2_matrix_core.Matrixable;
 
 public abstract class FunctionNode extends One_subNode_node {
@@ -22,15 +17,20 @@ public abstract class FunctionNode extends One_subNode_node {
 	
 	protected double operation(double a) {
 		EquationNode[] params = getParams();
-	
+		
 		return function(params, new ValueNode(0)).getValue();
+	}
+	
+
+	public String getEquation() {
+		return "This function has no registered equation";
 	}
 	
 	
 	public abstract ValueNode function(EquationNode[] params, ValueNode outputNode);
 	
 	public String getParameterInputs() {
-		return "not defined";
+		return "This function has no registered parameter codex";
 	}
 	
 	/**
@@ -44,6 +44,12 @@ public abstract class FunctionNode extends One_subNode_node {
 		
 		if (params.length == 0) {
 			Calculator.warn(getParameterInputs());
+		}else if (params[0] instanceof StringValueNode) {
+			String str = ((StringValueNode) params[0]).getString();
+			if (str.equals("params") || str.equals("equation") || str.equals("help")) {
+				return new StringValueNode(getParameterInputs() + "  ,   " + getEquation());
+			}
+			
 		}
 		return function(params,outputNode);
 	}

@@ -19,6 +19,8 @@ public class Commands {
 
 	public static int outputFormat = 1; 
 	
+	public static boolean mostRecentUseRadiansNotDegrees = (new Equation()).useRadiansNotDegrees;
+	
 	private static String output = "";
 	/**
 	 * {@summary a user declared variable, used to replace variables in user-entered equations with their values}
@@ -101,6 +103,7 @@ public class Commands {
 		}else {
 			output("Using Degrees", eq);
 		}
+		mostRecentUseRadiansNotDegrees = eq.useRadiansNotDegrees;
 	}
 	
 	
@@ -147,13 +150,12 @@ public class Commands {
 				}			
 			}
 			
-			Equation varEq = new Equation();
-			varEq.importAll();
-			varEq.prevAns = eq.prevAns; // make sure we can use prevAns
-			varEq.createTree(commandInput.substring(i+1,commandInput.length()));
-			applyVariables(varEq); // make sure we have all our variables and constants
-			value = varEq.evaluate();
-			varEq = null;
+		
+			
+			eq.createTree(commandInput.substring(i+1,commandInput.length()));
+			applyVariables(eq); // make sure we have all our variables and constants
+			value = eq.evaluate();
+		
 			foundValue = true;
 		
 		}else {

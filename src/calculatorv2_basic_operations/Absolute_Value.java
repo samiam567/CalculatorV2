@@ -51,7 +51,11 @@ public class Absolute_Value extends One_subNode_node {
 	}
 	
 	public void test() { 
-		Calculator.warn(getClass() + " is not tested and should not be used");
+		Equation testEq = new Equation();
+		testEq.importAll();
+		Calculator.testEquation(testEq,"abs(1)",1);
+		Calculator.testEquation(testEq,"abs(_1)",1);
+		Calculator.testEquation(testEq,"abs(_43*12)",43*12);
 	}
 	
 	public EquationNode createNewInstanceOfOperation(Equation eq) {

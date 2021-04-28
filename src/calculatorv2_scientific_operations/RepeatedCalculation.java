@@ -3,6 +3,7 @@ package calculatorv2_scientific_operations;
 import calculatorv2_core.Calculator;
 import calculatorv2_core.Equation;
 import calculatorv2_core.EquationNode;
+import calculatorv2_core.FunctionNode;
 import calculatorv2_core.StringValueNode;
 import calculatorv2_core.ValueNode;
 

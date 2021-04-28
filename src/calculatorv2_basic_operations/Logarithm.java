@@ -3,8 +3,8 @@ package calculatorv2_basic_operations;
 import calculatorv2_core.Calculator;
 import calculatorv2_core.Equation;
 import calculatorv2_core.EquationNode;
+import calculatorv2_core.FunctionNode;
 import calculatorv2_core.ValueNode;
-import calculatorv2_scientific_operations.FunctionNode;
 
 public class Logarithm extends FunctionNode {
 	

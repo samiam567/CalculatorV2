@@ -1,5 +1,8 @@
 package calculatorv2_core;
 
+
+import java.util.Stack;
+
 import javax.swing.JOptionPane;
 
 import calculatorv2_socketServerHandler.Socket_handler;
@@ -14,8 +17,9 @@ public class Calculator {
 	
 	//used by the runUserCalculator method
 	static UserCalculatorInputFrame calculatorAnchor;
-	private static String userInputEqSuggestion = "";
-	
+	static String userInputEqSuggestion = "";
+	static Stack<String> lastEquations = new Stack<String>();
+	private static final int maxEqsToStore = 10;
 		
 	private static class EquationError extends Exception {
 		private static final long serialVersionUID = -5372388435013231712L;
@@ -158,7 +162,10 @@ public class Calculator {
 		//import operations
 		
 		eq.importAll();
-	
+		
+		eq.useRadiansNotDegrees = false;
+		Commands.mostRecentUseRadiansNotDegrees = false;
+		
 		Calculator.enableJFrameOutput = false;
 	
 		eq.out.println("Test took " + Calculator.testCalculator() + " nanos to evaluate equations");
@@ -172,33 +179,41 @@ public class Calculator {
 		Calculator.knownIssues();
 		
 		String input = "";
-		String lastInput = "";
-		String eqSuggestion = "";
+		
 		while (true) { //if the user presses cancel the program will automatically terminate
 			Calculator.enableJFrameOutput = false;
 			Commands.addVariable("ans", eq.prevAns.getValueData(), eq);
 			Calculator.enableJFrameOutput = true;
 			
 			while (input.length() == 0) {
-				input = (String) calculatorAnchor.showInputDialog("Type in what you want to solve","Calculator V2",1, null,null, eqSuggestion);
-				
-				if (input == null || input.length() == 0 || input.contains("exit") || input.contains("quit")) {
+				input = (String) calculatorAnchor.showInputDialog("Type in what you want to solve","Calculator V2",1, null,null, userInputEqSuggestion);
+					
+				if (input == null || input.contains("exit") || input.contains("quit")) {
 					eq.out.println("terminating");
 					calculatorAnchor.dispose();
-					System.exit(1);
 					eq.out.println("exited");
-				}else if (input.contains("/last"))  { 
-					eqSuggestion = lastInput;
+					System.exit(1);
+				}else if (input.length() == 0)  { 
+					continue;
+				} else if (input.contains("/last"))  { 
+					
+					if (! lastEquations.isEmpty()) {
+						userInputEqSuggestion = lastEquations.pop(); // replace with peek if you dont want to remove
+					}
 					input = "";
+					continue;
 				} else if (input.substring(0,1).equals("/")) {
 					Commands.parseCommand(input,eq);
 					input = "";
+					userInputEqSuggestion = "";
+				}else {
+					lastEquations.push(input);
 				}
 				
 			}
 			
 			
-			eqSuggestion = ""; // reset the equation suggestion
+			userInputEqSuggestion = ""; // reset the equation suggestion
 		
 			eq.out.println("Input: " + input);
 			
@@ -236,15 +251,7 @@ public class Calculator {
 				
 				Calculator.warn("Exception occured whilst parsing:\n" + e);
 				System.out.println("StackTrace of source exception: \n" + e.getStackTrace().toString());
-				/*
-				out.println("terminating because of an exception");
-				calculatorAnchor.dispose();
-				out.println("exited");
-				System.exit(1);
-				*/
 			}
-			
-			lastInput = input;
 			input = "";
 		}
 		
@@ -289,16 +296,14 @@ public class Calculator {
 		testEquation(testEq,"sin2E_5",Math.sin(2*Math.pow(10,-5)));
 		testEquation(testEq,"0.3^3E_6",Math.pow(0.3,3*Math.pow(10,-6)));		
 		testEquation(testEq,"%err(e,pi)",-13.474402056773494);
-		testEquation(testEq,"solveEquation(x,10)",10);
-		testEquation(testEq,"solveEquation(x+1,10)",9);
-		testEquation(testEq,"solveEquation(18,x+20)",-2);
+		testEquation(testEq,"solveEquation(\"x\",\"10\")",10);
+		testEquation(testEq,"solveEquation(\"x+1\",\"10\")",9);
+		testEquation(testEq,"solveEquation(\"18\",\"x+20\")",-2);
 		testEquation(testEq,"i+1","1.0 + 1.0i",Math.sqrt(2));
 		testEquation(testEq,"(3 + 2*i)*(1 + 7*i)","-11.0 + 23.0i",Math.sqrt(650));
 		testEquation(testEq,"(7 + 2.1*i)/(1.5 -4*i)","0.115068493 + 1.706849315i",1.7107236312349676);
 		testEquation(testEq,"1/(1+i)","0.5 + -0.5i",Math.sqrt(0.5));
-		
-			
-	
+
 		
 		testEq.createTree("((4^2*3-45)^(1+1*4) / 3) * 2"); //test equation reusability
 		if (testEq.solve() == ((Math.pow((Math.pow(4,2)*3-45),(1+1*4)) / 3) * 2 )) { 
@@ -327,7 +332,21 @@ public class Calculator {
 					
 		return end-start;
 	}
+	
+	private static class EquationTestFailedException extends Exception {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 4671963134340730291L;
+
+		public EquationTestFailedException(String eStr) {
+			super(eStr);
+		}
+	}
+	
+	
 	public static boolean testEquation(Equation testEq, String eq, double answer) {
+		if (calculatorAnchor == null ) calculatorAnchor = new UserCalculatorInputFrame(testEq);
 		testEq.createTree(eq);
 		
 		Commands.applyVariables(testEq);
@@ -345,13 +364,14 @@ public class Calculator {
 			outStr += "\nCalculated Answer: " + testEq.solve() + "   Actual Answer:  " + answer + "      ValueData: " + testEq.getValueData();
 			outStr += "\nEquation to solve: " + eq;
 			println(outStr);
+			(new EquationTestFailedException(outStr)).printStackTrace();
 			calculatorAnchor.showMessageDialog(outStr);
 			allTestsPassed = false;
 			return false;		
 		}	
 	}
 	public static boolean testEquation(Equation testEq,String eq, String answerStr, double ans) {
-		testEq.importStandardConstants();
+
 		
 	
 		testEq.createTree(eq);
@@ -369,8 +389,8 @@ public class Calculator {
 			outStr += "Calculated ValueData " + testEq.getValueData().toString() + "       Target ValueData: " + answerStr + "\nCalculated Answer: " +testEq.solve() + "   Actual Answer: " + ans;
 			outStr += "\nEquation to solve: " + eq;
 			println(outStr);
+			(new EquationTestFailedException(outStr)).printStackTrace();
 			calculatorAnchor.showMessageDialog(outStr);
-			
 			allTestsPassed = false;
 			return false;	
 		}	

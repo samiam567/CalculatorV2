@@ -3,10 +3,10 @@ package calculatorv2_basic_operations;
 import calculatorv2_core.Calculator;
 import calculatorv2_core.Equation;
 import calculatorv2_core.EquationNode;
+import calculatorv2_core.FunctionNode;
 import calculatorv2_core.ValueNode;
 import calculatorv2_matrix_core.Bra;
 import calculatorv2_matrix_core.Matrixable;
-import calculatorv2_scientific_operations.FunctionNode;
 
 //round(value,numDecimals) or round(value) 
 public class Round extends FunctionNode {
