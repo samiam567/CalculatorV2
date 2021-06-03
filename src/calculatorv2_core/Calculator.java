@@ -5,7 +5,6 @@ import java.util.Stack;
 
 import javax.swing.JOptionPane;
 
-import calculatorV2_visualization.UserCalculatorInputFrame;
 import calculatorv2_socketServerHandler.Socket_handler;
 
 
@@ -18,8 +17,9 @@ public class Calculator {
 	
 	//used by the runUserCalculator method
 	static UserCalculatorInputFrame calculatorAnchor;
-	public static String userInputEqSuggestion = "";
-	public static Stack<String> lastEquations = new Stack<String>();
+	static String userInputEqSuggestion = "";
+	static Stack<String> lastEquations = new Stack<String>();
+	private static final int maxEqsToStore = 10;
 		
 	private static class EquationError extends Exception {
 		private static final long serialVersionUID = -5372388435013231712L;
