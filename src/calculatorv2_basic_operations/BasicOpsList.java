@@ -12,7 +12,7 @@ public abstract class BasicOpsList {
 	private static final String[][] aliases =  {{"Round","round"},{"toInt("," round("},{"⁻"," _"}, {"×"," * "}, {"÷"," / "}, {"π"," pi "}, {"e^","exp"},{"isEqualTo","=="},{"solveEquation","solveequation"},{"E-"," timesTenToThe _"},{"E"," timesTenToThe "}};
 	
 	public static EquationNode[] getOps() {
-		// opportunity to test datatypes here
+		//opportunity to test datatypes here
 		return ops;
 	}
 	
