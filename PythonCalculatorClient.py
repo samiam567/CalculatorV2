@@ -32,7 +32,7 @@ if __name__ == '__main__':
 
     succesfulconnection = False;
 
-    port = 45623;
+    port = 23414;
 
 
     

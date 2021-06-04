@@ -13,7 +13,7 @@ public class Calculator {
 	public static boolean verboseOutput = true;
 	public static boolean enableJFrameOutput = true;
 	
-	static final String[] run_flags = {"--verbose-output","--socket-server"};
+	static final String[] run_flags = {"--verbose-output","--user-calculator","--socket-server"};
 	
 	//used by the runUserCalculator method
 	static UserCalculatorInputFrame calculatorAnchor;
@@ -43,7 +43,7 @@ public class Calculator {
 	}
 	
 	public static void main(String[] args) { 
-		
+		boolean userCalculator = false;
 		if (args.length > 0) {
 			enableJFrameOutput = false;
 			Equation.printInProgress = false;
@@ -64,8 +64,11 @@ public class Calculator {
 						
 						if (args[i].equals(run_flags[0]) ) { //verbose_output
 							verboseOutput = true;
-						}else if (args[i].equals(run_flags[1])) { //start socket server
-						
+						}else if (args[i].equals(run_flags[1])) { //user-calculator
+							userCalculator = true;
+							calculatorAnchor = new UserCalculatorInputFrame(calc);
+						}else if (args[i].equals(run_flags[2])) { //start socket server
+							System.out.println("starting socket server");
 							if (args.length-i <= 2 ) {
 								System.out.println("ERROR: too few arguments after " + run_flags[1] + " flag.");
 							}else {
@@ -73,7 +76,7 @@ public class Calculator {
 									int port = Integer.parseInt(args[i+1]);
 									String mode = args[i+2];
 									i+=2;
-									Socket_handler server = new Socket_handler(mode,port,calc);
+									Socket_handler server = new Socket_handler(mode,port,calc,userCalculator);
 									server.start();
 							        
 								}catch(NumberFormatException n ) {
@@ -91,8 +94,15 @@ public class Calculator {
 							System.out.println();
 						}
 					}else {
-						String ans = calc.calculate(args[i]);
-						if (ans.length() > 0) System.out.println(ans);
+						String ans;
+						if (userCalculator) {
+							calc.queryUserCalculator(args[i]);
+						}else {
+							ans = calc.calculate(args[i]);
+						}
+						 
+					
+						
 					}
 				}catch(Exception e) {
 					e.printStackTrace(System.err);
@@ -178,54 +188,18 @@ public class Calculator {
 		//warn the user about known issues
 		Calculator.knownIssues();
 		
-		String input = "";
-		
+		String input, output;
 		while (true) { //if the user presses cancel the program will automatically terminate
-			Calculator.enableJFrameOutput = false;
-			Commands.addVariable("ans", eq.prevAns.getValueData(), eq);
-			Calculator.enableJFrameOutput = true;
 			
-			while (input.length() == 0) {
+			do {
 				input = (String) calculatorAnchor.showInputDialog("Type in what you want to solve","Calculator V2",1, null,null, userInputEqSuggestion);
-					
-				if (input == null || input.contains("exit") || input.contains("quit")) {
-					eq.out.println("terminating");
-					calculatorAnchor.dispose();
-					eq.out.println("exited");
-					System.exit(1);
-				}else if (input.length() == 0)  { 
-					continue;
-				} else if (input.contains("/last"))  { 
-					
-					if (! lastEquations.isEmpty()) {
-						userInputEqSuggestion = lastEquations.pop(); // replace with peek if you dont want to remove
-					}
-					input = "";
-					continue;
-				} else if (input.substring(0,1).equals("/")) {
-					Commands.parseCommand(input,eq);
-					input = "";
-					userInputEqSuggestion = "";
-				}else {
-					lastEquations.push(input);
-				}
+			}while (input.length() == 0);
 				
-			}
+			output = eq.queryUserCalculator(input);
 			
+			eq.out.println("Output: " + output);
+			if (! ( output.startsWith("~~~~") || output.contains("Exception occured whilst parsing") ) ) {
 			
-			userInputEqSuggestion = ""; // reset the equation suggestion
-		
-			eq.out.println("Input: " + input);
-			
-			
-			
-			try {
-				eq.createTree(input);
-				Commands.applyVariables(eq);
-				eq.prevAns = eq.evaluate();
-				
-				
-				
 				// format the answer to look pretty
 				if (Commands.outputFormat == 0) {
 					calculatorAnchor.showMessageDialog(eq.toString(),input, 1);
@@ -245,17 +219,19 @@ public class Calculator {
 				
 				
 				
-				eq.out.println("Output: " + eq.toString());
-			}catch(Exception e) {
-				e.printStackTrace();
 				
-				Calculator.warn("Exception occured whilst parsing:\n" + e);
-				System.out.println("StackTrace of source exception: \n" + e.getStackTrace().toString());
 			}
-			input = "";
+			
 		}
 		
+		
 	}
+	
+	
+	
+	
+	
+	
 	private static boolean allTestsPassed = true;
 	private static int testNum = 0;
 	@SuppressWarnings("unused")

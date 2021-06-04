@@ -107,6 +107,7 @@ public class Equation extends One_subNode_node {
 	}
 	
 	
+	
 	public void importAll() {
 		
 		importOperations(BasicOpsList.getOps());
@@ -145,6 +146,71 @@ public class Equation extends One_subNode_node {
 		}else {
 			Calculator.warn("Tried to import operation with keyword " + opType.getOperationKeyword() + " More than once!");
 		}
+	}
+	
+	/**
+	 * {@code runs input assuming the user called for the parse and a already setup equation}
+	 * @param input
+	 * @return
+	 */
+	public String queryUserCalculator(String input) {
+		{
+		boolean jfo = Calculator.enableJFrameOutput;
+		Calculator.enableJFrameOutput = false;
+		Commands.addVariable("ans", prevAns.getValueData(), this);
+		Calculator.enableJFrameOutput = jfo;
+		} //don't need jfo after this
+		
+		
+				
+		if (input == null || input.contains("exit") || input.contains("quit")) {
+			out.println("terminating");
+			Calculator.calculatorAnchor.dispose();
+			out.println("exited");
+			System.exit(1);
+		}else if (input.length() == 0)  { 
+			return "~~~~";
+		} else if (input.contains("/last"))  { 
+			
+			if (! Calculator.lastEquations.isEmpty()) {
+				Calculator.userInputEqSuggestion = Calculator.lastEquations.pop(); // replace with peek if you dont want to remove
+			}
+			input = "";
+			return "~~~~";
+		} else if (input.substring(0,1).equals("/")) {
+			String output = Commands.parseCommand(input,this);
+			input = "";
+			Calculator.userInputEqSuggestion = "";
+			return output;
+		}else {
+			Calculator.lastEquations.push(input);
+		}
+		
+	
+		
+		
+		Calculator.userInputEqSuggestion = ""; // reset the equation suggestion
+	
+		out.println("Input: " + input);
+		
+		
+		
+		try {
+			createTree(input);
+			Commands.applyVariables(this);
+			prevAns = evaluate();
+			
+			
+			
+			return toString();
+		}catch(Exception e) {
+			e.printStackTrace();
+			
+			Calculator.warn("Exception occured whilst parsing:\n" + e);
+			System.out.println("StackTrace of source exception: \n" + e.getStackTrace().toString());
+			return "Exception occured whilst parsing:\n" + e;
+		}
+		
 	}
 	
 	

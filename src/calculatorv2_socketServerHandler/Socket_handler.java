@@ -14,10 +14,11 @@ public class Socket_handler extends Thread {
 	static enum ConnectionType {csharp,python,none};
 	ConnectionType connectionType = ConnectionType.none;
 	
+	boolean userCalculator = false;
 	boolean running = true;
 	Equation eq;
-	public Socket_handler(String mode, int port, Equation eq) {
-		
+	public Socket_handler(String mode, int port, Equation eq,boolean userCalculator) {
+		this.userCalculator = userCalculator;
 		if (mode.equals(connectionTypeStrings[0])) {
 			connectionType = ConnectionType.csharp;
 		}else if (mode.equals(connectionTypeStrings[1])) {
@@ -64,6 +65,7 @@ public class Socket_handler extends Thread {
 			
 				        // Sending
 				        String toSend = handleMessage(received);
+				        System.out.println("sending...");
 				        if (toSend.length() == 0) toSend = "~~~~";
 				        byte[] toSendBytes = toSend.getBytes();
 				        int toSendLen = toSendBytes.length;
@@ -74,6 +76,7 @@ public class Socket_handler extends Thread {
 				        toSendLenBytes[3] = (byte)((toSendLen >> 24) & 0xff);
 				        os.write(toSendLenBytes);
 				        os.write(toSendBytes);
+				        System.out.println("sent.");
 			        }
 		
 			        
@@ -140,7 +143,11 @@ public class Socket_handler extends Thread {
 	
 	
 	private String handleInput(String input) {
-		return eq.calculate(input);
+		if (userCalculator) {
+			return eq.queryUserCalculator(input);
+		}else {
+			return eq.calculate(input);
+		}
 		
 	}
 
@@ -173,6 +180,15 @@ public class Socket_handler extends Thread {
 			e.printStackTrace();
 		}
 	}
+	
+	@Override
+	  public void finalize() {
+	    try {
+			serverSocket.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	  }
 	
 	
 }

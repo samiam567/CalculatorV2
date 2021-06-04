@@ -3,6 +3,7 @@ package calculatorv2_core;
 import java.awt.Component;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.IOException;
 import java.util.LinkedList;
 
 import javax.swing.Icon;
@@ -77,6 +78,14 @@ public class UserCalculatorInputFrame extends JFrame implements KeyListener {
 
 	public String showInputDialog(String string) {
 		return (String) JOptionPane.showInputDialog(this,string);
+	}
+	
+	
+	@Override
+	public void finalize() {
+		Exception e = new Exception("Terminating program because frame was closed.");
+		e.printStackTrace();
+		System.exit(ERROR);
 	}
 
 }

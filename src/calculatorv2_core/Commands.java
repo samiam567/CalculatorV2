@@ -3,8 +3,7 @@ package calculatorv2_core;
 import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
 
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
+
 
 /**
  * {@summary extra methods and data only used when the user is controlling the calculator}
@@ -13,7 +12,7 @@ import javax.swing.JOptionPane;
  */
 public class Commands {
 	
-	private static final String commands = "/help, /operations, /last, /exit, /move, /degRadMode, /setOutputFormat, /[insert 1-character variable name here] = [insert equation here]";
+	private static final String commands = "/help, /operations, /last, /exit, /move, /setDegRadMode, /getDegRadMode, /setOutputFormat, /[insert 1-character variable name here] = [insert equation here]";
 	
 	static ArrayList<Variable> variables = new ArrayList<Variable>(); // variables that the user has declared
 
@@ -40,8 +39,10 @@ public class Commands {
 		String cIn = commandInput.toLowerCase();
 		if (cIn.contains("move")) {
 			move(eq);
-		}else if (cIn.contains("degradmode")) {
+		}else if (cIn.contains("setdegradmode")) {
 			degRadMode(eq);
+		}else if (cIn.contains("getdegradmode")) {
+			output += eq.useRadiansNotDegrees ? "radians" : "degrees";
 		}else if (cIn.contains("help")) {
 			output("Possible commands are: " + commands,eq);
 		}else if (cIn.contains("=")) {
