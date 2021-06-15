@@ -20,6 +20,7 @@ public class Calculator {
 	static String userInputEqSuggestion = "";
 	static Stack<String> lastEquations = new Stack<String>();
 	private static final int maxEqsToStore = 10;
+	
 		
 	private static class EquationError extends Exception {
 		private static final long serialVersionUID = -5372388435013231712L;
@@ -66,6 +67,8 @@ public class Calculator {
 							verboseOutput = true;
 						}else if (args[i].equals(run_flags[1])) { //user-calculator
 							userCalculator = true;
+							enableJFrameOutput = true;
+							verboseOutput = true;
 							calculatorAnchor = new UserCalculatorInputFrame(calc);
 						}else if (args[i].equals(run_flags[2])) { //start socket server
 							System.out.println("starting socket server");
@@ -165,6 +168,7 @@ public class Calculator {
 		if (enableJFrameOutput) JOptionPane.showMessageDialog(null, warning,"WARNING", JOptionPane.ERROR_MESSAGE);
 	}
 	public static void runUserCalculator(Equation eq) {
+		
 		
 		
 		eq.importStandardConstants();

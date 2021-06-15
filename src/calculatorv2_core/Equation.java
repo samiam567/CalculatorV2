@@ -154,12 +154,12 @@ public class Equation extends One_subNode_node {
 	 * @return
 	 */
 	public String queryUserCalculator(String input) {
-		{
+		
 		boolean jfo = Calculator.enableJFrameOutput;
 		Calculator.enableJFrameOutput = false;
 		Commands.addVariable("ans", prevAns.getValueData(), this);
-		Calculator.enableJFrameOutput = jfo;
-		} //don't need jfo after this
+		Calculator.enableJFrameOutput = true;
+	
 		
 		
 				
@@ -201,13 +201,15 @@ public class Equation extends One_subNode_node {
 			prevAns = evaluate();
 			
 			
-			
+			Calculator.enableJFrameOutput = jfo;
 			return toString();
 		}catch(Exception e) {
 			e.printStackTrace();
 			
 			Calculator.warn("Exception occured whilst parsing:\n" + e);
 			System.out.println("StackTrace of source exception: \n" + e.getStackTrace().toString());
+			
+			Calculator.enableJFrameOutput = jfo;
 			return "Exception occured whilst parsing:\n" + e;
 		}
 		
