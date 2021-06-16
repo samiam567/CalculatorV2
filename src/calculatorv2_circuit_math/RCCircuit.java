@@ -26,6 +26,7 @@ public class RCCircuit extends FunctionNode {
 		return "Vc(t) = RCCircuit(R,C, Vi, Vf, t)";
 	}
 	
+	@Override
 	public String getEquation() {
 		return "Vc(t) = Vf + [Vi-Vf]*exp[-t/RC]";
 	}

@@ -13,6 +13,7 @@ import calculatorv2_matrix_core.MatrixOperationsList;
 import calculatorv2_scientific_operations.Comparation;
 import calculatorv2_scientific_operations.ComplexValueNode;
 import calculatorv2_scientific_operations.ScientificOperationsList;
+import calculatorv2_visualization.VisualizationOpsList;
 import calculatorv2_scientific_operations.Comparation.ComparationValues;
 
 
@@ -110,6 +111,7 @@ public class Equation extends One_subNode_node {
 	
 	public void importAll() {
 		
+	
 		importOperations(BasicOpsList.getOps());
 		importAliases(BasicOpsList.getAliases());
 		
@@ -121,6 +123,9 @@ public class Equation extends One_subNode_node {
 		
 		importOperations(CircuitMathOperationsList.getOps());
 		importAliases(CircuitMathOperationsList.getAliases());
+		
+		importOperations(VisualizationOpsList.getOps());
+		importAliases(VisualizationOpsList.getAliases());
 		
 		useRadiansNotDegrees = Commands.mostRecentUseRadiansNotDegrees;
 	}
@@ -198,7 +203,7 @@ public class Equation extends One_subNode_node {
 		try {
 			createTree(input);
 			Commands.applyVariables(this);
-			prevAns = evaluate();
+			
 			
 			
 			Calculator.enableJFrameOutput = jfo;
@@ -687,6 +692,7 @@ public class Equation extends One_subNode_node {
 	
 	@Override
 	public double getValue() {
+		
 		if (! isCalculated()) {
 			super.getValue();
 			prevAns = valueData;
@@ -715,7 +721,7 @@ public class Equation extends One_subNode_node {
 	 * @return
 	 */
 	public EquationNode evaluate() {
-		getSubNode().getValue();
+		getValue();
 		return getSubNode();
 	}
 	
@@ -725,7 +731,7 @@ public class Equation extends One_subNode_node {
 	 * @return
 	 */
 	public String calculate(String input) {
-		
+		Commands.addVariable("ans", prevAns.getValueData(), this);
 		if (input.substring(0,1).equals("/")) {
 			String commandOutput = Commands.parseCommand(input, this);
 			return Calculator.verboseOutput ? commandOutput : "";	
@@ -745,7 +751,7 @@ public class Equation extends One_subNode_node {
 	
 	@Override
 	public ValueNode operation(ValueNode a, ValueNode outputNode) {
-		return a;
+		return outputNode = a;
 	}
 	
 	/**

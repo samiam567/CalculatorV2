@@ -10,7 +10,7 @@ public abstract class ScientificOperationsList {
 	private static final EquationNode[] ops = {new CompareTo(), new EquationSolver(eq), new IsEqualTo(), new IsPrime(), new Modulo(), new PercentError(),
 											   new Rand(),new ComplexNumber_Phase(eq), new RepeatedCalculation(), new DefiniteIntegral()};
 	
-	private static final String[][] aliases =  {{"==", "isEqualTo"," isequalTo "}, {"<=>", "compareto", " compareTo "},{"%Error","%error","%err"," percenterror "},{"%","mod"," Modulo "},{"graphEquation","graph", "solveEquation","solveequation", " Solveequation"}};
+	private static final String[][] aliases =  {{"==", "isEqualTo"," isequalTo "}, {"<=>", "compareto", " compareTo "},{"%Error","%error","%err"," percenterror "},{"%","mod"," Modulo "},{ "solveEquation","solveequation", " Solveequation"}};
 	public static EquationNode[] getOps() {
 		// opportunity to test datatypes here
 		return ops;

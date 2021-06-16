@@ -19,7 +19,6 @@ public class Calculator {
 	static UserCalculatorInputFrame calculatorAnchor;
 	static String userInputEqSuggestion = "";
 	static Stack<String> lastEquations = new Stack<String>();
-	private static final int maxEqsToStore = 10;
 	
 		
 	private static class EquationError extends Exception {

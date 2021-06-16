@@ -81,11 +81,14 @@ public class DefiniteIntegral extends FunctionNode {
 		
 		return outputNode;
 	}
-	private void functionOld() {
-		/*
-		
-		*/
+//integrate( function , "vartointover" , lowerBound, upperBound     , precision)
+	
+	@Override
+	public String getParameterInputs() {
+		return "integrate( \"function\" , \"vartointover\" , lowerBound, upperBound , precision=0.000001)";
 	}
+	
+	
 	
 	public String getOperationKeyword() {
 		return "integrate";
