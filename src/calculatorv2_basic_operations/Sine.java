@@ -15,7 +15,7 @@ public class Sine extends One_subNode_node {
 	protected double operation(double a) {
 		if (Equation.printInProgress) System.out.println("sin" + a);
 
-		if (equation.useRadiansNotDegrees) {
+		if (equation.usingRadians()) {
 			return Math.sin(a);
 		}else {
 			return Math.sin(a*Math.PI / 180);

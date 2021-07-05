@@ -36,7 +36,7 @@ public class PowerOfTen extends Two_subNode_node {
 		Equation testEq = new Equation();
 		testEq.importAll();
 		
-		testEq.useRadiansNotDegrees = false;
+	
 		
 		boolean prevOutputEnable = Calculator.enableJFrameOutput;
 		Calculator.enableJFrameOutput = false;

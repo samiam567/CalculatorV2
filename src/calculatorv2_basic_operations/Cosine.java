@@ -15,7 +15,7 @@ public class Cosine extends One_subNode_node {
 	protected double operation(double a) {
 		if (Equation.printInProgress) System.out.println("cos" + a);
 
-		if (equation.useRadiansNotDegrees) {
+		if (equation.usingRadians()) {
 			return Math.cos(a);
 		}else {
 			return Math.cos(a*Math.PI / 180);

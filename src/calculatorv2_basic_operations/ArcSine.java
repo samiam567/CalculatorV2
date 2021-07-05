@@ -16,7 +16,7 @@ public class ArcSine extends One_subNode_node {
 	protected double operation(double a) {
 		if (Equation.printInProgress) System.out.println("asin" + a);
 		
-		if (equation.useRadiansNotDegrees) {
+		if (equation.usingRadians()) {
 			return Math.asin(a);
 		}else {
 			return 180 * Math.asin(a)/Math.PI;

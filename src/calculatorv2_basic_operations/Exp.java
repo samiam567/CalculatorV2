@@ -4,6 +4,7 @@ import calculatorv2_core.AdvancedValueNode;
 import calculatorv2_core.Calculator;
 import calculatorv2_core.Commands;
 import calculatorv2_core.Equation;
+import calculatorv2_core.Equation.DegOrRadValue;
 import calculatorv2_core.EquationNode;
 import calculatorv2_core.One_subNode_node;
 import calculatorv2_core.ValueNode;
@@ -39,7 +40,7 @@ public class Exp extends One_subNode_node {
 				// both complex numbers
 				if (! (outputNode instanceof ComplexValueNode) ) outputNode = new ComplexValueNode();
 				
-				double degRadMult = eq.useRadiansNotDegrees ? 1 : Math.PI/180;
+				double degRadMult = eq.usingRadians() ? 1 : Math.PI/180;
 				
 				ComplexValueNode eulerExpans = new ComplexValueNode(Math.cos(N1.getComplex() * degRadMult),Math.sin(N1.getComplex() * degRadMult));
 				
@@ -70,7 +71,7 @@ public class Exp extends One_subNode_node {
 		
 		testEq.importAll();
 		
-		testEq.useRadiansNotDegrees = false;
+		testEq.setDegRadMode(DegOrRadValue.degrees);
 		
 		boolean prevOutputEnable = Calculator.enableJFrameOutput;
 		Calculator.enableJFrameOutput = false;

@@ -8,6 +8,7 @@ import calculatorv2_core.Equation;
 import calculatorv2_core.EquationNode;
 import calculatorv2_core.FunctionNode;
 import calculatorv2_core.ValueNode;
+import calculatorv2_core.Equation.DegOrRadValue;
 import calculatorv2_scientific_operations.ComplexValueNode;
 
 public class ParallelImpedanceAdd extends FunctionNode {
@@ -53,7 +54,7 @@ public class ParallelImpedanceAdd extends FunctionNode {
 		Equation testEq = new Equation();
 		testEq.importAll();
 		
-		testEq.useRadiansNotDegrees = false;
+		testEq.setDegRadMode(DegOrRadValue.degrees);
 		
 		boolean prevOutputEnable = Calculator.enableJFrameOutput;
 		Calculator.enableJFrameOutput = false;	

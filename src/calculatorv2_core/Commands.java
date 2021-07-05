@@ -3,6 +3,8 @@ package calculatorv2_core;
 import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
 
+import calculatorv2_core.Equation.DegOrRadValue;
+
 
 
 /**
@@ -18,7 +20,7 @@ public class Commands {
 
 	public static int outputFormat = 1; 
 	
-	public static boolean mostRecentUseRadiansNotDegrees = (new Equation()).useRadiansNotDegrees;
+	public static DegOrRadValue mostRecentDegRadMode = (new Equation()).getDegRadMode();
 	
 	private static String output = "";
 	/**
@@ -42,7 +44,7 @@ public class Commands {
 		}else if (cIn.contains("setdegradmode")) {
 			degRadMode(eq);
 		}else if (cIn.contains("getdegradmode")) {
-			output += eq.useRadiansNotDegrees ? "radians" : "degrees";
+			output += eq.usingRadians() ? "radians" : "degrees";
 		}else if (cIn.contains("help")) {
 			output("Possible commands are: " + commands,eq);
 		}else if (cIn.contains("=")) {
@@ -98,13 +100,15 @@ public class Commands {
 	}
 	
 	private static void degRadMode(Equation eq) {
-		eq.useRadiansNotDegrees = ! eq.useRadiansNotDegrees;
-		if (eq.useRadiansNotDegrees) {
-			output("Using Radians", eq);
-		}else {
+		
+		if (eq.usingRadians()) {
 			output("Using Degrees", eq);
+			eq.setDegRadMode(DegOrRadValue.degrees);
+		}else {
+			output("Using Radians", eq);
+			eq.setDegRadMode(DegOrRadValue.radians);
 		}
-		mostRecentUseRadiansNotDegrees = eq.useRadiansNotDegrees;
+		mostRecentDegRadMode = eq.getDegRadMode();
 	}
 	
 	

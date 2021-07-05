@@ -15,7 +15,7 @@ public class ArcTangent extends One_subNode_node {
 	protected double operation(double a) {
 		if (Equation.printInProgress) System.out.println("atan" + a);
 
-		if (equation.useRadiansNotDegrees) {
+		if (equation.usingRadians()) {
 			return Math.atan(a);
 		}else {
 			return 180 * Math.atan(a)/Math.PI;

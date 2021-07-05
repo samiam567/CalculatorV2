@@ -41,7 +41,9 @@ public class Equation extends One_subNode_node {
 	
 	//calculator settings
 	public static boolean printInProgress = false;
-	public boolean useRadiansNotDegrees = true;
+	
+	public enum DegOrRadValue {degrees, radians};
+	private DegOrRadValue degRadMode = DegOrRadValue.radians;
 	
 	
 	EquationNode prevAns = new ValueNode(0);
@@ -49,6 +51,14 @@ public class Equation extends One_subNode_node {
 
 	public String cMode = "unknown"; // for Negative operation
 
+	
+	public boolean usingRadians() {
+		return degRadMode.equals(DegOrRadValue.radians);
+	}
+	
+	public DegOrRadValue getDegRadMode() {
+		return degRadMode;
+	}
 	
 	public void importStandardConstants() {
 		// put some constants into the variables as a default
@@ -127,7 +137,7 @@ public class Equation extends One_subNode_node {
 		importOperations(VisualizationOpsList.getOps());
 		importAliases(VisualizationOpsList.getAliases());
 		
-		useRadiansNotDegrees = Commands.mostRecentUseRadiansNotDegrees;
+		setDegRadMode(Commands.mostRecentDegRadMode);
 	}
 	public void importOperations(EquationNode[] ops) {
 		for (EquationNode opType : ops) {
@@ -341,6 +351,7 @@ public class Equation extends One_subNode_node {
 		int parenthesisLevel = 0;
 		
 		boolean space = false;
+		boolean doubleQuote = false;
 	
 		String cChar = "";
 		for (int i = 0; i < equation.length()+1; i++) {	
@@ -352,7 +363,7 @@ public class Equation extends One_subNode_node {
 				
 				
 				if (mode.equals("stringAcquisition")) {
-					if (cChar.equals("\"")) {
+					if ( (doubleQuote && cChar.equals("\"")) || (! doubleQuote && cChar.equals("'")) ) {
 						VariableNode newVariable = new VariableNode(this, new StringValueNode(strAcqBuffer),parenthesisLevel);
 						variables.add(newVariable);
 						nodes = addToNodesArray(newVariable,nodes); //add a new VariableNode with the variable name
@@ -375,6 +386,10 @@ public class Equation extends One_subNode_node {
 					continue;
 				} else if (cChar.equals("\""))  { 
 					mode = "stringAcquisition";
+					doubleQuote = true;
+				}else if (cChar.equals("'")) {
+					mode = "stringAcquisition";
+					doubleQuote = false;
 				}else if ( cChar.equals("(") ) { //it is an open-parenthesis, and the parenthesis level goes up
 					mode = "openParent";
 					if (printInProgress) out.println("openParent");
@@ -496,6 +511,11 @@ public class Equation extends One_subNode_node {
 		
 		return getTree(nodes);
 		
+	}
+	
+	public void setDegRadMode(DegOrRadValue degorrad ) {
+		degRadMode = degorrad;
+		Commands.mostRecentDegRadMode = degRadMode;
 	}
 	
 	private int indexOf(String strToFind, ArrayList<String> arrLst) {

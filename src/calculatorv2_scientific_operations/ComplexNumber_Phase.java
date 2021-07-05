@@ -4,6 +4,7 @@ import calculatorv2_core.AdvancedValueNode;
 import calculatorv2_core.Calculator;
 import calculatorv2_core.Commands;
 import calculatorv2_core.Equation;
+import calculatorv2_core.Equation.DegOrRadValue;
 import calculatorv2_core.EquationNode;
 import calculatorv2_core.One_subNode_node;
 import calculatorv2_core.ValueNode;
@@ -25,7 +26,7 @@ public class ComplexNumber_Phase extends One_subNode_node {
 		if (nodeA instanceof AdvancedValueNode) {
 			
 			if (nodeA instanceof ComplexValueNode) {
-				outputNode.setValue( Math.atan2(((ComplexValueNode) nodeA).getComplex(),((ComplexValueNode) nodeA).getReal())  *  (eq.useRadiansNotDegrees ? 1 : 180/Math.PI)  );
+				outputNode.setValue( Math.atan2(((ComplexValueNode) nodeA).getComplex(),((ComplexValueNode) nodeA).getReal())  *  (eq.usingRadians() ? 1 : 180/Math.PI)  );
 			}else {
 				Calculator.warn(getClass() + " has no implementation for generic ValueNode");
 				outputNode.setValue(operation(nodeA.getValue())); // do operation normally and assign value to our ValueNode
@@ -48,7 +49,7 @@ public class ComplexNumber_Phase extends One_subNode_node {
 		testEq.importAll();
 		
 
-		testEq.useRadiansNotDegrees = false;
+		testEq.setDegRadMode(DegOrRadValue.degrees);
 		
 		boolean prevOutputEnable = Calculator.enableJFrameOutput;
 		Calculator.enableJFrameOutput = false;
@@ -63,7 +64,7 @@ public class ComplexNumber_Phase extends One_subNode_node {
 		Commands.parseCommand("/n = 3+4×i",testEq);
 		Calculator.testEquation(testEq,"cPhase(n×n×n)",159.39030706246794);
 		
-		testEq.useRadiansNotDegrees = true;
+		testEq.setDegRadMode(DegOrRadValue.radians);
 		
 		Calculator.testEquation(testEq,"cPhase(1+i)",Math.PI/4);
 		Calculator.testEquation(testEq,"cPhase(_1-i)",-3*Math.PI/4);

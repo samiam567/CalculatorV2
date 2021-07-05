@@ -5,6 +5,7 @@ import java.util.Stack;
 
 import javax.swing.JOptionPane;
 
+import calculatorv2_core.Equation.DegOrRadValue;
 import calculatorv2_socketServerHandler.Socket_handler;
 
 
@@ -56,7 +57,7 @@ public class Calculator {
 			calc.importAll();
 			calc.importStandardConstants();
 			
-			calc.useRadiansNotDegrees = true;
+			calc.setDegRadMode(DegOrRadValue.radians);
 			
 			for (int i = 0; i < args.length; i++) {
 				try {
@@ -176,8 +177,8 @@ public class Calculator {
 		
 		eq.importAll();
 		
-		eq.useRadiansNotDegrees = false;
-		Commands.mostRecentUseRadiansNotDegrees = false;
+		eq.setDegRadMode(DegOrRadValue.degrees);
+		Commands.mostRecentDegRadMode = DegOrRadValue.degrees;
 		
 		Calculator.enableJFrameOutput = false;
 	
@@ -250,7 +251,7 @@ public class Calculator {
 		//import the operations
 		testEq.importAll();
 		
-		testEq.useRadiansNotDegrees = true;
+		testEq.setDegRadMode(DegOrRadValue.radians);
 		
 		testEquation(testEq,"1 + 2 * 6^2",1 + 2 * Math.pow(6,2)); //get a little more complicated, test negative exponents
 		testEquation(testEq,"((4^2*3-45)^(1+1*4) / 3) * 2",(Math.pow((Math.pow(4,2)*3-45),(1+1*4)) / 3) * 2 ); //REALLY complicated

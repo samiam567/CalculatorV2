@@ -15,7 +15,7 @@ public class Tangent extends One_subNode_node {
 	protected double operation(double a) {
 		if (Equation.printInProgress) System.out.println("tan" + a);
 
-		if (equation.useRadiansNotDegrees) {
+		if (equation.usingRadians()) {
 			return Math.tan(a);
 		}else {
 			return Math.tan(a*Math.PI / 180);

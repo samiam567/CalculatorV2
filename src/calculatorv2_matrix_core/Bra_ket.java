@@ -84,7 +84,8 @@ public abstract class Bra_ket extends AdvancedValueNode implements Matrixable {
 			
 			if (Equation.printInProgress) System.out.println("calculating magnitude of " + toString());
 			
-			if (values.length == 1) {
+			//if (values.length == 1) {
+			if(true) {
 				value = values[0].getValue();
 			}else {
 				double magnitude = 0;
