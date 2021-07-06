@@ -13,6 +13,8 @@ public abstract class BasicOpsList {
 	
 	public static EquationNode[] getOps() {
 		// opportunity to test datatypes here
+		
+		
 		return ops;
 	}
 	

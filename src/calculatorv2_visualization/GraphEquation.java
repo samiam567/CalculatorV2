@@ -16,12 +16,13 @@ public class GraphEquation extends FunctionNode {
 	public ValueNode function(EquationNode[] params, ValueNode outputNode) {
 		if (! Calculator.Assert(params.length > 0, getClass() + " must have at least one parameter")) return outputNode;
 		
-		double precision = 1;
+		
 		
 		// get parameters
 		
 		Equation equation;
 		String eqString;
+		float yAxisSize = Settings.yAxisSize;
 		
 		if (params[0] instanceof StringValueNode) {
 			eqString = ((StringValueNode) params[0]).getString();
@@ -35,8 +36,10 @@ public class GraphEquation extends FunctionNode {
 		
 		String variableName = "x";
 		
-		ValueNode lowerBound = new ValueNode(-500);
-		ValueNode upperBound = new ValueNode(500);
+		ValueNode lowerBound = new ValueNode(-Settings.xAxisSize/2);
+		ValueNode upperBound = new ValueNode(Settings.xAxisSize/2);
+		
+		
 		
 		if (params.length > 1) {
 			variableName = ((StringValueNode) params[1]).getString();
@@ -51,7 +54,7 @@ public class GraphEquation extends FunctionNode {
 					upperBound = params[3].getValueData();
 					
 					if (params.length > 4) {
-						precision = params[4].getValue();
+						yAxisSize = (float) params[4].getValue();
 					}
 				}
 			}
@@ -59,13 +62,16 @@ public class GraphEquation extends FunctionNode {
 		}
 		
 		
+		double xScale = (upperBound.getValue()-lowerBound.getValue())/Settings.width;
+		double yScale = yAxisSize/Settings.height;
+		
 		Graph graph = new Graph();
 		
-		double step = precision*(upperBound.getValue()-lowerBound.getValue())/100;
+		
 	
-		for (double i = lowerBound.getValue(); i < upperBound.getValue(); i+= step) {
+		for (double i = lowerBound.getValue(); i < upperBound.getValue(); i+= xScale) {
 			equation.setVariableValue(variableName,i);
-			graph.addPoint(new GraphPoint(i,equation.solve()));
+			graph.addPoint(new GraphPoint(i/xScale,equation.solve()/yScale));
 		}
 		
 		
@@ -79,7 +85,7 @@ public class GraphEquation extends FunctionNode {
 
 	@Override
 	public String getParameterInputs() {
-		return "graph( \"function\" , \"varToPutOnXAxis\"=\"x\" , lowerBound=_500, upperBound=500 , precision=1)";
+		return "graph( \"function\" , \"varToPutOnXAxis\"=\"x\" , lowerBound=_10, upperBound=10,yAxisSize=20)";
 	}
 	
 	

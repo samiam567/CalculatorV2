@@ -17,7 +17,7 @@ public class Calculator {
 	static final String[] run_flags = {"--verbose-output","--user-calculator","--socket-server"};
 	
 	//used by the runUserCalculator method
-	static UserCalculatorInputFrame calculatorAnchor;
+	static UserCalculatorInputFrame calculatorAnchor = new UserCalculatorInputFrame();
 	static String userInputEqSuggestion = "";
 	static Stack<String> lastEquations = new Stack<String>();
 	
@@ -69,7 +69,6 @@ public class Calculator {
 							userCalculator = true;
 							enableJFrameOutput = true;
 							verboseOutput = true;
-							calculatorAnchor = new UserCalculatorInputFrame(calc);
 						}else if (args[i].equals(run_flags[2])) { //start socket server
 							System.out.println("starting socket server");
 							if (args.length-i <= 2 ) {
@@ -184,8 +183,6 @@ public class Calculator {
 	
 		eq.out.println("Test took " + Calculator.testCalculator() + " nanos to evaluate equations");
 	
-		
-		calculatorAnchor = new UserCalculatorInputFrame(eq);
 	
 		
 		
@@ -283,13 +280,15 @@ public class Calculator {
 		testEquation(testEq,"(3 + 2*i)*(1 + 7*i)","-11.0 + 23.0i",Math.sqrt(650));
 		testEquation(testEq,"(7 + 2.1*i)/(1.5 -4*i)","0.115068493 + 1.706849315i",1.7107236312349676);
 		testEquation(testEq,"1/(1+i)","0.5 + -0.5i",Math.sqrt(0.5));
-
+		testEquation(testEq,"\"hello\"", "\"hello\"", 0);
+		testEquation(testEq,"\"hello\"+1", 6);
+		testEquation(testEq,"\"hello my name is 'alec'\"","\"hello my name is 'alec'\"", 0);
 		
-		testEq.createTree("((4^2*3-45)^(1+1*4) / 3) * 2"); //test equation reusability
+		testEq.createTree("((4^2*3-45)^(1+1*4) / 3) * 2"); //test equation re-usability
 		if (testEq.solve() == ((Math.pow((Math.pow(4,2)*3-45),(1+1*4)) / 3) * 2 )) { 
 			testEquation(testEq,"1",1); //pass
 		}else {
-			testEquation(testEq,"0",1); //pass
+			testEquation(testEq,"0",1); //fail
 		}
 		
 		//test all operations
@@ -326,7 +325,7 @@ public class Calculator {
 	
 	
 	public static boolean testEquation(Equation testEq, String eq, double answer) {
-		if (calculatorAnchor == null ) calculatorAnchor = new UserCalculatorInputFrame(testEq);
+
 		testEq.createTree(eq);
 		
 		Commands.applyVariables(testEq);

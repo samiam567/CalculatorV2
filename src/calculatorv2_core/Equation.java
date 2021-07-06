@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import calculatorV2_programming.ProgrammingOpsList;
 import calculatorv2_basic_operations.BasicOpsList;
 import calculatorv2_circuit_math.CircuitMathOperationsList;
 import calculatorv2_matrix_core.MatrixOperationsList;
@@ -136,6 +137,9 @@ public class Equation extends One_subNode_node {
 		
 		importOperations(VisualizationOpsList.getOps());
 		importAliases(VisualizationOpsList.getAliases());
+		
+		importOperations(ProgrammingOpsList.getOps());
+		importAliases(ProgrammingOpsList.getAliases());
 		
 		setDegRadMode(Commands.mostRecentDegRadMode);
 	}
@@ -751,7 +755,9 @@ public class Equation extends One_subNode_node {
 	 * @return
 	 */
 	public String calculate(String input) {
+		Calculator.enableJFrameOutput = false;
 		Commands.addVariable("ans", prevAns.getValueData(), this);
+		Calculator.enableJFrameOutput = true;
 		if (input.substring(0,1).equals("/")) {
 			String commandOutput = Commands.parseCommand(input, this);
 			return Calculator.verboseOutput ? commandOutput : "";	

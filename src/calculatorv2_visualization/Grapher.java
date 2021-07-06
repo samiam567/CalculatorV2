@@ -35,6 +35,7 @@ public class Grapher extends Canvas {
 		frame.setVisible(true);
 		frame.setSize(Settings.width,Settings.height);
 		frame.getContentPane().add(this);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
 	
