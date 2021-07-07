@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class Graph {
 	public static int colorCounter = -1;
-	public static Color[] colors = {Color.BLACK,Color.blue,Color.CYAN,Color.ORANGE,Color.GREEN,Color.MAGENTA,Color.ORANGE,Color.PINK,Color.RED,Color.YELLOW}; 
+	public static Color[] colors = {Color.blue,Color.CYAN,Color.ORANGE,Color.GREEN,Color.MAGENTA,Color.ORANGE,Color.PINK,Color.RED,Color.YELLOW}; 
 	
 	
 	

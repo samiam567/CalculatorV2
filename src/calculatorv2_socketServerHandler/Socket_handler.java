@@ -84,11 +84,14 @@ public class Socket_handler extends Thread {
 					e.printStackTrace();
 				}
 			}
+			System.out.println("terminating");
 			
 			try {
 				serverSocket.close();
 				socket.close();
 			}catch(Exception e) {}
+
+			System.exit(1);
 		}else if (connectionType == ConnectionType.python) {
 			DataOutputStream dout = null;
 			DataInputStream in = null;
