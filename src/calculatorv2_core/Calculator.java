@@ -109,6 +109,7 @@ public class Calculator {
 							calc.queryUserCalculator(args[i]);
 						}else {
 							ans = calc.calculate(args[i]);
+							System.out.println(ans);
 						}
 						 
 					

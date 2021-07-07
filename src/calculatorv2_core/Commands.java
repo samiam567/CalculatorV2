@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
 
 import calculatorv2_core.Equation.DegOrRadValue;
+import calculatorv2_visualization.Grapher;
 
 
 
@@ -14,7 +15,7 @@ import calculatorv2_core.Equation.DegOrRadValue;
  */
 public class Commands {
 	
-	private static final String commands = "/help, /operations, /last, /exit, /move, /setDegRadMode, /getDegRadMode, /setOutputFormat, /[insert 1-character variable name here] = [insert equation here]";
+	private static final String commands = "/help, /operations, /last, /exit, /move, /setDegRadMode, /getDegRadMode, /setOutputFormat, /clearGraph, /[insert 1-character variable name here] = [insert equation here]";
 	
 	static ArrayList<Variable> variables = new ArrayList<Variable>(); // variables that the user has declared
 
@@ -57,6 +58,9 @@ public class Commands {
 			}catch(NumberFormatException n ) {
 				output("Invalid outputFormat. Must be a positive integer",eq);
 			}
+		}else if (cIn.contains("cleargraph")) {
+			Grapher.clearGraphs();
+			Grapher.updateGraph();
 		}else {
 			output("Command unrecognized",eq);
 		}

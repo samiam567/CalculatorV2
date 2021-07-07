@@ -11,8 +11,6 @@ import calculatorv2_core.ValueNode;
 
 public class GraphEquation extends FunctionNode {
 	
-	private static Grapher grapher = new Grapher();
-	
 	public ValueNode function(EquationNode[] params, ValueNode outputNode) {
 		if (! Calculator.Assert(params.length > 0, getClass() + " must have at least one parameter")) return outputNode;
 		
@@ -74,9 +72,9 @@ public class GraphEquation extends FunctionNode {
 		}
 		
 		
-		grapher.addGraph(graph);
+		Grapher.addGraph(graph);
 		
-		grapher.updateGraph();
+		Grapher.updateGraph();
 		calculated();
 		
 		return outputNode;
