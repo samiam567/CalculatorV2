@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import calculatorv2_basic_operations.Round;
 import calculatorv2_core.Calculator;
-import calculatorv2_core.Commands;
 import calculatorv2_core.Equation;
 import calculatorv2_core.EquationNode;
 import calculatorv2_core.FunctionNode;
@@ -12,7 +11,6 @@ import calculatorv2_core.StringValueNode;
 import calculatorv2_core.ValueNode;
 import calculatorv2_core.VariableNode;
 import calculatorv2_matrix_core.Bra;
-import calculatorv2_scientific_operations.Comparation.ComparationValues;
 
 //solveEquation(eq1,eq2,precision,maxGuesses,guess1,guess2,...)
 public class EquationSolver extends FunctionNode {

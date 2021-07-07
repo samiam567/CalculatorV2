@@ -4,9 +4,6 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-
 import calculatorV2_programming.ProgrammingOpsList;
 import calculatorv2_basic_operations.BasicOpsList;
 import calculatorv2_circuit_math.CircuitMathOperationsList;

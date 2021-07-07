@@ -19,10 +19,7 @@ public class RunFile extends FunctionNode {
 	}
 
 	@Override
-	public void test() {
-		// TODO Auto-generated method stub
-		
-	}
+	public void test() {}
 
 	@Override
 	public EquationNode createNewInstanceOfOperation(Equation eq) {
@@ -47,7 +44,7 @@ public class RunFile extends FunctionNode {
 			String output = "\n";
 			Equation eq = new Equation(true);
 			
-			String nextLine, lineOutput;
+			String nextLine;
 			while (fileScanner.hasNext()) {
 				nextLine = fileScanner.nextLine();
 				

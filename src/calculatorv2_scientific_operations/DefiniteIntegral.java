@@ -2,20 +2,16 @@ package calculatorv2_scientific_operations;
 
 
 import calculatorv2_basic_operations.Addition;
-import calculatorv2_matrix_core.Matrixable;
-import calculatorv2_basic_operations.Division;
 import calculatorv2_basic_operations.Multiplication;
 import calculatorv2_basic_operations.Round;
-import calculatorv2_basic_operations.Subtraction;
 import calculatorv2_core.AdvancedValueNode;
 import calculatorv2_core.Calculator;
 import calculatorv2_core.Equation;
+import calculatorv2_core.Equation.DegOrRadValue;
 import calculatorv2_core.EquationNode;
 import calculatorv2_core.FunctionNode;
 import calculatorv2_core.StringValueNode;
-import calculatorv2_core.Two_subNode_node;
 import calculatorv2_core.ValueNode;
-import calculatorv2_core.Equation.DegOrRadValue;
 import calculatorv2_matrix_core.Bra;
 
 // integrate( function , "vartointover" , lowerBound, upperBound     , precision)

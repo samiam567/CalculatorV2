@@ -17,16 +17,15 @@ public class Natural_logarithm extends One_subNode_node {
 		return Math.log(a);
 	}
 	
+
 	@Override
 	protected ValueNode operation(ValueNode n1, ValueNode outputNode) {
 		
 		if ( (n1 instanceof AdvancedValueNode && ( (AdvancedValueNode) n1).needsSpecialOperationConditions)) {
-			if (false) { 
-				// put class-specific cases here
-			}else {
+			
 				Calculator.warn("WARNING: class " + getClass() + " has no implementation for AdvancedValueNodes of class " + n1.getClass());
 				outputNode.setValue(operation(n1.getValue()));
-			}
+			
 		}else {
 			outputNode.setValue(operation(n1.getValue()));
 		}
