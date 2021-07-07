@@ -1,18 +1,11 @@
 package calculatorv2_visualization;
 
-import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
 
-import javax.swing.JFrame;
 
-
-public class Graph extends Canvas {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 8693047879958545289L;
+public class Graph {
 	public static int colorCounter = -1;
 	public static Color[] colors = {Color.BLACK,Color.blue,Color.CYAN,Color.ORANGE,Color.GREEN,Color.MAGENTA,Color.ORANGE,Color.PINK,Color.RED,Color.YELLOW}; 
 	
