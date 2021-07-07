@@ -25,8 +25,6 @@ public class RepeatedCalculation extends FunctionNode {
 			printEachTime = true;
 		}
 		
-		Calculator.warn("solving " + equation + "  " + times + " times. Reparsing: " + reParse);
-		
 		if (printEachTime) {
 			if (reParse) {
 				Equation eq = new Equation();

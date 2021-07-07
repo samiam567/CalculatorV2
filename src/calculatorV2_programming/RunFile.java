@@ -38,9 +38,6 @@ public class RunFile extends FunctionNode {
 		
 		String filename = ((StringValueNode) params[0]).getString();
 		
-		
-		Calculator.warn("opening " + filename);
-		
 		File program = new File(filename);
 		Scanner fileScanner;
 		try {
@@ -48,9 +45,8 @@ public class RunFile extends FunctionNode {
 			
 			
 			String output = "\n";
-			Equation eq = new Equation();
-		
-			eq.importAll();
+			Equation eq = new Equation(true);
+			
 			String nextLine, lineOutput;
 			while (fileScanner.hasNext()) {
 				nextLine = fileScanner.nextLine();

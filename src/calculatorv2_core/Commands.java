@@ -127,6 +127,7 @@ public class Commands {
 		}
 	}
 	
+	
 	public static void addVariable(String commandInput, Equation eq) {
 		
 		String name = "";
@@ -134,6 +135,8 @@ public class Commands {
 		
 		boolean foundName = false;
 		boolean foundValue = false;
+		
+		
 		
 		if (commandInput.substring(0,1).equals("/")) { //make sure we are dealing with a line-zero command slash
 			
@@ -156,10 +159,14 @@ public class Commands {
 			}
 			
 		
+			if (eq == null) {
+				value = Calculator.evaluate(commandInput.substring(i+1,commandInput.length()));
+			}else {
+				eq.createTree(commandInput.substring(i+1,commandInput.length()));
+				applyVariables(eq); // make sure we have all our variables and constants
+				value = eq.evaluate();
+			}
 			
-			eq.createTree(commandInput.substring(i+1,commandInput.length()));
-			applyVariables(eq); // make sure we have all our variables and constants
-			value = eq.evaluate();
 		
 			foundValue = true;
 		
@@ -176,9 +183,9 @@ public class Commands {
 			}else {
 				variables.add(new Variable(name,value));
 			}
-			output("Variable " + name + " is now set to " + value.getDataStr(), eq);
+			if (eq != null) output("Variable " + name + " is now set to " + value.getDataStr(), eq);
 		}else {
-			output("bad command format",eq);
+			if (eq != null) output("bad command format",eq);
 		}
 			
 	}
@@ -191,7 +198,7 @@ public class Commands {
 	public static void addVariable(String name, ValueNode variableNode, Equation eq) {
 		deleteCommandVariable(name);
 		variables.add(new Variable(name,variableNode));
-		output("Variable " + name + " is now set to " + variableNode.getDataStr(), eq);
+		if (eq != null) output("Variable " + name + " is now set to " + variableNode.getDataStr(), eq);
 	}
 
 	/**

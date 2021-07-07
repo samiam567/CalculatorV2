@@ -31,8 +31,8 @@ public class Absolute_Value extends One_subNode_node {
 		if (n1 instanceof AdvancedValueNode) {
 			if (n1 instanceof ComplexValueNode) { 
 				// complex number
-				if (! (outputNode instanceof ComplexValueNode) ) outputNode = new ComplexValueNode();
-				((ComplexValueNode) outputNode).setValues(operation(((ComplexValueNode) n1).getReal()), operation(((ComplexValueNode) n1).getComplex()));
+				ComplexValueNode N1 = (ComplexValueNode) n1;
+				outputNode = new ValueNode(Math.sqrt(Math.pow(N1.getReal(),2) + Math.pow(N1.getImaginaryComponent(),2)));
 			}else {
 				Calculator.warn("WARNING: class " + getClass() + " has no implementation for AdvancedValueNodes of class " + n1.getClass());
 				outputNode.setValue(operation(n1.getValue()));

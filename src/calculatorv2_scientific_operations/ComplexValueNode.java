@@ -57,7 +57,7 @@ public class ComplexValueNode extends AdvancedValueNode {
 	@Override
 	public double getValue() {
 		if (! isCalculated()) {
-			value = Math.sqrt(Math.pow(getReal(),2) + Math.pow(getImaginaryComponent(),2)); 
+			value = realComponent; 
 		}
 		
 		return value;

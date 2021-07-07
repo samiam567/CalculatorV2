@@ -7,6 +7,7 @@ import calculatorv2_core.Equation;
 import calculatorv2_core.EquationNode;
 import calculatorv2_core.FunctionNode;
 import calculatorv2_core.StringValueNode;
+import calculatorv2_core.Two_subNode_node;
 import calculatorv2_core.ValueNode;
 
 public class GraphEquation extends FunctionNode {
@@ -26,11 +27,13 @@ public class GraphEquation extends FunctionNode {
 		
 		if (params[0] instanceof StringValueNode) {
 			eqString = ((StringValueNode) params[0]).getString();
+			
 		}else {
+		
 			eqString = params[0].convertEquationToString();
 			Calculator.warn(getClass() + " should be used exclusively with strings for equation input");
+			
 		}
-		
 		equation = new Equation(eqString);
 		
 		
@@ -43,9 +46,6 @@ public class GraphEquation extends FunctionNode {
 		
 		if (params.length > 1) {
 			variableName = ((StringValueNode) params[1]).getString();
-		
-			
-			
 			
 			if (params.length > 2) {
 				lowerBound = params[2].getValueData();

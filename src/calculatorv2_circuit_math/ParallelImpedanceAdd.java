@@ -59,7 +59,7 @@ public class ParallelImpedanceAdd extends FunctionNode {
 		boolean prevOutputEnable = Calculator.enableJFrameOutput;
 		Calculator.enableJFrameOutput = false;	
 		Calculator.testEquation(testEq,"parallel(1,2,3,4,5)",0.43795620437956206);
-		Calculator.testEquation(testEq,"parallel(_8.8*i,8)","4.380090498 + -3.981900452i",5.91952058716755);
+		Calculator.testEquation(testEq,"parallel(_8.8*i,8)","4.380090498 + -3.981900452i",4.380090497737557);
 		
 		
 		Commands.parseCommand("/V = exp(i×53.1)",testEq);

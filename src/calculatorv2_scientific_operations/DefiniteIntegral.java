@@ -2,6 +2,7 @@ package calculatorv2_scientific_operations;
 
 
 import calculatorv2_basic_operations.Addition;
+import calculatorv2_matrix_core.Matrixable;
 import calculatorv2_basic_operations.Division;
 import calculatorv2_basic_operations.Multiplication;
 import calculatorv2_basic_operations.Round;
@@ -12,12 +13,14 @@ import calculatorv2_core.Equation;
 import calculatorv2_core.EquationNode;
 import calculatorv2_core.FunctionNode;
 import calculatorv2_core.StringValueNode;
+import calculatorv2_core.Two_subNode_node;
 import calculatorv2_core.ValueNode;
 import calculatorv2_core.Equation.DegOrRadValue;
 import calculatorv2_matrix_core.Bra;
 
 // integrate( function , "vartointover" , lowerBound, upperBound     , precision)
 public class DefiniteIntegral extends FunctionNode {
+	
 	public ValueNode function(EquationNode[] params, ValueNode outputNode) {
 		if (! Calculator.Assert(params.length > 3, getClass() + " must have at least two parameters")) return outputNode;
 		
@@ -30,9 +33,14 @@ public class DefiniteIntegral extends FunctionNode {
 		
 		if (params[0] instanceof StringValueNode) {
 			eqString = ((StringValueNode) params[0]).getString();
+		
 		}else {
+			
 			eqString = params[0].convertEquationToString();
 			Calculator.warn(getClass() + " should be used exclusively with strings for equation input");
+			
+			
+			
 		}
 		
 		equation = new Equation(eqString);
@@ -105,7 +113,7 @@ public class DefiniteIntegral extends FunctionNode {
 		Equation eq = new Equation();
 		eq.importAll();
 		
-		Calculator.testEquation(eq, "integrate(\"x+1\",\"x\",0,10,1)",60);
+		Calculator.testEquation(eq, "integrate(\"x + 1\",\"x\",0,10,1)",60);
 	
 		eq.setDegRadMode(DegOrRadValue.radians);
 		Calculator.testEquation(eq,"integrate(\"sin(x)\",\"x\",0,10,0.01)",1.84);

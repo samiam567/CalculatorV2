@@ -114,12 +114,24 @@ public class Equation extends One_subNode_node {
 		Commands.applyVariables(this);
 	}
 	
+	public Equation(boolean placeholder) {
+		importAll();
+		importStandardConstants();
+	}
+	
 	public Equation() {
 		//nothing needs to be done here
 	}
 	
 	
 	
+	public Equation(EquationNode equationNode) {
+		importAll();
+		importStandardConstants();
+		createTree(equationNode);
+		Commands.applyVariables(this);
+	}
+
 	public void importAll() {
 		
 	
@@ -142,6 +154,7 @@ public class Equation extends One_subNode_node {
 		importAliases(ProgrammingOpsList.getAliases());
 		
 		setDegRadMode(Commands.mostRecentDegRadMode);
+		
 	}
 	public void importOperations(EquationNode[] ops) {
 		for (EquationNode opType : ops) {
@@ -176,7 +189,7 @@ public class Equation extends One_subNode_node {
 		
 		boolean jfo = Calculator.enableJFrameOutput;
 		Calculator.enableJFrameOutput = false;
-		Commands.addVariable("ans", prevAns.getValueData(), this);
+		Commands.addVariable("ans", prevAns.getValueData(), null);
 		Calculator.enableJFrameOutput = true;
 	
 		
@@ -296,6 +309,31 @@ public class Equation extends One_subNode_node {
 		return -1;
 	}
 	
+	/**
+	 * Used by createTree(EquationNode)
+	 * Searches tree for variableNodes and adds them to the variables list
+	 * @param equationNode
+	 */
+	private void recursiveAddVariables(EquationNode equationNode) {
+		System.out.println(equationNode.toString());
+		if (equationNode instanceof One_subNode_node) {
+			recursiveAddVariables(((One_subNode_node) equationNode).getSubNode());
+		}else if (equationNode instanceof Two_subNode_node) { 
+			recursiveAddVariables(((Two_subNode_node) equationNode).getLeftSubNode());
+			recursiveAddVariables(((Two_subNode_node) equationNode).getRightSubNode());
+		}else if (equationNode instanceof VariableNode) {
+			variables.add((VariableNode) equationNode);
+		}
+	}
+	/**
+	 * creates this equation from a pre-defined tree
+	 * @param equationNode
+	 */
+	public void createTree(EquationNode equationNode) {
+		setSubNode(equationNode);
+		recursiveAddVariables(equationNode);
+	}
+
 	private EquationNode[] addToNodesArray(EquationNode n, EquationNode[] nodes) {
 		nodes = resizeNodesArray(nodes, 0,nodes.length);
 		nodes[nodes.length-1] = n;
@@ -756,7 +794,7 @@ public class Equation extends One_subNode_node {
 	 */
 	public String calculate(String input) {
 		Calculator.enableJFrameOutput = false;
-		Commands.addVariable("ans", prevAns.getValueData(), this);
+		Commands.addVariable("ans", prevAns.getValueData(), null);
 		Calculator.enableJFrameOutput = true;
 		if (input.substring(0,1).equals("/")) {
 			String commandOutput = Commands.parseCommand(input, this);

@@ -37,10 +37,10 @@ public class GetValue extends One_subNode_node {
 		boolean prevOutputEnable = Calculator.enableJFrameOutput;
 		Calculator.enableJFrameOutput = false;
 		
-		Calculator.testEquation(testEq,"getValue(5*i)",5);
+		Calculator.testEquation(testEq,"getValue(5*i)",0);
 		Calculator.testEquation(testEq,"getValue(7)",7);
 		Commands.parseCommand("/n = 3+4×i",testEq);
-		Calculator.testEquation(testEq,"getValue(n×n×n)",125);
+		Calculator.testEquation(testEq,"getValue(n×n×n)",-117);
 
 		
 		

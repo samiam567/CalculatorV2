@@ -17,20 +17,26 @@ public class Multiplication extends Two_subNode_node {
 		orderOfOpsLevel = 2;
 	}
 	
-	protected double operation(double a, double b) {
-		if (Equation.printInProgress) System.out.println(a + "*" + b);
+	protected static double operationStat(double a, double b) {
 		return a*b;
+	}
+	
+	protected double operation(double a, double b) {
+		return operationStat(a,b);
 	}
 	
 	public String toString() {
 		return "*";
 	}
 	
-	@Override
+
 	public ValueNode operation(ValueNode n1, ValueNode n2, ValueNode outputNode) {
+		return operationStat(n1,n2,outputNode);
+	}
+	
+	public static ValueNode operationStat(ValueNode n1, ValueNode n2, ValueNode outputNode) {
 		if (outputNode == null) outputNode = new ValueNode(0);
 		if ( (n1 instanceof AdvancedValueNode && ( (AdvancedValueNode) n1).needsSpecialOperationConditions) || (n2 instanceof AdvancedValueNode && ( (AdvancedValueNode) n2).needsSpecialOperationConditions) ) {
-			if (Equation.printInProgress) System.out.println(n1.getDataStr() + toString() + n2.getDataStr());
 			
 			
 			if (false) {//n1 instanceof MatrixNode && n2 instanceof MatrixNode) {
@@ -45,7 +51,7 @@ public class Multiplication extends Two_subNode_node {
 				
 
 				for (int i = 0; i < N1.getRows().length; i++) {
-					((MatrixNode) outputNode).getRows()[i].setValues(((Bra) operation(N1.getRows()[i],n2,((MatrixNode) outputNode).getRows()[i])));
+					((MatrixNode) outputNode).getRows()[i].setValues(((Bra) operationStat(N1.getRows()[i],n2,((MatrixNode) outputNode).getRows()[i])));
 				}
 				
 			}else if (n2 instanceof MatrixNode) {
@@ -58,7 +64,7 @@ public class Multiplication extends Two_subNode_node {
 				
 
 				for (int i = 0; i < N2.getRows().length; i++) {
-					((MatrixNode) outputNode).getRows()[i] = ((Bra) operation(N2.getRows()[i],n1,((MatrixNode) outputNode).getRows()[i]));
+					((MatrixNode) outputNode).getRows()[i] = ((Bra) operationStat(N2.getRows()[i],n1,((MatrixNode) outputNode).getRows()[i]));
 				}
 				
 				
@@ -71,7 +77,7 @@ public class Multiplication extends Two_subNode_node {
 				
 				double innerProduct = 0;
 				for (int i = 0; i < length; i++) {
-					innerProduct += operation(N1.getValue(i),N2.getValue(i),null).getValue();
+					innerProduct += operationStat(N1.getValue(i),N2.getValue(i),null).getValue();
 				}
 			
 				outputNode = new ValueNode(innerProduct);
@@ -83,7 +89,7 @@ public class Multiplication extends Two_subNode_node {
 				if (! (outputNode instanceof Bra) ) outputNode = new Bra( N1.size() );
 				//Bra * number
 				for (int i = 0; i < N1.size(); i++) {
-					((Bra)outputNode).setValue(i,operation(N1.getValue(i),n2,((Bra)outputNode).getValue(i)));
+					((Bra)outputNode).setValue(i,operationStat(N1.getValue(i),n2,((Bra)outputNode).getValue(i)));
 				}
 				
 			}else if (n1 instanceof Ket && ! (n2 instanceof Ket)) {
@@ -91,14 +97,14 @@ public class Multiplication extends Two_subNode_node {
 				if (! (outputNode instanceof Ket) ) outputNode = new Ket( N1.size() );
 				//Ket * number
 				for (int i = 0; i < N1.size(); i++) {
-					((Ket)outputNode).setValue(i,operation(N1.getValue(i),n2,((Ket)outputNode).getValue(i)));
+					((Ket)outputNode).setValue(i,operationStat(N1.getValue(i),n2,((Ket)outputNode).getValue(i)));
 				}
 			}else if (n2 instanceof Bra && ! (n1 instanceof Bra) ) {
 				Bra N2 = (Bra) n2;
 				if (! (outputNode instanceof Bra) ) outputNode = new Bra( N2.size() );
 				//Bra * number
 				for (int i = 0; i < N2.size(); i++) {
-					((Bra)outputNode).setValue(i,operation(N2.getValue(i),n1,((Bra)outputNode).getValue(i)));
+					((Bra)outputNode).setValue(i,operationStat(N2.getValue(i),n1,((Bra)outputNode).getValue(i)));
 				}
 				
 			}else if (n2 instanceof Ket && ! (n1 instanceof Ket)) {
@@ -106,7 +112,7 @@ public class Multiplication extends Two_subNode_node {
 				if (! (outputNode instanceof Ket) ) outputNode = new Ket( N2.size() );
 				//Ket * number
 				for (int i = 0; i < N2.size(); i++) {
-					((Ket)outputNode).setValue(i,operation(N2.getValue(i),n1,((Ket)outputNode).getValue(i)));
+					((Ket)outputNode).setValue(i,operationStat(N2.getValue(i),n1,((Ket)outputNode).getValue(i)));
 				}
 				
 			}else if (n1 instanceof ComplexValueNode || n2 instanceof ComplexValueNode) {
@@ -153,13 +159,13 @@ public class Multiplication extends Two_subNode_node {
 			}*/
 			
 			else {
-				Calculator.warn("class " + getClass() + " has no implementation for AdvancedValueNodes of class " + n1.getClass() + " and " + n2.getClass());
-				outputNode.setValue(operation(n1.getValue(),n2.getValue()));
+				Calculator.warn("class " + Multiplication.class + " has no implementation for AdvancedValueNodes of class " + n1.getClass() + " and " + n2.getClass());
+				outputNode.setValue(operationStat(n1.getValue(),n2.getValue()));
 			}
 			
 		
 		}else { //they are just normal values
-			outputNode.setValue(operation(n1.getValue(),n2.getValue()));
+			outputNode.setValue(operationStat(n1.getValue(),n2.getValue()));
 		}
 		
 		return outputNode;

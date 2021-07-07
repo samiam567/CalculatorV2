@@ -78,8 +78,8 @@ public class Addition extends Two_subNode_node {
 		testEq.importOperations(BasicOpsList.getOps());
 		
 		Calculator.testEquation(testEq,"1+1",2);
-		Calculator.testEquation(testEq,"1+i","1.0 + 1.0i",Math.sqrt(2)); 
-		Calculator.testEquation(testEq,"i+1","1.0 + 1.0i",Math.sqrt(2));
+		Calculator.testEquation(testEq,"1+i","1.0 + 1.0i",1); 
+		Calculator.testEquation(testEq,"i+1","1.0 + 1.0i",1);
 		
 	}
 	
