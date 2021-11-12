@@ -190,7 +190,7 @@ public class Calculator {
 		
 		Calculator.enableJFrameOutput = false;
 	
-		eq.out.println("Test took " + Calculator.testCalculator() + " nanos to evaluate equations");
+		eq.out.println("Test took " + Calculator.testCalculator() + " nanos to evaluate " + Calculator.testNum + " test equations");
 	
 	
 		

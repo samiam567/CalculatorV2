@@ -1,6 +1,4 @@
 /calculatorv2_core/
-/calculatorv2_visualization/
-/calculatorv2_basic_operations/
-/calculatorV2_programming/
+/calculatorv2_matrix_core/
 /calculatorv2_scientific_operations/
-/calculatorv2_socketServerHandler/
+/calculatorv2_basic_operations/
