@@ -15,7 +15,7 @@ import calculatorv2_visualization.Grapher;
  */
 public class Commands {
 	
-	private static final String commands = "/help, /operations, /last, /exit, /move, /setDegRadMode, /getDegRadMode, /setOutputFormat, /clearGraph, /[insert 1-character variable name here] = [insert equation here]";
+	private static final String commands = "/help, /operations, /last, /exit, /move, /setDegRadMode, /getDegRadMode, /setOutputFormat, /clearGraph, /clearVariables, /[insert 1-character variable name here] = [insert equation here]";
 	
 	static ArrayList<Variable> variables = new ArrayList<Variable>(); // variables that the user has declared
 
@@ -38,6 +38,8 @@ public class Commands {
 	}
 	public static String parseCommand(String commandInput, Equation eq) {
 		output = "";
+		
+
 
 		String cIn = commandInput.toLowerCase();
 		if (cIn.contains("move")) {
@@ -61,6 +63,9 @@ public class Commands {
 		}else if (cIn.contains("cleargraph")) {
 			Grapher.clearGraphs();
 			Grapher.updateGraph();
+		}else if (cIn.contains("clearvariables")) {
+			variables.clear();
+			output("Variables cleared",eq);
 		}else {
 			output("Command unrecognized",eq);
 		}

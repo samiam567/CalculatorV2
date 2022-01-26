@@ -375,7 +375,8 @@ public class Equation extends One_subNode_node {
 				}
 			}
 		}
-	
+			
+		System.out.println("Equation with aliases: " + equation);
 		
 		//create nodes
 		

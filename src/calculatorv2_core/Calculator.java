@@ -175,7 +175,12 @@ public class Calculator {
 		//show to JopPane
 		if (enableJFrameOutput) JOptionPane.showMessageDialog(null, warning,"WARNING", JOptionPane.ERROR_MESSAGE);
 	}
+	
 	public static void runUserCalculator(Equation eq) {
+		runUserCalculator(eq, false);
+	}
+	
+	public static void runUserCalculator(Equation eq, boolean testEquations) {
 		
 		
 		
@@ -190,7 +195,9 @@ public class Calculator {
 		
 		Calculator.enableJFrameOutput = false;
 	
-		eq.out.println("Test took " + Calculator.testCalculator() + " nanos to evaluate " + Calculator.testNum + " test equations");
+		if (testEquations) {
+			eq.out.println("Test took " + Calculator.testCalculator() + " nanos to evaluate " + Calculator.testNum + " test equations");
+		}
 	
 	
 		

@@ -56,7 +56,17 @@ public class Negative extends One_subNode_node {
 	}
 	
 	public void test() { 
-		Calculator.warn(getClass() + " is not tested and should not be used");
+		
+		Equation testEq = new Equation();
+		testEq.importOperations(BasicOpsList.getOps());
+		
+		Calculator.testEquation(testEq,"_1",-1);
+		Calculator.testEquation(testEq,"_1 + 1",0);
+	//	Calculator.testEquation(testEq,"_100^2",-10000);
+		Calculator.testEquation(testEq,"(_100)^2",10000);
+
+		Calculator.warn("Negatives should be used with parenthesis. They will always negate a number. ie _10^2 = 100 not -100 as it should");
+		
 	}
 	
 	public EquationNode createNewInstanceOfOperation(Equation eq) {
