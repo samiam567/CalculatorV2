@@ -177,7 +177,7 @@ public class Calculator {
 	}
 	
 	public static void runUserCalculator(Equation eq) {
-		runUserCalculator(eq, false);
+		runUserCalculator(eq, true);
 	}
 	
 	public static void runUserCalculator(Equation eq, boolean testEquations) {

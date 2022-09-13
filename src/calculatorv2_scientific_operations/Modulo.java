@@ -37,6 +37,8 @@ public class Modulo extends Two_subNode_node {
 		Calculator.testEquation(testEq,"4 % 2",0); 
 		Calculator.testEquation(testEq,"4%2",0); 
 		Calculator.testEquation(testEq,"5mod2",1);
+		Calculator.testEquation(testEq,"100 mod (3^3)",19);
+		Calculator.testEquation(testEq,"100 %3^3",19);
 		
 	}
 	
