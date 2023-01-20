@@ -11,6 +11,7 @@ import calculatorv2_matrix_core.MatrixOperationsList;
 import calculatorv2_scientific_operations.Comparation;
 import calculatorv2_scientific_operations.ComplexValueNode;
 import calculatorv2_scientific_operations.ScientificOperationsList;
+import calculatorv2_statistical_operations.StatisticalOperationsList;
 import calculatorv2_visualization.VisualizationOpsList;
 import calculatorv2_scientific_operations.Comparation.ComparationValues;
 
@@ -149,6 +150,9 @@ public class Equation extends One_subNode_node {
 		
 		importOperations(ProgrammingOpsList.getOps());
 		importAliases(ProgrammingOpsList.getAliases());
+		
+		importOperations(StatisticalOperationsList.getOps());
+		importAliases(StatisticalOperationsList.getAliases());
 		
 		setDegRadMode(Commands.mostRecentDegRadMode);
 		
