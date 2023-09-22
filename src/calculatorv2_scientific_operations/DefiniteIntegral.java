@@ -52,33 +52,13 @@ public class DefiniteIntegral extends FunctionNode {
 		}
 		
 		
-		if (false) {
-			double step = precision*(upperBound.getValue()-lowerBound.getValue())/1000;
-			double integral = 0;
-			for (double i = lowerBound.getValue(); i < upperBound.getValue(); i+= step) {
-				equation.setVariableValue(variableName,i);
-				integral += equation.solve()*step;
-			}
+		
+		ValueNode step = new ValueNode(precision*(upperBound.getValue()-lowerBound.getValue())/1000);
 			
-			outputNode.setValue(integral);
-		}else { //this algorithm is not operational
-			ValueNode step = new ValueNode(precision*(upperBound.getValue()-lowerBound.getValue())/1000);
-			
-			Addition add = new Addition();
-			Multiplication multi = new Multiplication();
-			outputNode = new ValueNode(0);
-			ValueNode answer;
-			
-			for (; lowerBound.getValue() < upperBound.getValue(); lowerBound = add.operation(lowerBound,step,new ValueNode(0)) ) {
-				equation.setAdvancedVariableValue(variableName,lowerBound);
-				answer = equation.evaluate().getValueData();
-				answer = multi.operation(answer,step,new ValueNode(0));
-				outputNode = add.operation(outputNode,answer, new ValueNode(0));
-				//System.out.println("i: " + lowerBound + "  eqAns: " + equation.evaluate().getValueData() + " eqAnswStep: " + answer + "  integral " + outputNode);
-			}
+		outputNode = integrate(equation, variableName, lowerBound, upperBound, step);
 			
 			
-		}
+		
 		
 		
 		if (!(outputNode instanceof AdvancedValueNode)) {
@@ -93,6 +73,23 @@ public class DefiniteIntegral extends FunctionNode {
 		return outputNode;
 	}
 //integrate( function , "vartointover" , lowerBound, upperBound     , precision)
+	
+	public static ValueNode integrate(Equation equation, String variableName, ValueNode lowerBound, ValueNode upperBound, ValueNode step) {
+		Addition add = new Addition();
+		Multiplication multi = new Multiplication();
+		ValueNode outputNode = new ValueNode(0);
+		ValueNode answer;
+		
+		for (; lowerBound.getValue() < upperBound.getValue(); lowerBound = add.operation(lowerBound,step,new ValueNode(0)) ) {
+			equation.setAdvancedVariableValue(variableName,lowerBound);
+			answer = equation.evaluate().getValueData();
+			answer = multi.operation(answer,step,new ValueNode(0));
+			outputNode = add.operation(outputNode,answer, new ValueNode(0));
+			//System.out.println("i: " + lowerBound + "  eqAns: " + equation.evaluate().getValueData() + " eqAnswStep: " + answer + "  integral " + outputNode);
+		}
+		
+		return outputNode;
+	}
 	
 	@Override
 	public String getParameterInputs() {

@@ -8,7 +8,15 @@ import calculatorv2_core.Two_subNode_node;
 
 public class Permutation extends Two_subNode_node {
 
-private Factorial f = new Factorial();
+	private Factorial f = new Factorial();
+	
+	public Permutation() {
+		orderOfOpsLevel = 5;
+	}
+	
+	public Permutation(Equation eq) {
+		orderOfOpsLevel = 5;
+	}
 	
 	@Override
 	public String getOperationKeyword() {
@@ -23,6 +31,8 @@ private Factorial f = new Factorial();
 		
 		Calculator.testEquation(testEq,"10P3",720);
 		Calculator.testEquation(testEq,"5P2",20);
+		Calculator.testEquation(testEq,"5P2*2",40);
+		Calculator.testEquation(testEq,"2*5P2",40);
 
 	}
 

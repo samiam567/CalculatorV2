@@ -124,6 +124,10 @@ public class EquationSolver extends FunctionNode {
 		return new Bra(guesses);
 	}
 	
+	@Override
+	public String getParameterInputs() {
+		return "solveEquation(\"Equation1\",\"Equation2\",precision=0.00001,maxGuesses=10/precision) ";
+	}
 
 	public ValueNode function(EquationNode[] params, ValueNode outputNode) {
 		if (! Calculator.Assert(params.length > 1, "EquationSolve must have at least two parameters")) return outputNode;

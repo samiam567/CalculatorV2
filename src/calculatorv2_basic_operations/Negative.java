@@ -9,7 +9,7 @@ import calculatorv2_core.ValueNode;
 import calculatorv2_scientific_operations.ComplexValueNode;
 
 public class Negative extends One_subNode_node {
-	
+
 	
 	public Negative(Equation eq) {
 		if (eq.cMode.equals("numberInput")) {

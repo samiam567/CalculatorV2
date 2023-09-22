@@ -9,6 +9,13 @@ import calculatorv2_core.Two_subNode_node;
 public class Combination extends Two_subNode_node {
 	private Factorial f = new Factorial();
 	
+	public Combination() {
+		orderOfOpsLevel = 5;
+	}
+	
+	public Combination(Equation eq) {
+		orderOfOpsLevel = 5;
+	}
 	@Override
 	public String getOperationKeyword() {
 		return "C";
@@ -22,12 +29,13 @@ public class Combination extends Two_subNode_node {
 		
 		Calculator.testEquation(testEq,"10C3",120);
 		Calculator.testEquation(testEq,"5C2",10);
+		Calculator.testEquation(testEq,"5C2*2",20);
 
 	}
 
 	@Override
 	public EquationNode createNewInstanceOfOperation(Equation eq) {
-		return new Combination();
+		return new Combination(eq);
 	}
 
 	@Override
