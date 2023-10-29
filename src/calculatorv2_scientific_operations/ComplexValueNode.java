@@ -1,12 +1,14 @@
 package calculatorv2_scientific_operations;
 
+import java.text.DecimalFormat;
+
 import calculatorv2_core.AdvancedValueNode;
+import calculatorv2_core.Calculator;
 import calculatorv2_core.ValueNode;
 
 public class ComplexValueNode extends AdvancedValueNode {
 	private double realComponent;
 	private double imaginaryComponent;
-
 	
 	public ComplexValueNode() {
 		super('k');
@@ -82,7 +84,7 @@ public class ComplexValueNode extends AdvancedValueNode {
 
 	@Override
 	public String toString() {
-		return "" + Math.round(realComponent*1000000000)/1000000000D + " + " + Math.round(imaginaryComponent*1000000000)/1000000000D + "i";
+		return Calculator.decimalFormat.format(realComponent) + " + " + Calculator.decimalFormat.format(imaginaryComponent) + "i";
 	}
 
 	public double getReal() {

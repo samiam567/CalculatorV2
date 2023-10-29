@@ -68,9 +68,9 @@ public class QuadraticFormula extends FunctionNode {
 
 		
 		
-		Calculator.testEquation(testEq,"quadForm(1,2,5)","<-1.0 + 2.0i,-1.0 + -2.0i|",-1.0);
+		Calculator.testEquation(testEq,"quadForm(1,2,5)","<-1 + 2i,-1 + -2i|",-1.0);
 		Calculator.testEquation(testEq,"quadForm(3,5,12)","<-0.833333333 + 1.818118686i,-0.833333333 + -1.818118686i|",-0.8333333333333334);
-		Calculator.testEquation(testEq,"quadForm(1,5,6)","<-2.0,-3.0|",-2.0);
+		Calculator.testEquation(testEq,"quadForm(1,5,6)","<-2,-3|",-2.0);
 		
 		Commands.parseCommand("/V = exp(i×53.1)",testEq);
 		Commands.parseCommand("/I = 1",testEq);

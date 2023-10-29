@@ -1,6 +1,7 @@
 package calculatorv2_core;
 
 
+import java.text.DecimalFormat;
 import java.util.Stack;
 
 import javax.swing.JOptionPane;
@@ -15,6 +16,8 @@ public class Calculator {
 	public static boolean enableJFrameOutput = true;
 	
 	static final String[] run_flags = {"--verbose-output","--user-calculator","--socket-server"};
+	
+	public static DecimalFormat decimalFormat = new DecimalFormat("#.#########");
 	
 	//used by the runUserCalculator method
 	static UserCalculatorInputFrame calculatorAnchor = new UserCalculatorInputFrame();
@@ -292,8 +295,8 @@ public class Calculator {
 		testEquation(testEq,"solveEquation(\"x\",\"10\")",10);
 		testEquation(testEq,"solveEquation(\"x+1\",\"10\")",9);
 		testEquation(testEq,"solveEquation(\"18\",\"x+20\")",-2);
-		testEquation(testEq,"i+1","1.0 + 1.0i",1);
-		testEquation(testEq,"(3 + 2*i)*(1 + 7*i)","-11.0 + 23.0i",-11);
+		testEquation(testEq,"i+1","1 + 1i",1);
+		testEquation(testEq,"(3 + 2*i)*(1 + 7*i)","-11 + 23i",-11);
 		testEquation(testEq,"(7 + 2.1*i)/(1.5 -4*i)","0.115068493 + 1.706849315i",0.11506849315068492);
 		testEquation(testEq,"1/(1+i)","0.5 + -0.5i",0.5);
 		testEquation(testEq,"\"hello\"", "\"hello\"", 0);
@@ -343,7 +346,6 @@ public class Calculator {
 	public static boolean testEquation(Equation testEq, String eq, double answer) {
 
 		testEq.createTree(eq);
-		
 		Commands.applyVariables(testEq);
 	
 		

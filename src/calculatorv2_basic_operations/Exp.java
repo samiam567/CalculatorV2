@@ -80,8 +80,8 @@ public class Exp extends One_subNode_node {
 
 		
 		
-		Calculator.testEquation(testEq,"3*exp(90*i)","0.0 + 3.0i",1.8369701987210297E-16);
-		Calculator.testEquation(testEq,"(3×exp(30×i))×(2×exp(_60×i))","5.196152423 + -3.0i",5.196152422706632);
+		Calculator.testEquation(testEq,"3*exp(90*i)","0 + 3i",1.8369701987210297E-16);
+		Calculator.testEquation(testEq,"(3×exp(30×i))×(2×exp(_60×i))","5.196152423 + -3i",5.196152422706632);
 		
 		Commands.parseCommand("/V = exp(i×53.1)",testEq);
 		Commands.parseCommand("/I = 1",testEq);

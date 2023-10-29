@@ -920,7 +920,7 @@ public class Equation extends One_subNode_node {
 	
 	@Override
 	public String toString() {
-		return evaluate().getDataStr();
+		return getValueData().toString();
 	}
 
 	@Override

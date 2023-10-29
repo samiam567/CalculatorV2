@@ -1,5 +1,7 @@
 package calculatorv2_core;
 
+import java.text.DecimalFormat;
+
 public class ValueNode extends EquationNode {
 	protected double value;
 	
@@ -26,7 +28,7 @@ public class ValueNode extends EquationNode {
 	
 	@Override
 	public String toString() {
-		return "" + Math.round(getValue()*1000000000)/1000000000D;
+		return Calculator.decimalFormat.format(getValue());
 	}
 	public void setValue(double value) {
 		notCalculated();
