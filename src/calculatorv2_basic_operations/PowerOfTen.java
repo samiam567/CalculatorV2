@@ -43,6 +43,7 @@ public class PowerOfTen extends Two_subNode_node {
 		
 		Calculator.testEquation(testEq,"1E-3",0.001);
 		Calculator.testEquation(testEq,"1E3",1000);
+		Calculator.testEquation(testEq,"5000*(27.6E6)",1.38E11);
 		
 		Calculator.enableJFrameOutput = prevOutputEnable;
 	}
