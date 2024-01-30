@@ -49,6 +49,10 @@ public abstract class Bra_ket extends AdvancedValueNode implements Matrixable {
 		values = val;
 		notCalculated();
 	}
+
+	public boolean isBra() {
+		return bra;
+	}
 	
 	public void setValues(ValueNode val) {
 		if (val instanceof Bra_ket) {

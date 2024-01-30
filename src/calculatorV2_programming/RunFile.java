@@ -69,5 +69,10 @@ public class RunFile extends FunctionNode {
 			return outputNode;
 		}
 	}
+	
+	@Override
+	public String getParameterInputs() {
+		return "run(\"<filename>\")";
+	}
 
 }

@@ -3,7 +3,7 @@ package calculatorv2_core;
 /**
  * {@summary signifies that this ValueNode stores more information than a regular ValueNode}
  * {@code essentially it takes more than one double to represent this value ex. complex numbers, matrices, etc}
- * @author samiam567
+ * @author Alec Pannunzio
  */
 public class AdvancedValueNode extends ValueNode {
 	

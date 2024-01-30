@@ -48,6 +48,7 @@ public class Round extends FunctionNode {
 	
 	public void test() { 
 		Calculator.warn(getClass() + " is not tested and should not be used");
+		Calculator.warn(getClass() + " does not work with large numbers.");
 	}
 	
 	public EquationNode createNewInstanceOfOperation(Equation eq) {

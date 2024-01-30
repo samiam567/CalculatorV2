@@ -7,9 +7,9 @@ public abstract class BasicOpsList {
 	private static final Equation eq = new Equation();
 	private static final EquationNode[] ops = {new Addition(), new Absolute_Value(), new ArcCosine(eq), new ArcSine(eq), new ArcTangent(eq), new Cosine(eq),
 			new Division(), new Exp(eq), new Logarithm(), new Multiplication(), new Natural_logarithm(), new Negative(eq), new Pow(), new PowerOfTen(),
-			new Root(), new Sine(eq), new SquareRoot(), new Subtraction(), new Tangent(eq), new Round(), new GetValue(), new Square()};
+			new Root(), new Sine(eq), new SquareRoot(), new Subtraction(), new Tangent(eq), new Round(), new GetValue(), new Square(), new ToScientificNotation()};
 	
-	private static final String[][] aliases =  {{"Round","round"},{"toInt("," round("},{"⁻"," _"}, {"×"," * "}, {"÷"," / "}, {"π"," pi "}, {"e^","exp"},{"isEqualTo","=="},{"solveEquation","solveequation"},{"E-"," timesTenToThe _"},{"E"," timesTenToThe "}};
+	private static final String[][] aliases =  {{"Round","round"},{"toInt("," round("},{"⁻"," _"}, {"×"," * "}, {"÷"," / "}, {"π"," pi "}, {"e^","exp"},{"isEqualTo","=="},{"solveEquation","solveequation"},{"E-"," timesTenToThe _"},{"E"," timesTenToThe "}, {"Sci", "sci"}};
 	
 	public static EquationNode[] getOps() {
 		// opportunity to test datatypes here

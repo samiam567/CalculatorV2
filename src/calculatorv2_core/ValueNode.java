@@ -1,7 +1,5 @@
 package calculatorv2_core;
 
-import java.text.DecimalFormat;
-
 public class ValueNode extends EquationNode {
 	protected double value;
 	
@@ -11,7 +9,7 @@ public class ValueNode extends EquationNode {
 		valueData = this;
 	}
 	public ValueNode(char key) {
-		assert key == 'k'; // ensure that you can only use this constuctor if you know what you are doing
+		assert key == 'k'; // ensure that you can only use this constructor if you know what you are doing
 		valueData = this;
 	}
 	
