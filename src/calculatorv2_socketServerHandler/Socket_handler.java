@@ -62,9 +62,11 @@ public class Socket_handler extends Thread {
 				        byte[] receivedBytes = new byte[len];
 				        is.read(receivedBytes, 0, len);
 				        String received = new String(receivedBytes, 0, len);
-			
-				        // Sending
+				        	
+				        // preform calculation
 				        String toSend = handleMessage(received);
+				        
+				        // Sending
 				        System.out.println("sending...");
 				        if (toSend.length() == 0) toSend = "~~~~";
 				        byte[] toSendBytes = toSend.getBytes();

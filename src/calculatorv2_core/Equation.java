@@ -69,8 +69,8 @@ public class Equation extends One_subNode_node {
 		Commands.addVariable("/pi=3.14159265358979323846264",this); // pi
 		Commands.addVariable("/c=2.99792458*10^8",this); // speed of light 
 		Commands.addVariable("/e=2.7182818284590452353602874713527",this); // e
-		Commands.addVariable("/ℏ=1.054571817Ã—10^_34",this);
-		Commands.addVariable("/h= 6.62607015Ã—10^_34",this); // plank's constant
+		Commands.addVariable("/h=6.62607015E_34",this); // plank's constant
+		Commands.addVariable("/ħ=1.054571817E_34",this); // reduced plank's constant
 		Commands.addVariable("/µ= 4 * π * 10^_7",this); // mu-naught or magnetic permeability of free space
 		Commands.addVariable("/ε = 1/(c^2*µ)",this); // electric permeability of free space 8.854*10^_12
 		Commands.addVariable("i", new ComplexValueNode(0,1), this);
@@ -191,7 +191,7 @@ public class Equation extends One_subNode_node {
 		boolean jfo = Calculator.enableJFrameOutput;
 		Calculator.enableJFrameOutput = false;
 		Commands.addVariable("ans", prevAns.getValueData(), null);
-		Calculator.enableJFrameOutput = true;
+		Calculator.enableJFrameOutput = jfo;
 	
 		
 		
@@ -795,9 +795,10 @@ public class Equation extends One_subNode_node {
 	 * @return
 	 */
 	public String calculate(String input) {
+		boolean jfo = Calculator.enableJFrameOutput;
 		Calculator.enableJFrameOutput = false;
 		Commands.addVariable("ans", prevAns.getValueData(), null);
-		Calculator.enableJFrameOutput = true;
+		Calculator.enableJFrameOutput = jfo;
 		if (input.substring(0,1).equals("/")) {
 			String commandOutput = Commands.parseCommand(input, this);
 			return Calculator.verboseOutput ? commandOutput : "";	

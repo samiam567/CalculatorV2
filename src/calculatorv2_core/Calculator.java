@@ -13,9 +13,9 @@ import calculatorv2_socketServerHandler.Socket_handler;
 public class Calculator {
 	
 	public static boolean verboseOutput = true;
-	public static boolean enableJFrameOutput = true;
+	public static boolean enableJFrameOutput = false;
 	
-	static final String[] run_flags = {"--verbose-output","--user-calculator","--socket-server"};
+	static final String[] run_flags = {"--verbose-output","--user-calculator","--socket-server","--jframe-output"};
 	
 	public static DecimalFormat decimalFormat = new DecimalFormat("#.#########");
 	
@@ -78,8 +78,6 @@ public class Calculator {
 							verboseOutput = true;
 						}else if (args[i].equals(run_flags[1])) { //user-calculator
 							userCalculator = true;
-							enableJFrameOutput = true;
-							verboseOutput = true;
 						}else if (args[i].equals(run_flags[2])) { //start socket server
 							System.out.println("starting socket server");
 							if (args.length-i <= 2 ) {
@@ -96,8 +94,8 @@ public class Calculator {
 									System.out.println(n);
 								}
 							}
-							
-							
+						}else if (args[i].equals(run_flags[3])) { // jframe output
+							enableJFrameOutput = true;
 						}else {
 							System.out.println("invalid/unrecognized command line argument: " + args[i]);
 							System.out.print("possible options: ");
@@ -176,7 +174,7 @@ public class Calculator {
 		println("WARNING: " + warning + " at: \n" + stStr + " \n --" );
 		
 		//show to JopPane
-		if (enableJFrameOutput) JOptionPane.showMessageDialog(null, warning,"WARNING", JOptionPane.ERROR_MESSAGE);
+		/*if (enableJFrameOutput)*/ JOptionPane.showMessageDialog(null, warning,"WARNING", JOptionPane.ERROR_MESSAGE);
 	}
 	
 	public static void runUserCalculator(Equation eq) {

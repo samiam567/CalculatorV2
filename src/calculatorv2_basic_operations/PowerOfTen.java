@@ -13,7 +13,7 @@ public class PowerOfTen extends Two_subNode_node {
 	
 	@Override
 	protected double operation(double a, double b) {
-		return a*Math.pow(10,b);
+		return a*Math.pow(10.0D,b);
 	}
 	
 
@@ -44,6 +44,7 @@ public class PowerOfTen extends Two_subNode_node {
 		Calculator.testEquation(testEq,"1E-3",0.001);
 		Calculator.testEquation(testEq,"1E3",1000);
 		Calculator.testEquation(testEq,"5000*(27.6E6)",1.38E11);
+		Calculator.testEquation(testEq, "6.62607015E_34", 6.62607015E-34);
 		
 		Calculator.enableJFrameOutput = prevOutputEnable;
 	}

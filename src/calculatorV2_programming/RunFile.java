@@ -19,7 +19,10 @@ public class RunFile extends FunctionNode {
 	}
 
 	@Override
-	public void test() {}
+	public void test() {
+		
+		
+	}
 
 	@Override
 	public EquationNode createNewInstanceOfOperation(Equation eq) {
@@ -47,15 +50,25 @@ public class RunFile extends FunctionNode {
 			String nextLine;
 			while (fileScanner.hasNext()) {
 				nextLine = fileScanner.nextLine();
-				
-				if (nextLine.length() > 0 && ! nextLine.startsWith("#")) {
-					// calculate the line and output if there is no semicolon
-					if (nextLine.substring(nextLine.length()-1, nextLine.length()).equals(";")) {
-						nextLine = nextLine.substring(0, nextLine.length()-1);
-						eq.calculate(nextLine);
-					}else {
-						output += eq.calculate(nextLine) + "\n";
+				if (nextLine.length() > 0) {
+					boolean isComment = nextLine.startsWith("#");
+					boolean isSilenced = nextLine.substring(nextLine.length()-1, nextLine.length()).equals(";"); // commands with a semicolon are not outputted
+					
+					if (isSilenced) {
+						nextLine = nextLine.substring(0, nextLine.length()-1); // remove ending semicolon
 					}
+					
+					if (isComment && ! isSilenced) {
+						output += nextLine + "\n";
+					}else {
+						// calculate the line
+						String lineOut = eq.calculate(nextLine) + "\n";
+						
+						if (! isSilenced) output += lineOut; // output if there is no semicolon
+					}
+
+				}else {
+					output += "\n";
 				}
 			}
 			
