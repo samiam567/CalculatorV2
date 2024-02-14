@@ -49,7 +49,7 @@ public class Commands {
 		}else if (cIn.contains("getdegradmode")) {
 			output += eq.usingRadians() ? "radians" : "degrees";
 		}else if (cIn.contains("help")) {
-			output("Possible commands are: " + commands + "\nIf you are unsure of the parameters of a function, call it with func(\"help\") to get info on it.",eq);
+			output("Possible commands are: " + commands + "If you are unsure of the parameters of a function, call it with func(\"help\") to get info on it.",eq);
 		}else if (cIn.contains("=")) {
 			addVariable(commandInput,eq);
 		}else if (cIn.contains("operations")) {
@@ -76,7 +76,7 @@ public class Commands {
 	static void output(String message, Equation eq) {
 		if (Calculator.enableJFrameOutput) 	Calculator.calculatorAnchor.showMessageDialog(message);
 		if (Calculator.verboseOutput) eq.out.println(message);
-		output += message + "\n";
+		output += message;
 	}
 	
 	static void output(String[] message, Equation eq) {

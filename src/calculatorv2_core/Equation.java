@@ -1,8 +1,11 @@
 package calculatorv2_core;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.Scanner;
 
 import calculatorV2_programming.ProgrammingOpsList;
 import calculatorv2_basic_operations.BasicOpsList;
@@ -65,34 +68,31 @@ public class Equation extends One_subNode_node {
 		boolean prevVout = Calculator.verboseOutput;
 		Calculator.enableJFrameOutput = false; //be quiet about it
 		Calculator.verboseOutput = false;
-	
-		Commands.addVariable("/pi=3.14159265358979323846264",this); // pi
-		Commands.addVariable("/c=2.99792458*10^8",this); // speed of light 
-		Commands.addVariable("/e=2.7182818284590452353602874713527",this); // e
-		Commands.addVariable("/h=6.62607015E_34",this); // plank's constant
-		Commands.addVariable("/ħ=1.054571817E_34",this); // reduced plank's constant
-		Commands.addVariable("/µ= 4 * π * 10^_7",this); // mu-naught or magnetic permeability of free space
-		Commands.addVariable("/ε = 1/(c^2*µ)",this); // electric permeability of free space 8.854*10^_12
+		
+		String filename = "./import_variables.txt";
+		
+		
+		// add imaginary unity
 		Commands.addVariable("i", new ComplexValueNode(0,1), this);
-		Commands.addVariable("/Kb = 1.38064852*10^_23",this);
-		Commands.addVariable("true", new Comparation(ComparationValues.True), this);
-		Commands.addVariable("false", new Comparation(ComparationValues.False), this);
-				
-		//prefixes
-		Commands.addVariable("/peta = 1E15",this);
-		Commands.addVariable("/tera = 1E12",this);
-		Commands.addVariable("/giga = 1E9",this);
-		Commands.addVariable("/mega = 1E6",this);
-		Commands.addVariable("/kilo = 1E3",this);
-		Commands.addVariable("/deci = 1E_1",this);
-		Commands.addVariable("/centi = 1E_2",this);
-		Commands.addVariable("/milli = 1E_3",this);
-		Commands.addVariable("/micro = 1E_6",this);
-		Commands.addVariable("/nano = 1E_9",this);
-		Commands.addVariable("/pico = 1E_12",this);
-		Commands.addVariable("/femto = 1E_15",this);
-							
-	
+		
+		File constants = new File(filename);
+		Scanner fileScanner;
+		try {
+			fileScanner = new Scanner(constants);
+			String nextLine;
+			while (fileScanner.hasNext()) {
+				nextLine = fileScanner.nextLine();
+				int commentIndex = nextLine.indexOf('#');
+				if (commentIndex != -1) nextLine = nextLine.substring(0,commentIndex);
+				System.out.println(nextLine);
+				if (nextLine.length() > 0) System.out.println(this.calculate(nextLine));
+			}		
+			fileScanner.close();
+		} catch (FileNotFoundException e) {
+			Calculator.warn(e.toString());
+		}
+		
+
 		Calculator.enableJFrameOutput = prevEnJFO;	
 		Calculator.verboseOutput = prevVout;
 	

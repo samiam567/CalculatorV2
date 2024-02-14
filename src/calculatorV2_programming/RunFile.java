@@ -61,10 +61,19 @@ public class RunFile extends FunctionNode {
 					if (isComment && ! isSilenced) {
 						output += nextLine + "\n";
 					}else {
-						// calculate the line
-						String lineOut = eq.calculate(nextLine) + "\n";
 						
-						if (! isSilenced) output += lineOut; // output if there is no semicolon
+						// check if the user put a comment at the end of the line
+						int commentStartLocation = nextLine.indexOf('#'); 
+						String commentPortion = "";
+						if (commentStartLocation != -1) {
+							commentPortion = nextLine.substring(commentStartLocation);
+							nextLine = nextLine.substring(0,commentStartLocation);
+						}
+						
+						// calculate the line and add to output
+						String lineOut = eq.calculate(nextLine);
+						
+						if (! isSilenced) output += lineOut + " " + commentPortion + "\n"; // output if there is no semicolon
 					}
 
 				}else {
