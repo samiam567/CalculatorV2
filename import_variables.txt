@@ -1,12 +1,9 @@
+# math constants
 /pi=3.14159265358979323846264; # pi
 /π = pi
-/c=2.99792458*10^8 # speed of light
 /e=2.7182818284590452353602874713527 # base of natural logarithms
-/h=6.62607015E_34 # plank constant
-/ħ=1.054571817E_34 # reduced plank constant
-/µ= 4 * π * 10^_7 # mu-naught or magnetic permeability of free space
-/ε = 1/(c^2*µ) # electric permeability of free space 8.854*10^_12
-/Kb = 1.38064852*10^_23 # boltzmann constant (joules per kelvin)
+
+# boolean values
 /true = 1==1
 /false = 1==0
 

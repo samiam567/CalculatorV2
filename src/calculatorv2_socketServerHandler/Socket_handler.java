@@ -17,7 +17,7 @@ public class Socket_handler extends Thread {
 	boolean userCalculator = false;
 	boolean running = true;
 	Equation eq;
-	public Socket_handler(String mode, int port, Equation eq,boolean userCalculator) {
+	public Socket_handler(String mode, int port, Equation eq, boolean userCalculator) {
 		this.userCalculator = userCalculator;
 		if (mode.equals(connectionTypeStrings[0])) {
 			connectionType = ConnectionType.csharp;
@@ -34,147 +34,64 @@ public class Socket_handler extends Thread {
 		this.eq = eq;
 		if (Calculator.verboseOutput) System.out.println("Starting server at port: " + port);
 		try {
-			serverSocket = new ServerSocket(port);
+			 // server is listening on port
+			serverSocket = new ServerSocket(port); 
+			serverSocket.setReuseAddress(true); 
 		} catch (IOException e) {
 			e.printStackTrace();
+			try {
+				serverSocket.close();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
 		}
 	}
 	
 	@Override
 	public void run() {
 		running = true;
-		if (connectionType == ConnectionType.csharp) {
-			Socket socket = null;
-			
-			while (running) {
-				try {
-					
-			        socket = serverSocket.accept();
-			        InputStream is = socket.getInputStream();
-			        OutputStream os = socket.getOutputStream();
-			        
-			        while (running && socket.isConnected()) {
-				        // Receiving
-				        byte[] lenBytes = new byte[4];
-				        is.read(lenBytes, 0, 4);
-				        int len = (((lenBytes[3] & 0xff) << 24) | ((lenBytes[2] & 0xff) << 16) |
-				                  ((lenBytes[1] & 0xff) << 8) | (lenBytes[0] & 0xff));
-				        byte[] receivedBytes = new byte[len];
-				        is.read(receivedBytes, 0, len);
-				        String received = new String(receivedBytes, 0, len);
-				        	
-				        // preform calculation
-				        String toSend = handleMessage(received);
-				        
-				        // Sending
-				        System.out.println("sending...");
-				        if (toSend.length() == 0) toSend = "~~~~";
-				        byte[] toSendBytes = toSend.getBytes();
-				        int toSendLen = toSendBytes.length;
-				        byte[] toSendLenBytes = new byte[4];
-				        toSendLenBytes[0] = (byte)(toSendLen & 0xff);
-				        toSendLenBytes[1] = (byte)((toSendLen >> 8) & 0xff);
-				        toSendLenBytes[2] = (byte)((toSendLen >> 16) & 0xff);
-				        toSendLenBytes[3] = (byte)((toSendLen >> 24) & 0xff);
-				        os.write(toSendLenBytes);
-				        os.write(toSendBytes);
-				        System.out.println("sent.");
-			        }
 		
-			        
-				}catch(IOException e) {
-					e.printStackTrace();
-				}
-			}
-			System.out.println("terminating");
-			
-			try {
-				serverSocket.close();
-				socket.close();
-			}catch(Exception e) {}
+		  
+        try { 
+  
+        	
+  
+            // running infinite loop for getting 
+            // client request 
+            while (running) { 
+  
+                // socket object to receive incoming client 
+                // requests 
+                Socket client = serverSocket.accept(); 
 
-			System.exit(1);
-		}else if (connectionType == ConnectionType.python) {
-			DataOutputStream dout = null;
-			DataInputStream in = null;
-			Socket soc = null;
-			while(running) {
-				try{	
-					soc = serverSocket.accept();
-					
-					if (Calculator.verboseOutput) System.out.println("Receive new connection: " + soc.getInetAddress());
-					
-					
-					dout=new DataOutputStream(soc.getOutputStream());  
-					in = new DataInputStream(soc.getInputStream());
-					
-					while (running && soc.isConnected()) {
-						String msg=(String)in.readUTF();	
-						dout.writeUTF(handleMessage(msg));
-					}
-					
-				
-				}catch(EOFException f) { // Connection closed by client
-					try {
-						if (Calculator.verboseOutput) System.out.println("connection closed. Readying for another connection...");
-						dout.flush();
-						dout.close();
-						soc.close();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-					
-				}catch(Exception e) {
-					e.printStackTrace(); 
-				}
-			}
-			
-			if (Calculator.verboseOutput) System.out.println("Exiting...");
-			
-			try {
-				dout.flush();
-				dout.close();
-				soc.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		
-		}else {
-			Exception e = new Exception("invalid ConnectionTypes connectionType");
-			e.printStackTrace();
-			
-		}
-	}
-	
-	
-	private String handleInput(String input) {
-		if (userCalculator) {
-			return eq.queryUserCalculator(input);
-		}else {
-			return eq.calculate(input);
-		}
-		
-	}
-
-	private String handleMessage(String msg) {
-		if (Calculator.verboseOutput) System.out.println("Input: " + msg);
-		
-		String output = "";
-		
-		if (msg.startsWith("q") && (msg.equals("q") || msg.equals("quit"))) {
-			running = false;
-			output = "quiting";
-		}else {
-			try {
-				output = handleInput(msg);
-			}catch(Exception e) {
-				output = e.toString();
-			}
-		}
-		
-		if (Calculator.verboseOutput) System.out.println("Output: " + output);
-		
-		return output;
+                // Displaying that new client is connected 
+                // to server 
+                System.out.println("New client connected "
+                                   + client.getInetAddress() 
+                                         .getHostAddress() + ":" + client.getPort()); 
+  
+                // create a new thread object 
+                ClientHandler clientSock 
+                    = new ClientHandler(this, client);
+  
+                // This thread will handle the client 
+                // separately 
+                new Thread(clientSock).start(); 
+            } 
+        } 
+        catch (IOException e) { 
+            e.printStackTrace(); 
+        } 
+        finally { 
+            if (serverSocket != null) { 
+                try { 
+                	serverSocket.close(); 
+                } 
+                catch (IOException e) { 
+                    e.printStackTrace(); 
+                } 
+            } 
+        } 
 	}
 	
 	public void interrupt() {
