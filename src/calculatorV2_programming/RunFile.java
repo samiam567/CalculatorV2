@@ -48,11 +48,27 @@ public class RunFile extends FunctionNode {
 			Equation eq = new Equation(true);
 			
 			String nextLine;
+			int lineNumber = -1;
+			
+			boolean multiline_comment = false;
 			while (fileScanner.hasNext()) {
+				lineNumber++;
+				
 				nextLine = fileScanner.nextLine();
 				if (nextLine.length() > 0) {
-					boolean isComment = nextLine.startsWith("#");
+					
+					if (nextLine.contains("<!--")) {
+						multiline_comment = true;
+					}
+
+					boolean isComment = nextLine.startsWith("#") || multiline_comment;
 					boolean isSilenced = nextLine.substring(nextLine.length()-1, nextLine.length()).equals(";"); // commands with a semicolon are not outputted
+					
+					if (nextLine.contains("-->")) {
+						multiline_comment = false;
+						isComment = true;
+					}
+
 					
 					if (isSilenced) {
 						nextLine = nextLine.substring(0, nextLine.length()-1); // remove ending semicolon
@@ -71,13 +87,22 @@ public class RunFile extends FunctionNode {
 						}
 						
 						// calculate the line and add to output
-						String lineOut = eq.calculate(nextLine);
+						String lineOut;
+						try {
+							lineOut = eq.calculate(nextLine);
+						}catch(Exception e) {
+							lineOut = e.toString() + " on line " + lineNumber;
+							isSilenced = false;
+						}
 						
 						if (! isSilenced) output += lineOut + " " + commentPortion + "\n"; // output if there is no semicolon
+						
+						
 					}
 
 				}else {
 					output += "\n";
+					
 				}
 			}
 			

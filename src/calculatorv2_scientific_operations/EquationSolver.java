@@ -164,7 +164,7 @@ public class EquationSolver extends FunctionNode {
 		
 		double precision = 0.00001;
 		
-		int maxGuesses = (int) (10/precision);
+		int maxGuesses = (int) (1000000/precision);
 		
 		
 		
