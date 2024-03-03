@@ -37,7 +37,7 @@ public class Equation extends One_subNode_node {
 	public static final int[] numbers = {1,2,3,4,5,6,7,8,9,0};
 	public static final String[] numberChars = {"1","2","3","4","5","6","7","8","9","0",".",","};
 	
-	public ArrayList<VariableNode> variables = new ArrayList<VariableNode>();;	// just a list of the variables for quick access
+	public ArrayList<VariableNode> variables = new ArrayList<VariableNode>();	// just a list of the variables for quick access
 	
 	public PrintStream out = System.out;
 	
@@ -52,6 +52,8 @@ public class Equation extends One_subNode_node {
 	
 
 	public String cMode = "unknown"; // for Negative operation
+	
+	private String equationWithAliases = "";
 
 	
 	public boolean usingRadians() {
@@ -84,8 +86,8 @@ public class Equation extends One_subNode_node {
 				nextLine = fileScanner.nextLine();
 				int commentIndex = nextLine.indexOf('#');
 				if (commentIndex != -1) nextLine = nextLine.substring(0,commentIndex);
-				System.out.println(nextLine);
-				if (nextLine.length() > 0) System.out.println(this.calculate(nextLine));
+//				System.out.println(nextLine);
+				if (nextLine.length() > 0) this.calculate(nextLine);
 			}		
 			fileScanner.close();
 		} catch (FileNotFoundException e) {
@@ -202,19 +204,19 @@ public class Equation extends One_subNode_node {
 			out.println("exited");
 			System.exit(1);
 		}else if (input.length() == 0)  { 
-			return "~~~~";
+			return "";
 		} else if (input.contains("/last"))  { 
 			
 			if (! Calculator.lastEquations.isEmpty()) {
 				Calculator.userInputEqSuggestion = Calculator.lastEquations.pop(); // replace with peek if you dont want to remove
 			}
 			input = "";
-			return "~~~~";
+			return "";
 		} else if (input.substring(0,1).equals("/")) {
 			String output = Commands.parseCommand(input,this);
 			input = "";
 			Calculator.userInputEqSuggestion = "";
-			return output;
+			return output + "";
 		}else {
 			Calculator.lastEquations.push(input);
 		}
@@ -316,7 +318,7 @@ public class Equation extends One_subNode_node {
 	 * @param equationNode
 	 */
 	private void recursiveAddVariables(EquationNode equationNode) {
-		System.out.println(equationNode.toString());
+//		System.out.println(equationNode.toString());
 		if (equationNode instanceof One_subNode_node) {
 			recursiveAddVariables(((One_subNode_node) equationNode).getSubNode());
 		}else if (equationNode instanceof Two_subNode_node) { 
@@ -379,8 +381,9 @@ public class Equation extends One_subNode_node {
 				}
 			}
 		}
-			
-		System.out.println("Equation with aliases: " + equation);
+		
+		equationWithAliases = equation;
+//		System.out.println("Equation with aliases: " + equation);
 		
 		//create nodes
 		
@@ -842,6 +845,8 @@ public class Equation extends One_subNode_node {
 		
 		return varFound;
 	}
+	
+
 
 	/**
 	 * {@summary sets ALL variables in the equation with the passed name to the passed value.}
@@ -902,11 +907,15 @@ public class Equation extends One_subNode_node {
 		try {
 			return variables.get(varIndx);
 		}catch(IndexOutOfBoundsException i) {
-			Exception e = new Exception("Variable index not found. That Varaible dosen't exist. Indx: " + varIndx);
+			Exception e = new Exception("Variable index not found. That Variable dosen't exist. Indx: " + varIndx);
 			e.printStackTrace(out);
 			if (Calculator.enableJFrameOutput) Calculator.calculatorAnchor.showMessageDialog( e.toString() + "\n" + e.getStackTrace().toString());
 			return null;
 		}
+	}
+	
+	public String getAliasedEquation() {
+		return equationWithAliases;
 	}
 	
 	

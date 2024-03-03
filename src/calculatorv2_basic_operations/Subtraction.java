@@ -7,6 +7,7 @@ import calculatorv2_core.EquationNode;
 import calculatorv2_core.Two_subNode_node;
 import calculatorv2_core.ValueNode;
 import calculatorv2_scientific_operations.ComplexValueNode;
+import calculatorv2_scientific_operations.ScientificOperationsList;
 
 public class Subtraction extends Two_subNode_node {
 	
@@ -61,7 +62,12 @@ public class Subtraction extends Two_subNode_node {
 		}
 		
 		public void test() { 
-			Calculator.warn(getClass() + " is not tested and should not be used");
+			Equation testEq = new Equation();
+			testEq.importOperations(BasicOpsList.getOps());
+			testEq.importOperations(ScientificOperationsList.getOps());
+			testEq.importAliases(ScientificOperationsList.getAliases());
+			
+			Calculator.testEquation(testEq, "4-2", 2);
 		}
 		
 		public EquationNode createNewInstanceOfOperation(Equation eq) {

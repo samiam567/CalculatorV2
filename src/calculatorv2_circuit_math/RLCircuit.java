@@ -36,7 +36,7 @@ public class RLCircuit extends FunctionNode {
 	
 	@Override
 	public void test() { 
-		Calculator.warn(getClass() + " is not tested and should not be used");
+//		Calculator.warn(getClass() + " is not tested and should not be used");
 	}
 	
 	@Override

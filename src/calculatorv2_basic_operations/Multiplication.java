@@ -10,6 +10,7 @@ import calculatorv2_matrix_core.Bra;
 import calculatorv2_matrix_core.Ket;
 import calculatorv2_matrix_core.MatrixNode;
 import calculatorv2_scientific_operations.ComplexValueNode;
+import calculatorv2_scientific_operations.ScientificOperationsList;
 
 public class Multiplication extends Two_subNode_node {
 	
@@ -176,7 +177,12 @@ public class Multiplication extends Two_subNode_node {
 	}
 	
 	public void test() { 
-		Calculator.warn(getClass() + " is not tested and should not be used");
+		Equation testEq = new Equation();
+		testEq.importOperations(BasicOpsList.getOps());
+		testEq.importOperations(ScientificOperationsList.getOps());
+		testEq.importAliases(ScientificOperationsList.getAliases());
+		
+		Calculator.testEquation(testEq, "4*4", 16);
 	}
 	
 	public EquationNode createNewInstanceOfOperation(Equation eq) {

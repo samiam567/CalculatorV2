@@ -4,6 +4,7 @@ import calculatorv2_core.Calculator;
 import calculatorv2_core.Equation;
 import calculatorv2_core.EquationNode;
 import calculatorv2_core.One_subNode_node;
+import calculatorv2_scientific_operations.ScientificOperationsList;
 
 public class ArcSine extends One_subNode_node {
 	Equation equation;
@@ -32,7 +33,12 @@ public class ArcSine extends One_subNode_node {
 	}
 	
 	public void test() { 
-		Calculator.warn(getClass() + " is not tested and should not be used");
+		Equation testEq = new Equation();
+		testEq.importOperations(BasicOpsList.getOps());
+		testEq.importOperations(ScientificOperationsList.getOps());
+		testEq.importAliases(ScientificOperationsList.getAliases());
+		
+		Calculator.testEquation(testEq, "asin(1/2)", 0.5235987755982989);
 	}
 	
 	public EquationNode createNewInstanceOfOperation(Equation eq) {

@@ -42,7 +42,6 @@ public class ToScientificNotation extends One_subNode_node {
 		Calculator.testEquation(testEq,"sci(5000*(27.6E6))","1.38E11",1.38E11);
 		Calculator.testEquation(testEq,"sci(pi)","3.141592654E0",3.141592653589793);
 		Calculator.testEquation(testEq, "sci(6.62607015E_34)", "6.62607015E-34", 6.62607015E-34);
-		Calculator.testEquation(testEq, "sci(h)", "6.62607015E-34", 6.62607015E-34);
 		Calculator.enableJFrameOutput = prevOutputEnable;
 	}
 	

@@ -8,7 +8,8 @@ import calculatorv2_core.EquationNode;
 public abstract class ScientificOperationsList {
 	private static final Equation eq = new Equation();
 	private static final EquationNode[] ops = {new CompareTo(), new EquationSolver(eq), new IsEqualTo(), new IsPrime(), new Modulo(), new PercentError(),
-											   new Rand(),new ComplexNumber_Phase(eq), new RepeatedCalculation(), new DefiniteIntegral(), new QuadraticFormula()};
+											   /*new Rand(),*/new ComplexNumber_Phase(eq), new RepeatedCalculation(), new DefiniteIntegral(eq), new QuadraticFormula(),
+											   new EqualityVerify(eq)};
 	
 	private static final String[][] aliases =  {{"==", "isEqualTo"," isequalTo "}, {"<=>", "compareto", " compareTo "},{"%Error","%error","%err"," percenterror "},{"%","modulo","mod"," Modulo "},{ "solveEquation","solveequation", " Solveequation"}};
 	public static EquationNode[] getOps() {

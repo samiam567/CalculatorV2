@@ -7,6 +7,7 @@ import calculatorv2_core.FunctionNode;
 import calculatorv2_core.ValueNode;
 import calculatorv2_matrix_core.Bra;
 import calculatorv2_matrix_core.Matrixable;
+import calculatorv2_scientific_operations.ScientificOperationsList;
 
 //round(value,numDecimals) or round(value) 
 public class Round extends FunctionNode {
@@ -47,8 +48,12 @@ public class Round extends FunctionNode {
 	}
 	
 	public void test() { 
-		Calculator.warn(getClass() + " is not tested and should not be used");
-		Calculator.warn(getClass() + " does not work with large numbers.");
+		Equation testEq = new Equation();
+		testEq.importOperations(BasicOpsList.getOps());
+		testEq.importOperations(ScientificOperationsList.getOps());
+		testEq.importAliases(ScientificOperationsList.getAliases());
+		
+		Calculator.testEquation(testEq, "round(pi)", 3);
 	}
 	
 	public EquationNode createNewInstanceOfOperation(Equation eq) {

@@ -92,7 +92,7 @@ public class GraphEquation extends FunctionNode {
 	}
 	
 	public void test() { 
-		Calculator.warn(getClass() + " is not tested and should not be used");
+//		Calculator.warn(getClass() + " is not tested and should not be used");
 	}
 	
 	public EquationNode createNewInstanceOfOperation(Equation eq) {

@@ -57,6 +57,10 @@ public class Comparation extends AdvancedValueNode {
 		
 	}
 	
+	public ComparationValues getCompareValue() {
+		return compareValue;
+	}
+	
 	public String toString() {
 		switch(compareValue) {
 			case greater:

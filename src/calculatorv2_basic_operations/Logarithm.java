@@ -5,6 +5,8 @@ import calculatorv2_core.Equation;
 import calculatorv2_core.EquationNode;
 import calculatorv2_core.FunctionNode;
 import calculatorv2_core.ValueNode;
+import calculatorv2_matrix_core.MatrixOperationsList;
+import calculatorv2_scientific_operations.ScientificOperationsList;
 
 public class Logarithm extends FunctionNode {
 	
@@ -16,7 +18,14 @@ public class Logarithm extends FunctionNode {
 	}
 	
 	public void test() { 
-		Calculator.warn(getClass() + " is not tested and should not be used");
+		Equation testEq = new Equation();
+		testEq.importOperations(BasicOpsList.getOps());
+		testEq.importOperations(ScientificOperationsList.getOps());
+		testEq.importAliases(ScientificOperationsList.getAliases());
+		testEq.importOperations(MatrixOperationsList.getOps());
+		testEq.importAliases(MatrixOperationsList.getAliases());
+		
+		Calculator.testEquation(testEq, "log(2 , 1 )", 0);
 	}
 	
 	public EquationNode createNewInstanceOfOperation(Equation eq) {

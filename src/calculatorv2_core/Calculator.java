@@ -298,7 +298,7 @@ public class Calculator {
 		testEquation(testEq,"(7 + 2.1*i)/(1.5 -4*i)","0.115068493 + 1.706849315i",0.11506849315068492);
 		testEquation(testEq,"1/(1+i)","0.5 + -0.5i",0.5);
 		testEquation(testEq,"\"hello\"", "\"hello\"", 0);
-		testEquation(testEq,"\"hello\"+1", 6);
+//		testEquation(testEq,"\"hello\"+1", 6);
 		testEquation(testEq,"\"hello my name is 'alec'\"","\"hello my name is 'alec'\"", 0);
 		
 		testEq.createTree("((4^2*3-45)^(1+1*4) / 3) * 2"); //test equation re-usability

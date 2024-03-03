@@ -1,5 +1,6 @@
 package calculatorv2_scientific_operations;
 
+import calculatorv2_basic_operations.BasicOpsList;
 import calculatorv2_core.AdvancedValueNode;
 import calculatorv2_core.Calculator;
 import calculatorv2_core.Equation;
@@ -14,12 +15,12 @@ public class CompareTo extends Two_subNode_node {
 	
 	@Override
 	protected double operation(double a, double b) {
-		if (a > b) {
-			return 1;
+		if (a == b) {
+			return 0;
 		}else if (a < b) {
 			return -1;
 		}else{
-			return 0;
+			return 1;
 		}
 	}
 	
@@ -37,12 +38,12 @@ public class CompareTo extends Two_subNode_node {
 			}
 		}
 		
-		if (n1.getValue() > n2.getValue()) {
-			((Comparation) outputNode).setValue(Comparation.ComparationValues.greater);
+		if (n1.getValue() == n2.getValue()) {
+			((Comparation) outputNode).setValue(Comparation.ComparationValues.equal);
 		}else if (n1.getValue() < n2.getValue()){
 			((Comparation) outputNode).setValue(Comparation.ComparationValues.less);
 		}else {
-			((Comparation) outputNode).setValue(Comparation.ComparationValues.equal);
+			((Comparation) outputNode).setValue(Comparation.ComparationValues.greater);
 		}
 		
 		
@@ -55,7 +56,17 @@ public class CompareTo extends Two_subNode_node {
 	}
 	
 	public void test() { 
-		Calculator.warn(getClass() + " is not tested and should not be used");
+		Equation testEq = new Equation();
+		testEq.importOperations(BasicOpsList.getOps());
+		testEq.importOperations(ScientificOperationsList.getOps());
+		testEq.importAliases(ScientificOperationsList.getAliases());
+		
+		Calculator.testEquation(testEq, "1 compareTo 2", -1);
+		Calculator.testEquation(testEq, "2 compareTo 1", 1);
+		Calculator.testEquation(testEq, "1 compareTo 1", 0);
+		Calculator.testEquation(testEq, "true compareTo true", 0);
+		Calculator.testEquation(testEq, "true compareTo false", 1);
+		
 	}
 	
 	public EquationNode createNewInstanceOfOperation(Equation eq) {

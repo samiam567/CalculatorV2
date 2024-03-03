@@ -1,11 +1,13 @@
 package calculatorv2_scientific_operations;
 
+import calculatorv2_basic_operations.BasicOpsList;
 import calculatorv2_core.AdvancedValueNode;
 import calculatorv2_core.Calculator;
 import calculatorv2_core.Equation;
 import calculatorv2_core.EquationNode;
 import calculatorv2_core.Two_subNode_node;
 import calculatorv2_core.ValueNode;
+import calculatorv2_matrix_core.MatrixOperationsList;
 
 public class IsEqualTo extends Two_subNode_node {
 	public IsEqualTo() {
@@ -50,7 +52,15 @@ public class IsEqualTo extends Two_subNode_node {
 	}
 	
 	public void test() { 
-		Calculator.warn(getClass() + " is not tested and should not be used");
+		Equation testEq = new Equation();
+		testEq.importOperations(BasicOpsList.getOps());
+		testEq.importOperations(ScientificOperationsList.getOps());
+		testEq.importAliases(ScientificOperationsList.getAliases());
+		testEq.importOperations(MatrixOperationsList.getOps());
+		testEq.importAliases(MatrixOperationsList.getAliases());
+		
+		Calculator.testEquation(testEq, "1 == 1", "true", 1);
+		Calculator.testEquation(testEq, "1 == 0", "false", 0);
 	}
 	
 	public EquationNode createNewInstanceOfOperation(Equation eq) {

@@ -53,7 +53,7 @@ public class ClientHandler implements Runnable {
             
             	
             	// Sending
-		        out.println(toSend);
+		        out.println(toSend + "~~~~");
 		        
 		        
 		        

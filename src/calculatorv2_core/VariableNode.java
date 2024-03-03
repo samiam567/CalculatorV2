@@ -30,12 +30,14 @@ public class VariableNode extends ValueNode {
 	
 	public VariableNode(Equation eq,double v) {
 		super('k');
+		unsetVal = false;
 		setValue(v);
 		orderOfOpsLevel = eq.operations.size();
 	}
 	
 	public VariableNode(Equation eq,ValueNode v, int parenthesisLevel) {
 		super('k');
+		unsetVal = false;
 		setValueData(v);
 		setParenthesisLevel(parenthesisLevel);
 		orderOfOpsLevel = eq.operations.size();

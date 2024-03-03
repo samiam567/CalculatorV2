@@ -6,6 +6,7 @@ import calculatorv2_core.EquationNode;
 import calculatorv2_core.One_subNode_node;
 import calculatorv2_core.ValueNode;
 import calculatorv2_scientific_operations.ComplexValueNode;
+import calculatorv2_scientific_operations.ScientificOperationsList;
 
 public class SquareRoot extends One_subNode_node {
 	
@@ -46,7 +47,12 @@ public class SquareRoot extends One_subNode_node {
 	}
 	
 	public void test() { 
-		Calculator.warn(getClass() + " is not tested and should not be used");
+		Equation testEq = new Equation();
+		testEq.importOperations(BasicOpsList.getOps());
+		testEq.importOperations(ScientificOperationsList.getOps());
+		testEq.importAliases(ScientificOperationsList.getAliases());
+		
+		Calculator.testEquation(testEq, "sqrt(4)", 2);
 	}
 	
 	public EquationNode createNewInstanceOfOperation(Equation eq) {

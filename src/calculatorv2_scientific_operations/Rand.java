@@ -57,7 +57,7 @@ public class Rand extends One_subNode_node {
 	}
 	
 	public void test() { 
-		Calculator.warn(getClass() + " is not tested and should not be used");
+		Calculator.warn("rand is deprecated");
 	}
 	
 	public EquationNode createNewInstanceOfOperation(Equation eq) {

@@ -91,7 +91,7 @@ public class RunFile extends FunctionNode {
 						try {
 							lineOut = eq.calculate(nextLine);
 						}catch(Exception e) {
-							lineOut = e.toString() + " on line " + lineNumber;
+							lineOut = e.toString() + " on line " + lineNumber + " : " + nextLine;
 							isSilenced = false;
 						}
 						

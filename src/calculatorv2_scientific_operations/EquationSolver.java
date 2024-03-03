@@ -2,6 +2,7 @@ package calculatorv2_scientific_operations;
 
 import java.util.ArrayList;
 
+import calculatorv2_basic_operations.BasicOpsList;
 import calculatorv2_basic_operations.Round;
 import calculatorv2_core.Calculator;
 import calculatorv2_core.Equation;
@@ -11,6 +12,7 @@ import calculatorv2_core.StringValueNode;
 import calculatorv2_core.ValueNode;
 import calculatorv2_core.VariableNode;
 import calculatorv2_matrix_core.Bra;
+import calculatorv2_matrix_core.MatrixOperationsList;
 
 //solveEquation(eq1,eq2,precision,maxGuesses,guess1,guess2,...)
 public class EquationSolver extends FunctionNode {
@@ -126,7 +128,7 @@ public class EquationSolver extends FunctionNode {
 	
 	@Override
 	public String getParameterInputs() {
-		return "solveEquation(\"Equation1\",\"Equation2\",precision=0.00001,maxGuesses=10/precision) ";
+		return "solveEquation(\"Equation1\",\"Equation2\",precision=0.0001,maxGuesses=10000000, guess1=0.0, guess2=0.0, ..., guessN=0.0 ) ";
 	}
 
 	public ValueNode function(EquationNode[] params, ValueNode outputNode) {
@@ -162,16 +164,12 @@ public class EquationSolver extends FunctionNode {
 		ValueNode[] guesses = {new ValueNode(0)};
 		
 		
-		double precision = 0.00001;
-		
-		int maxGuesses = (int) (1000000/precision);
-		
-		
-		
+		double precision = 0.0001;
 		if (params.length > 3) {
 			precision = params[2].getValue();
 		}
 		
+		int maxGuesses = 10000000;
 		if (params.length > 4) {
 			maxGuesses = (int) params[3].getValue();
 		}
@@ -200,7 +198,16 @@ public class EquationSolver extends FunctionNode {
 	}
 	
 	public void test() { 
-		Calculator.warn(getClass() + " is not tested and should not be used");
+		Equation testEq = new Equation();
+		testEq.importOperations(BasicOpsList.getOps());
+		testEq.importOperations(ScientificOperationsList.getOps());
+		testEq.importAliases(ScientificOperationsList.getAliases());
+		testEq.importOperations(MatrixOperationsList.getOps());
+		testEq.importAliases(MatrixOperationsList.getAliases());
+		
+		Calculator.testEquation(testEq, "solveEquation(\"x^2\",\"4\")", 2);
+//		Calculator.testEquation(testEq, "solveEquation(\"pi*x^2*c\",\"4/pi/c\")", 2);
+		Calculator.warn("solveEquation doesn't work with any variables we aren't solving for");
 	}
 	
 	public EquationNode createNewInstanceOfOperation(Equation eq) {
