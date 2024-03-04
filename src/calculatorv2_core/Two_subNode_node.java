@@ -70,7 +70,7 @@ public abstract class Two_subNode_node extends EquationNode {
 	}
 	*/
 	public ValueNode operation(ValueNode n1, ValueNode n2, ValueNode outputNode) {
-		if ( (n1 instanceof AdvancedValueNode && ( (AdvancedValueNode) n1).needsSpecialOperationConditions) || (n2 instanceof AdvancedValueNode && ( (AdvancedValueNode) n2).needsSpecialOperationConditions) ) Calculator.warn(getClass() + " has no implementation for generic ValueNodes");
+		if ( ( (n1 instanceof AdvancedValueNode && ( (AdvancedValueNode) n1).needsSpecialOperationConditions) || (n2 instanceof AdvancedValueNode && ( (AdvancedValueNode) n2).needsSpecialOperationConditions) ) && ! supressWarnings) Calculator.warn(getClass() + " has no implementation for generic ValueNodes");
 		outputNode.setValue(operation(n1.getValue(), n2.getValue())); // do operation normally and assign value to our ValueNode
 		return outputNode;
 	}

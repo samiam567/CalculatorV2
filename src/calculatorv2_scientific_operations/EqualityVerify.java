@@ -16,6 +16,7 @@ import calculatorv2_core.StringValueNode;
 import calculatorv2_core.ValueNode;
 import calculatorv2_core.VariableNode;
 import calculatorv2_matrix_core.Bra;
+import calculatorv2_matrix_core.MatrixCombine;
 import calculatorv2_matrix_core.MatrixOperationsList;
 
 //solveEquation(eq1,eq2,precision,maxGuesses,guess1,guess2,...)
@@ -26,18 +27,45 @@ public class EqualityVerify extends FunctionNode {
 	private Subtraction equationSubtraction = new Subtraction();
 	private Absolute_Value absVal = new Absolute_Value();
 	private Absolute_Value absValTwo = new Absolute_Value();
+	private MatrixCombine normDivMatComb = new MatrixCombine();
+	private Maximum normDivideMax = new Maximum();
 	private Division normalizationDivide = new Division();
 	private ValueNode precisionValueNode = new ValueNode(0.01);
 	
 	private static boolean debug = true;
 	
+	/*
+	 *     abs(eq1-eq2) / max(abs(eq1),0) < precision
+	 *    
+	 *                        comp
+	 *                    /         \
+	 *                Divide          precision
+	 *            /           \
+	 *         max             abs1
+	 *          |                \
+	 *       matcomb            subtraction
+	 *       /     \             /       \
+	 *    abs2      0         eq1         eq2
+	 *     |
+	 *    eq1
+	 */
+	
+
+	
 	public EqualityVerify(Equation equation) {
 		parentEquation = equation;
 		
 		absVal.setSubNode(equationSubtraction);
+		
+		normDivMatComb.setLeftSubNode(new ValueNode(1));
+		normDivMatComb.setRightSubNode(absValTwo);
+		
+		normDivideMax.setSubNode(normDivMatComb);
+		
 		normalizationDivide.setLeftSubNode(absVal); //rightSubnode will be eq1
-		absValTwo.setSubNode(normalizationDivide);
-		compNode.setLeftSubNode(absValTwo);
+		normalizationDivide.setRightSubNode(normDivideMax);
+		
+		compNode.setLeftSubNode(normalizationDivide);
 		compNode.setRightSubNode(precisionValueNode);
 	}
 	
@@ -51,26 +79,7 @@ public class EqualityVerify extends FunctionNode {
 		}
 		
 		if (idx >= variables.length) {
-
-			if (false) {
-				for (int i = 0; i < variables.length; i++) {
-					System.out.print(variables[i] + " : ");
-					int e1idx = eq1.getVariableIndex(variables[i]);
-					if (e1idx != -1) {
-						System.out.print(eq1.getVariable(e1idx).getValueData());
-					}
-					System.out.print(",");
-					
-					int e2idx = eq2.getVariableIndex(variables[i]);
-					if (e2idx != -1) {
-						System.out.print(eq1.getVariable(e2idx).getValueData());
-					}
-					System.out.println();
-				}
-
-			}
 			
-
 			Comparation.ComparationValues compValue = ((Comparation) compNode.getValueData()).getCompareValue();
 
 			if ((compValue.equals(Comparation.ComparationValues.less) || compValue.equals(Comparation.ComparationValues.equal)) ) {
@@ -174,7 +183,7 @@ public class EqualityVerify extends FunctionNode {
 		
 		equationSubtraction.setLeftSubNode(equation1);
 		equationSubtraction.setRightSubNode(equation2);
-		normalizationDivide.setRightSubNode(equation1);
+		absValTwo.setSubNode(equation1);
 
 		double lowerRange = -100;
 		if (params.length > 2) {
@@ -285,11 +294,11 @@ public class EqualityVerify extends FunctionNode {
 		testEq.importAliases(MatrixOperationsList.getAliases());
 		
 		Calculator.testEquation(testEq, "verifySame(\"x^2\",\"x*x\")", "true", 1);
-		Calculator.testEquation(testEq, "verifySame(\"x^2\",\"x*x*x\")", "false", 0);
-		Calculator.testEquation(testEq, "verifySame(\"pi*x^2\",\"x*x*x\")", "false", 0);
-		Calculator.testEquation(testEq, "verifySame(\"pi*x^2\",\"x*pi*x+1\")", "false", 0);
+		Calculator.testEquation(testEq, "verifySame(\"x^2\",\"x*x*x\")", 0);
+		Calculator.testEquation(testEq, "verifySame(\"pi*x^2\",\"x*x*x\")", 0);
+		Calculator.testEquation(testEq, "verifySame(\"pi*x^2\",\"x*pi*x+1\")", 0);
 		Calculator.testEquation(testEq, "verifySame(\"c*x^2\",\"x*c*x\")", "true", 1);
-		Calculator.testEquation(testEq, "verifySame(\"c*x^2\",\"x*c*x+1\")", "false", 0);
+		Calculator.testEquation(testEq, "verifySame(\"c*x^2\",\"x*c*x+1\")", 0);
 		Calculator.testEquation(testEq, "verifySame(\"integrate('x^2','x',0,X)\",\"(1/3)*X^3\",0,10,10,0.001)", "true", 1);
 	}
 	

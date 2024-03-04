@@ -20,8 +20,6 @@ public class RunFile extends FunctionNode {
 
 	@Override
 	public void test() {
-		
-		
 	}
 
 	@Override

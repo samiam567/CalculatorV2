@@ -10,7 +10,7 @@ public abstract class EquationNode extends EquationObject implements Operation {
 	private int parenthesisLevel;
 	protected int orderOfOpsLevel;
 	private EquationNode parent;
-	
+	public boolean supressWarnings = false;
 
 	@Override
 	protected void notCalculated() {
