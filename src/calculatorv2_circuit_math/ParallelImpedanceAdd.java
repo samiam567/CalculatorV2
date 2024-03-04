@@ -62,9 +62,9 @@ public class ParallelImpedanceAdd extends FunctionNode {
 		Calculator.testEquation(testEq,"parallel(_8.8*i,8)","4.380090498 + -3.981900452i",4.380090497737557);
 		
 		
-		Commands.parseCommand("/V = exp(i×53.1)",testEq);
+		Commands.parseCommand("/V = exp(i*53.1)",testEq);
 		Commands.parseCommand("/I = 1",testEq);
-		Calculator.testEquation(testEq,"Round(getValue(V-0.8×i×I),1)",0.6);
+		Calculator.testEquation(testEq,"Round(getValue(V-0.8*i*I),1)",0.6);
 		
 		Calculator.enableJFrameOutput = prevOutputEnable;
 	}
